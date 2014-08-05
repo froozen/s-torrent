@@ -1,1 +1,6 @@
 *.swp
+bin
+s-torrent
+test
+build
+rebuild.sh
