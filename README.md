@@ -14,7 +14,7 @@ torrent client just yet.
 
 ###Licensing:
 * s-torrent is licensed under the MIT License ( LICENSE )
-* boost.asio is licensed under the Boost Software License ( BOOST_LICENSE )
-* libtorrent-rasterbar is licensed under the BSD License ( BSD_LICENSE )
-* ncurses is licensed under the X11 License ( X11_LICENSE )
-* jsoncpp is licensed under the MIT License ( MIT_LICENSE )
+* boost.asio is licensed under the Boost Software License ( licenses/BOOST_LICENSE )
+* libtorrent-rasterbar is licensed under the BSD License ( licenses/BSD_LICENSE )
+* ncurses is licensed under the X11 License ( licenses/X11_LICENSE )
+* jsoncpp is licensed under the MIT License ( licenses/MIT_LICENSE )
