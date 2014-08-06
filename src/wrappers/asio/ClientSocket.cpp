@@ -4,11 +4,6 @@
 
 using boost::asio::ip::tcp;
 
-ClientSocket ClientSocket::create ( std::string address, std::string service )
-{
-    return ClientSocket ( address, service );
-};
-
 ClientSocket::ClientSocket ( std::string address, std::string service ) :
     io_service ( new boost::asio::io_service ),
     socket ( *io_service )
