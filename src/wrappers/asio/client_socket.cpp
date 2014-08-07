@@ -89,4 +89,17 @@ namespace sockets
             throw std::runtime_error ( boost::diagnostic_information ( e ) );
         }
     }
+
+    void Client_socket::close ()
+    {
+        try
+        {
+            socket->shutdown ( tcp::socket::shutdown_both );
+            socket->close ();
+        }
+        catch ( boost::exception& e )
+        {
+            throw std::runtime_error ( boost::diagnostic_information ( e ) );
+        }
+    }
 }

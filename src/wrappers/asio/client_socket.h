@@ -24,6 +24,7 @@ namespace sockets
 
             std::string read_line ();
             void send ( std::string message );
+            void close ();
 
             virtual ~Client_socket () = default;
 
