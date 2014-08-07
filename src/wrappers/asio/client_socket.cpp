@@ -34,7 +34,8 @@ std::string Client_socket::read_line ()
         std::string data_string = std::string ( buffer.begin (), buffer.begin () + len );
 
         std::string line;
-        std::stringstream ss ( std::string ( buffer.begin (), buffer.begin () + len ) );
+        std::string buffer_string = std::string ( buffer.begin (), buffer.begin () + len );
+        std::stringstream ss ( buffer_string );
         while ( ( std::getline ( ss, line, '\n' ) ) )
         {
             line = line_rest + line;
@@ -46,7 +47,7 @@ std::string Client_socket::read_line ()
             next_lines.push_back ( line );
         }
 
-        if ( buffer.back () != '\n' )
+        if ( buffer_string.back () != '\n' )
         {
             line_rest = next_lines.back ();
             next_lines.pop_back ();
