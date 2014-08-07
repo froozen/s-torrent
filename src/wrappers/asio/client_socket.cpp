@@ -28,12 +28,8 @@ std::string Client_socket::read_line ()
     while ( next_lines.empty () )
     {
         std::vector < char > buffer ( 1024 );
-        boost::system::error_code error;
 
-        size_t len = ( *socket ).read_some ( boost::asio::buffer ( buffer ), error );
-
-        if ( error )
-            throw boost::system::system_error ( error );
+        size_t len = ( *socket ).read_some ( boost::asio::buffer ( buffer ) );
 
         std::string data_string = std::string ( buffer.begin (), buffer.begin () + len );
 
@@ -64,9 +60,5 @@ std::string Client_socket::read_line ()
 
 void Client_socket::send ( std::string message )
 {
-    boost::system::error_code error;
-    boost::asio::write ( *socket, boost::asio::buffer ( message ), error );
-
-    if ( error )
-        throw boost::system::system_error ( error );
+    boost::asio::write ( *socket, boost::asio::buffer ( message ) );
 }
