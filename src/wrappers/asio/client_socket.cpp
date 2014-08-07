@@ -1,6 +1,8 @@
 #include "client_socket.h"
 
 #include <sstream>
+#include <stdexcept>
+#include <boost/exception/diagnostic_information.hpp>
 
 using boost::asio::ip::tcp;
 
@@ -8,11 +10,18 @@ Client_socket::Client_socket ( std::string address, std::string service ) :
     io_service ( std::make_shared < boost::asio::io_service > () ),
     socket ( new tcp::socket ( *io_service ) )
 {
-    tcp::resolver resolver ( *io_service );
-    tcp::resolver::query query ( address, service );
-    tcp::resolver::iterator endpoint_iterator = resolver.resolve ( query );
+    try
+    {
+        tcp::resolver resolver ( *io_service );
+        tcp::resolver::query query ( address, service );
+        tcp::resolver::iterator endpoint_iterator = resolver.resolve ( query );
 
-    boost::asio::connect ( *socket, endpoint_iterator );
+        boost::asio::connect ( *socket, endpoint_iterator );
+    }
+    catch ( boost::exception& e )
+    {
+        throw std::runtime_error ( boost::diagnostic_information ( e ) );
+    }
 }
 
 Client_socket::Client_socket (
@@ -28,8 +37,16 @@ std::string Client_socket::read_line ()
     while ( next_lines.empty () )
     {
         std::vector < char > buffer ( 1024 );
+        size_t len;
 
-        size_t len = ( *socket ).read_some ( boost::asio::buffer ( buffer ) );
+        try
+        {
+            len = ( *socket ).read_some ( boost::asio::buffer ( buffer ) );
+        }
+        catch ( boost::exception& e )
+        {
+            throw std::runtime_error ( boost::diagnostic_information ( e ) );
+        }
 
         std::string data_string = std::string ( buffer.begin (), buffer.begin () + len );
 
@@ -61,5 +78,12 @@ std::string Client_socket::read_line ()
 
 void Client_socket::send ( std::string message )
 {
-    boost::asio::write ( *socket, boost::asio::buffer ( message ) );
+    try
+    {
+        boost::asio::write ( *socket, boost::asio::buffer ( message ) );
+    }
+    catch ( boost::exception& e )
+    {
+        throw std::runtime_error ( boost::diagnostic_information ( e ) );
+    }
 }

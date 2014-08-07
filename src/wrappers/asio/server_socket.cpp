@@ -1,4 +1,5 @@
 #include "server_socket.h"
+#include <boost/exception/diagnostic_information.hpp>
 
 using boost::asio::ip::tcp;
 
@@ -9,7 +10,14 @@ Server_socket::Server_socket ( int port ) :
 
 Client_socket Server_socket::accept ()
 {
-    std::unique_ptr < tcp::socket > socket ( new tcp::socket ( *io_service ) );
-    acceptor.accept ( *socket );
-    return Client_socket ( std::move ( socket ), io_service );
+    try
+    {
+        std::unique_ptr < tcp::socket > socket ( new tcp::socket ( *io_service ) );
+        acceptor.accept ( *socket );
+        return Client_socket ( std::move ( socket ), io_service );
+    }
+    catch ( boost::exception& e )
+    {
+        throw std::runtime_error ( boost::diagnostic_information ( e ) );
+    }
 }
