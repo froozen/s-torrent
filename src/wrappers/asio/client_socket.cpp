@@ -5,15 +5,23 @@
 using boost::asio::ip::tcp;
 
 Client_socket::Client_socket ( std::string address, std::string service ) :
-    io_service ( new boost::asio::io_service ),
-    socket ( *io_service )
+    io_service ( std::make_shared < boost::asio::io_service > () ),
+    socket ( new tcp::socket ( *io_service ) )
 {
     tcp::resolver resolver ( *io_service );
     tcp::resolver::query query ( address, service );
     tcp::resolver::iterator endpoint_iterator = resolver.resolve ( query );
 
-    boost::asio::connect ( socket, endpoint_iterator );
+    boost::asio::connect ( *socket, endpoint_iterator );
 }
+
+Client_socket::Client_socket (
+        std::unique_ptr < tcp::socket >&& socket,
+        std::shared_ptr < boost::asio::io_service > io_service
+        ) :
+    io_service ( io_service ),
+    socket ( std::move ( socket ) )
+{}
 
 std::string Client_socket::read_line ()
 {
@@ -22,7 +30,7 @@ std::string Client_socket::read_line ()
         std::vector < char > buffer ( 1024 );
         boost::system::error_code error;
 
-        size_t len = socket.read_some ( boost::asio::buffer ( buffer ), error );
+        size_t len = ( *socket ).read_some ( boost::asio::buffer ( buffer ), error );
 
         if ( error )
             throw boost::system::system_error ( error );
@@ -57,7 +65,7 @@ std::string Client_socket::read_line ()
 void Client_socket::send ( std::string message )
 {
     boost::system::error_code error;
-    boost::asio::write ( socket, boost::asio::buffer ( message ), error );
+    boost::asio::write ( *socket, boost::asio::buffer ( message ), error );
 
     if ( error )
         throw boost::system::system_error ( error );
