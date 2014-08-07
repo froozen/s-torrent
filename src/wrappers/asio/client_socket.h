@@ -4,19 +4,19 @@
 #include <deque>
 #include <memory>
 
-class ClientSocket
+class Client_socket
 {
     public:
-        ClientSocket ( std::string address, std::string service );
-        ClientSocket ( ClientSocket&& ) = default;
+        Client_socket ( std::string address, std::string service );
+        Client_socket ( Client_socket&& ) = default;
 
-        ClientSocket& operator= ( ClientSocket&& ) = default;
-        ClientSocket& operator= ( const ClientSocket& ) = delete;
+        Client_socket& operator= ( Client_socket&& ) = default;
+        Client_socket& operator= ( const Client_socket& ) = delete;
 
         std::string read_line ();
         void send ( std::string message );
 
-        virtual ~ClientSocket () = default;
+        virtual ~Client_socket () = default;
 
     private:
         std::unique_ptr < boost::asio::io_service > io_service;

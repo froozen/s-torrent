@@ -1,10 +1,10 @@
-#include "ClientSocket.h"
+#include "client_socket.h"
 
 #include <sstream>
 
 using boost::asio::ip::tcp;
 
-ClientSocket::ClientSocket ( std::string address, std::string service ) :
+Client_socket::Client_socket ( std::string address, std::string service ) :
     io_service ( new boost::asio::io_service ),
     socket ( *io_service )
 {
@@ -15,7 +15,7 @@ ClientSocket::ClientSocket ( std::string address, std::string service ) :
     boost::asio::connect ( socket, endpoint_iterator );
 }
 
-std::string ClientSocket::read_line ()
+std::string Client_socket::read_line ()
 {
     while ( next_lines.empty () )
     {
@@ -54,7 +54,7 @@ std::string ClientSocket::read_line ()
     return line;
 }
 
-void ClientSocket::send ( std::string message )
+void Client_socket::send ( std::string message )
 {
     boost::system::error_code error;
     boost::asio::write ( socket, boost::asio::buffer ( message ), error );
