@@ -7,18 +7,21 @@
 
 #include "client_socket.h"
 
-class Server_socket
+namespace sockets
 {
-    public:
-        Server_socket ( int port );
+    class Server_socket
+    {
+        public:
+            Server_socket ( int port );
 
-        Client_socket accept ();
+            Client_socket accept ();
 
-        virtual ~Server_socket () = default;
+            virtual ~Server_socket () = default;
 
-    private:
-        std::shared_ptr < boost::asio::io_service > io_service;
-        boost::asio::ip::tcp::acceptor acceptor;
-};
+        private:
+            std::shared_ptr < boost::asio::io_service > io_service;
+            boost::asio::ip::tcp::acceptor acceptor;
+    };
+}
 
 #endif //SERVERSOCKET_GUARD
