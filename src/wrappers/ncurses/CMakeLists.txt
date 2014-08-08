@@ -1,0 +1,2 @@
+file ( GLOB_RECURSE NCURSES_WRAPPER_FILES ${CMAKE_CURRENT_LIST_DIR} *.cpp )
+add_library ( ncurses_wrapper ${NCURSES_WRAPPER_FILES} )
