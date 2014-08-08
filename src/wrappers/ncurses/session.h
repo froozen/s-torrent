@@ -6,6 +6,7 @@
 #include <map>
 
 #include "window.h"
+#include "element.h"
 
 namespace ncurses
 {
@@ -15,14 +16,15 @@ namespace ncurses
             static std::weak_ptr < Session > get_session ();
             static void end ();
 
-            std::weak_ptr < Window > get_window ( std::string name );
-            void create_window ( std::string name, int x, int y, int width, int height );
+            std::weak_ptr < Element > get_element ( std::string name );
+            void add_element ( std::string name, std::shared_ptr < Element > element );
+            void update ();
 
             virtual ~Session ();
 
         private:
             static std::shared_ptr < Session > session_instance;
-            std::map < std::string, std::shared_ptr < Window > > windows;
+            std::map < std::string, std::shared_ptr < Element > > elements;
 
             Session ();
     };
