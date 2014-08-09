@@ -6,7 +6,7 @@
 #include <map>
 
 #include "window.h"
-#include "element.h"
+#include "panel.h"
 
 namespace ncurses
 {
@@ -17,14 +17,14 @@ namespace ncurses
             static void end ();
 
             std::weak_ptr < Element > get_element ( std::string name );
-            void add_element ( std::string name, std::shared_ptr < Element > element );
+            void set_panel ( std::shared_ptr < Panel > panel );
             void update ();
 
             virtual ~Session ();
 
         private:
             static std::shared_ptr < Session > session_instance;
-            std::map < std::string, std::shared_ptr < Element > > elements;
+            std::shared_ptr < Panel > panel;
 
             Session ();
     };

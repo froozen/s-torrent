@@ -49,25 +49,22 @@ namespace ncurses
         }
     }
 
-    std::weak_ptr < Element > Session::get_element ( std::string name )
-    {
-        return std::weak_ptr < Element > ( elements.at ( name ) );
-    }
-
-    void Session::add_element ( std::string name, std::shared_ptr < Element > element )
-    {
-        elements.insert ( { name, element } );
-    }
-
     void Session::update ()
     {
         char input = getch ();
         // This is only temporary
-        std::shared_ptr < Window > window = std::make_shared < Window > ( 0, 0, 20, 20 );
+        int max_x, max_y;
+        getmaxyx ( stdscr, max_y, max_x );
+        std::shared_ptr < Window > window = std::make_shared < Window > ( 0, 0, max_x, max_y );
 
-        for ( auto it = elements.begin (); it != elements.end (); it++ )
+        if ( panel.get () != nullptr )
         {
-            it->second->update ( input, window );
+            panel->update ( input, window );
         }
+    }
+
+    void Session::set_panel ( std::shared_ptr < Panel > panel )
+    {
+        this->panel = panel;
     }
 }
