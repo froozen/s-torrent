@@ -6,9 +6,15 @@ namespace ncurses
 {
     Window::Window ( WINDOW* window ):
         window ( window )
-    {}
+    {
+        getmaxyx ( window, height, width );
+        getbegyx ( window, y, x );
+    }
 
-    Window::Window ( int x, int y, int width, int height )
+    Window::Window ( int x, int y, int width, int height ):
+        height ( height ),
+        width ( width ),
+        x ( x ), y ( y )
     {
         window = newwin ( height, width, y, x );
     }

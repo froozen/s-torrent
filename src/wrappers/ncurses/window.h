@@ -30,10 +30,16 @@ namespace ncurses
             void draw_border ();
             void refresh ();
 
+            int get_x () const { return this->x; }
+            int get_y () const { return this->y; }
+            int get_width () const { return this->width; }
+            int get_height () const { return this->height; }
+
             virtual ~Window ();
 
         private:
             WINDOW* window;
+            int height, width, x, y;
     };
 }
 
