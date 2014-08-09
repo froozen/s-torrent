@@ -28,6 +28,7 @@ namespace ncurses
             void add_character ( char c );
             void set_color ( int fg, int bg );
             void draw_border ();
+            void refresh ();
 
             virtual ~Window ();
 

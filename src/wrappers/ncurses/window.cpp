@@ -11,7 +11,6 @@ namespace ncurses
     Window::Window ( int x, int y, int width, int height )
     {
         window = newwin ( height, width, y, x );
-        wrefresh ( window );
     }
 
     Window::~Window ()
@@ -28,13 +27,11 @@ namespace ncurses
     void Window::print_string ( std::string s )
     {
         waddstr ( window, s.c_str () );
-        wrefresh ( window );
     }
 
     void Window::add_character ( char c )
     {
         waddch ( window, c );
-        wrefresh ( window );
     }
 
     void Window::set_color ( int fg, int bg )
@@ -48,6 +45,10 @@ namespace ncurses
     void Window::draw_border ()
     {
         box ( window, 0, 0 );
+    }
+
+    void Window::refresh ()
+    {
         wrefresh ( window );
     }
 }
