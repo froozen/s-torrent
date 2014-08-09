@@ -67,4 +67,9 @@ namespace ncurses
     {
         this->panel = panel;
     }
+
+    std::shared_ptr < Panel > Session::get_panel () const
+    {
+        return this->panel;
+    }
 }
