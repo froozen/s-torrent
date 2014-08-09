@@ -44,4 +44,10 @@ namespace ncurses
 
         wattron ( window, COLOR_PAIR ( 2 + fg + 8 * ( 1 + bg ) ) );
     }
+
+    void Window::draw_border ()
+    {
+        box ( window, 0, 0 );
+        wrefresh ( window );
+    }
 }

@@ -27,6 +27,7 @@ namespace ncurses
             void print_string ( std::string s );
             void add_character ( char c );
             void set_color ( int fg, int bg );
+            void draw_border ();
 
             virtual ~Window ();
 
