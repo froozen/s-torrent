@@ -41,6 +41,11 @@ namespace ncurses
             WINDOW* window;
             int height, width, x, y;
     };
+
+    struct Window_dummy
+    {
+        int x, y, width, height;
+    };
 }
 
 #endif //NCURSES_WINDOW_GUARD
