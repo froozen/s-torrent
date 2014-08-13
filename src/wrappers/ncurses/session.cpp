@@ -28,8 +28,7 @@ namespace ncurses
 
     Session::~Session ()
     {
-        if ( session_instance.get () != nullptr )
-            endwin ();
+        endwin ();
     }
 
     std::weak_ptr < Session > Session::get_session ()
@@ -44,7 +43,6 @@ namespace ncurses
     {
         if ( session_instance.get () != nullptr )
         {
-            endwin ();
             session_instance.reset ();
         }
     }
