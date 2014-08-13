@@ -27,6 +27,9 @@ namespace ncurses
             void print_string ( std::string s );
             void add_character ( char c );
             void set_color ( int fg, int bg );
+            void set_fg_color ( int fg );
+            void set_bg_color ( int bg );
+            void set_color ( int color_id );
             void draw_border ();
             void refresh ();
 
@@ -34,12 +37,16 @@ namespace ncurses
             int get_y () const { return this->y; }
             int get_width () const { return this->width; }
             int get_height () const { return this->height; }
+            int get_fg_color () const { return this->fg_color; }
+            int get_bg_color () const { return this->bg_color; }
+            int get_color_id () const;
 
             virtual ~Window ();
 
         private:
             WINDOW* window;
             int height, width, x, y;
+            int fg_color, bg_color;
     };
 
     struct Window_dummy
