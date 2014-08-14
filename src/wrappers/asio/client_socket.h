@@ -19,10 +19,11 @@ namespace sockets
                     std::shared_ptr < boost::asio::io_service > io_service
                     );
 
+            // I don't want this to be copyable, because of boost not allowing it as well
             Client_socket& operator= ( Client_socket&& ) = default;
             Client_socket& operator= ( const Client_socket& ) = delete;
 
-            std::string read_line ();
+            std::string read_line (); // Read until '\n'
             void send ( std::string message );
             void close ();
 
@@ -32,6 +33,7 @@ namespace sockets
             std::shared_ptr < boost::asio::io_service > io_service;
             std::unique_ptr < boost::asio::ip::tcp::socket > socket;
 
+            // Attributes for Client_socket::read_line
             std::deque < std::string > next_lines;
             std::string line_rest;
     };
