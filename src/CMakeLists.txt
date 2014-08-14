@@ -15,11 +15,13 @@ find_package ( Boost COMPONENTS thread system REQUIRED )
 include_directories ( ${Boost_INCLUDE_DIRS} )
 
 find_package ( Threads REQUIRED )
+find_package ( Curses )
 
 include_directories ( ${CMAKE_SOURCE_DIR} )
 
 add_subdirectory ( ${CMAKE_SOURCE_DIR}/wrappers/asio )
+add_subdirectory ( ${CMAKE_SOURCE_DIR}/wrappers/ncurses )
 
 set ( S-TORRENT_EXECUTABLE_SRC main.cpp )
 add_executable ( s-torrent ${S-TORRENT_EXECUTABLE_SRC} )
-target_link_libraries ( s-torrent ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} asio_wrapper )
+target_link_libraries ( s-torrent ${Boost_LIBRARIES} ${CURSES_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} asio_wrapper ncurses_wrapper )
