@@ -13,6 +13,7 @@ namespace ncurses
             Window ( WINDOW* );
             Window ( int x, int y, int width, int height );
 
+            // Colors for ease-of-use
             static const int DEFAULT    = -1;
             static const int BLACK      =  0;
             static const int RED        =  1;
@@ -24,13 +25,13 @@ namespace ncurses
             static const int WHITE      =  7;
 
             void move ( int x, int y );
-            void print_string ( std::string s );
-            void add_character ( char c );
+            void draw_string ( std::string s );
+            void draw_character ( char c );
+            void draw_border ();
             void set_color ( int fg, int bg );
             void set_fg_color ( int fg );
             void set_bg_color ( int bg );
             void set_color ( int color_id );
-            void draw_border ();
             void refresh ();
 
             int get_x () const { return this->x; }
@@ -44,6 +45,10 @@ namespace ncurses
             virtual ~Window ();
 
         private:
+            // The window is stored in a raw pointer to prevent Segfaults and
+            // Double Deletions, which ocurred when using a shared_ptr
+            // It still is save, tough, because it is always deleted in the
+            // destructor
             WINDOW* window;
             int height, width, x, y;
             int fg_color, bg_color;

@@ -18,6 +18,7 @@ namespace ncurses
             Panel () = default;
             Panel ( std::shared_ptr < Layout > layout );
 
+            // Update all contained components
             void update ( char key, std::shared_ptr < Window > );
             void set_border ( bool border ) { this->border = border; }
             void set_prefered_width ( int prefered_width ) { this->prefered_width = prefered_width; }
@@ -26,6 +27,7 @@ namespace ncurses
             int get_prefered_width () const { return prefered_width; }
             int get_prefered_height () const { return prefered_height; }
 
+            // Elements are asigned a string identifier for ease-of-use
             void add_element ( std::string name, const std::shared_ptr < Element >& element );
             std::shared_ptr < Element > get_element ( std::string name ) const;
 

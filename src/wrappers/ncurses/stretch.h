@@ -11,6 +11,7 @@
 
 namespace ncurses
 {
+    // This struct makes for a shorter argument-list
     struct Resize_data
     {
         Resize_data (
@@ -21,9 +22,10 @@ namespace ncurses
 
         std::shared_ptr < Window > window;
         const std::vector < std::shared_ptr < Element > >* elements;
-        int prefered_length_sum;
-        int total_length_sum;
-        int no_preference_element_count;
+        int prefered_length_sum; // Sum of all prefered lengths
+        int already_used_length; // Sum of of the lengths of all windows / window_dummies,
+                                 // changes over the resizing process
+        int no_preference_element_count; // Number of elements without a preference
     };
 
     class Stretch_layout : public Layout

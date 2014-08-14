@@ -13,6 +13,7 @@ namespace ncurses
         std::shared_ptr < Window > layout_window;
         if ( border )
         {
+            // Draw the border use window without border in it for the layout
             window->draw_border ();
             window->refresh ();
             layout_window = std::make_shared < Window > (
@@ -29,7 +30,7 @@ namespace ncurses
             layout->update_elements ( element_vector, key, layout_window );
         else
         {
-            window->print_string ( "Error: No Layout" );
+            window->draw_string ( "Error: No Layout" );
             window->refresh ();
         }
     }

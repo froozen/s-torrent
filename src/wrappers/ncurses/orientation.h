@@ -8,6 +8,14 @@
 
 namespace ncurses
 {
+    // The Orientation interface is needed to make writing of orientation ( horizontal, vertical )
+    // agnostic layouts possible
+    // The naming scheme is actually quite simple:
+    // The primary value represents the that most of the layouts computation will use
+    //
+    // for exapmle for Vertical:
+    //      primary_coordinate: y
+    //      primary_length: height
     class Orientation
     {
         public:

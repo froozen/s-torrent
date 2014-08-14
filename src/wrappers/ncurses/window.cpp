@@ -6,8 +6,8 @@ namespace ncurses
 {
     Window::Window ( WINDOW* window ):
         window ( window ),
-        fg_color ( -1 ),
-        bg_color ( -1 )
+        fg_color ( DEFAULT ),
+        bg_color ( DEFAULT )
     {
         getmaxyx ( window, height, width );
         getbegyx ( window, y, x );
@@ -17,8 +17,8 @@ namespace ncurses
         height ( height ),
         width ( width ),
         x ( x ), y ( y ),
-        fg_color ( -1 ),
-        bg_color ( -1 )
+        fg_color ( DEFAULT ),
+        bg_color ( DEFAULT )
     {
         window = newwin ( height, width, y, x );
     }
@@ -34,12 +34,12 @@ namespace ncurses
         wmove ( window, y, x );
     }
 
-    void Window::print_string ( std::string s )
+    void Window::draw_string ( std::string s )
     {
         waddstr ( window, s.c_str () );
     }
 
-    void Window::add_character ( char c )
+    void Window::draw_character ( char c )
     {
         waddch ( window, c );
     }
@@ -74,6 +74,7 @@ namespace ncurses
 
     int Window::get_color_id () const
     {
+        // Using this formula, we can compute the COLOR_PAIR id corresponding to bg- and fg-color
         return 2 + fg_color + 8 * ( 1 + bg_color );
     }
 
