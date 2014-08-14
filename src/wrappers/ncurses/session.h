@@ -17,7 +17,7 @@ namespace ncurses
             static void end ();
 
             std::weak_ptr < Element > get_element ( std::string name );
-            void set_panel ( std::shared_ptr < Panel > panel );
+            void set_panel ( const std::shared_ptr < Panel >& panel );
             std::shared_ptr < Panel > get_panel () const;
             void update ();
 

@@ -61,7 +61,7 @@ namespace ncurses
         }
     }
 
-    void Session::set_panel ( std::shared_ptr < Panel > panel )
+    void Session::set_panel ( const std::shared_ptr < Panel >& panel )
     {
         this->panel = panel;
     }

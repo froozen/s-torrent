@@ -14,13 +14,13 @@ namespace ncurses
     struct Resize_data
     {
         Resize_data (
-                std::vector < std::shared_ptr < Element > >* elements,
-                std::shared_ptr < Window > window,
-                std::shared_ptr < Orientation > orientation
+                const std::vector < std::shared_ptr < Element > >* elements,
+                const std::shared_ptr < Window >& window,
+                const std::shared_ptr < Orientation >& orientation
                 );
 
         std::shared_ptr < Window > window;
-        std::vector < std::shared_ptr < Element > >* elements;
+        const std::vector < std::shared_ptr < Element > >* elements;
         int prefered_length_sum;
         int total_length_sum;
         int no_preference_element_count;
@@ -32,23 +32,23 @@ namespace ncurses
             Stretch_layout () = default;
 
             void update_elements (
-                    std::vector < std::shared_ptr < Element > > elements,
+                    const std::vector < std::shared_ptr < Element > >& elements,
                     char key,
-                    std::shared_ptr < Window > window
+                    const std::shared_ptr < Window >& window
                     );
 
-            void set_orientation ( std::shared_ptr < Orientation > orientation );
+            void set_orientation ( const std::shared_ptr < Orientation >& orientation );
 
             virtual ~Stretch_layout () = default;
 
         private:
             bool has_input_changed (
-                    std::vector < std::shared_ptr < Element > > elements,
-                    std::shared_ptr < Window > window
+                    const std::vector < std::shared_ptr < Element > >& elements,
+                    const std::shared_ptr < Window >& window
                     );
             void resize (
-                    std::vector < std::shared_ptr < Element > > elements,
-                    std::shared_ptr < Window > window
+                    const std::vector < std::shared_ptr < Element > >& elements,
+                    const std::shared_ptr < Window >& window
                     );
 
             // resize sub-methods

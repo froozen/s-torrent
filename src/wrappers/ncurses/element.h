@@ -10,8 +10,8 @@ namespace ncurses
     {
         public:
             virtual void update ( char key, std::shared_ptr < Window > window ) = 0;
-            virtual int get_prefered_width () = 0;
-            virtual int get_prefered_height () = 0;
+            virtual int get_prefered_width () const = 0;
+            virtual int get_prefered_height () const = 0;
 
             virtual ~Element () = default;
     };

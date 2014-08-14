@@ -23,11 +23,11 @@ namespace ncurses
             void set_prefered_width ( int prefered_width ) { this->prefered_width = prefered_width; }
             void set_prefered_height ( int prefered_height ) { this->prefered_height = prefered_height; }
 
-            int get_prefered_width () { return prefered_width; }
-            int get_prefered_height () { return prefered_height; }
+            int get_prefered_width () const { return prefered_width; }
+            int get_prefered_height () const { return prefered_height; }
 
-            void add_element ( std::string name, std::shared_ptr < Element > element );
-            std::shared_ptr < Element > get_element ( std::string name );
+            void add_element ( std::string name, const std::shared_ptr < Element >& element );
+            std::shared_ptr < Element > get_element ( std::string name ) const;
 
             virtual ~Panel () = default;
 

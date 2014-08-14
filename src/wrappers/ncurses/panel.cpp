@@ -34,13 +34,13 @@ namespace ncurses
         }
     }
 
-    void Panel::add_element ( std::string name, std::shared_ptr < Element > element )
+    void Panel::add_element ( std::string name, const std::shared_ptr < Element >& element )
     {
         element_map.insert ( { name, element } );
         element_vector.push_back ( element );
     }
 
-    std::shared_ptr < Element > Panel::get_element ( std::string name )
+    std::shared_ptr < Element > Panel::get_element ( std::string name ) const
     {
         return element_map.at ( name );
     }

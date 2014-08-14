@@ -4,9 +4,9 @@
 namespace ncurses
 {
     Resize_data::Resize_data (
-            std::vector < std::shared_ptr < Element > >* elements,
-            std::shared_ptr < Window > window,
-            std::shared_ptr < Orientation > orientation
+            const std::vector < std::shared_ptr < Element > >* elements,
+            const std::shared_ptr < Window >& window,
+            const std::shared_ptr < Orientation >& orientation
             ):
         window ( window ),
         elements ( elements ),
@@ -25,9 +25,9 @@ namespace ncurses
     }
 
     void Stretch_layout::update_elements (
-            std::vector < std::shared_ptr < Element > > elements,
+            const std::vector < std::shared_ptr < Element > >& elements,
             char key,
-            std::shared_ptr < Window > window
+            const std::shared_ptr < Window >& window
             )
     {
         if ( orientation.get () != nullptr )
@@ -50,14 +50,14 @@ namespace ncurses
         }
     }
 
-    void Stretch_layout::set_orientation ( std::shared_ptr < Orientation > orientation )
+    void Stretch_layout::set_orientation ( const std::shared_ptr < Orientation >& orientation )
     {
         this->orientation = orientation;
     }
 
     bool Stretch_layout::has_input_changed (
-            std::vector < std::shared_ptr < Element > > elements,
-            std::shared_ptr < Window > window
+            const std::vector < std::shared_ptr < Element > >& elements,
+            const std::shared_ptr < Window >& window
             )
     {
         return ! (
@@ -70,8 +70,8 @@ namespace ncurses
     }
 
     void Stretch_layout::resize (
-            std::vector < std::shared_ptr < Element > > elements,
-            std::shared_ptr < Window > window
+            const std::vector < std::shared_ptr < Element > >& elements,
+            const std::shared_ptr < Window >& window
             )
     {
         windows.clear ();
