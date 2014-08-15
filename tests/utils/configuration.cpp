@@ -50,7 +50,7 @@ TEST_F ( ConfigurationTest, FailedValues )
 {
     EXPECT_EQ ( -1, config->get_int ( "string" ) );
     EXPECT_EQ ( -1, config->get_double ( "string" ) );
-    EXPECT_EQ ( true, config->get_bool ( "string" ) );
+    EXPECT_EQ ( false, config->get_bool ( "string" ) );
 }
 
 TEST_F ( ConfigurationTest, MissingValues )

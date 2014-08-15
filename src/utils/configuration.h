@@ -11,7 +11,8 @@ namespace utils
     {
         public:
             static std::shared_ptr < Configuration > get_configuration ();
-            Json::Value& get_root_value ();
+
+            void save ();
 
             bool get_bool ( std::string identifier );
             int get_int ( std::string identifier );
