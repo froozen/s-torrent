@@ -2,5 +2,5 @@
 
 rm -rf build
 mkdir -p build
-cmake -Hsrc -Bbuild
+cmake -H. -Bbuild
 ./build.sh
