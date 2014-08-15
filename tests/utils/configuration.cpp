@@ -61,6 +61,19 @@ TEST_F ( ConfigurationTest, MissingValues )
     EXPECT_EQ ( "None", config->get_string ( "missing" ) );
 }
 
+TEST_F ( ConfigurationTest, CreatingNewValues )
+{
+    config->set_int ( "new_int", 13 );
+    config->set_double ( "new_double", 3.14 );
+    config->set_bool ( "new_bool", true );
+    config->set_string ( "new_string", "a new string" );
+
+    EXPECT_EQ ( 13, config->get_int ( "new_int" ) );
+    EXPECT_EQ ( 3.14, config->get_double ( "new_double" ) );
+    EXPECT_EQ ( true, config->get_bool ( "new_bool" ) );
+    EXPECT_EQ ( "a new string", config->get_string ( "new_string" ) );
+}
+
 TEST_F ( ConfigurationTest, Setting )
 {
     config->set_int ( "int", 321 );
