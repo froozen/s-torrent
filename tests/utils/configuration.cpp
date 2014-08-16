@@ -16,12 +16,12 @@ class ConfigurationTest : public testing::Test
 
             // Overwrite it with test_config
             std::ofstream create_file ( "config.json", std::ios::trunc );
-            std::string test_config = "{\"int\": 123, \"double\": 0.85, \"bool\": true, \"string\": \"test_string\"}";
+            std::string test_config = "{\"int\": 123, \"double\": 0.85, \"bool\": true, \"string\": \"test_string\", \"element\": { \"value\": 1 } }";
             create_file << test_config << std::endl;
             create_file.close ();
 
             // Create config
-            config = utils::Configuration::get_configuration ();
+            config = utils::Configuration::get_root ();
         }
 
         void TearDown ()
@@ -35,7 +35,7 @@ class ConfigurationTest : public testing::Test
         virtual ~ConfigurationTest () = default;
 
         std::string old_config;
-        std::shared_ptr < utils::Configuration > config;
+        std::shared_ptr < utils::Configuration_element > config;
 };
 
 TEST_F ( ConfigurationTest, Reading )
@@ -44,6 +44,9 @@ TEST_F ( ConfigurationTest, Reading )
     EXPECT_EQ ( 0.85, config->get_double ( "double" ) );
     EXPECT_EQ ( true, config->get_bool ( "bool" ) );
     EXPECT_EQ ( "test_string", config->get_string ( "string" ) );
+
+    utils::Configuration_element sub_element = config->get_element ( "element" );
+    EXPECT_EQ ( 1, sub_element.get_int ( "value" ) );
 }
 
 TEST_F ( ConfigurationTest, FailedValues )
@@ -81,8 +84,15 @@ TEST_F ( ConfigurationTest, Setting )
     config->set_bool ( "bool", false );
     config->set_string ( "string", "another_string" );
 
+    utils::Configuration_element element;
+    element.set_int ( "value", 2 );
+    config->set_element ( "element", element );
+
     EXPECT_EQ ( 321, config->get_int ( "int" ) );
     EXPECT_EQ ( 1.5, config->get_double ( "double" ) );
     EXPECT_EQ ( false, config->get_bool ( "bool" ) );
     EXPECT_EQ ( "another_string", config->get_string ( "string" ) );
+
+    utils::Configuration_element test_element = config->get_element ( "element" );
+    EXPECT_EQ  ( 2, test_element.get_int ( "value" ) );
 }

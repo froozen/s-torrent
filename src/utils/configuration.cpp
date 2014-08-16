@@ -4,96 +4,131 @@
 
 namespace utils
 {
-    std::shared_ptr < Configuration > Configuration::configuration_instance;
+    std::shared_ptr < Json::Value > Configuration::json_value;
 
-    Configuration::Configuration () :
-        root ( std::make_shared < Json::Value > () )
+    std::shared_ptr < Configuration_element > Configuration::get_root ()
     {
-        std::ifstream config_file ( "config.json" );
-        if ( config_file.is_open () )
+        if ( json_value.get () == nullptr )
         {
-            // Read the whole file at once
-            std::string content ( ( std::istreambuf_iterator < char > ( config_file ) ), std::istreambuf_iterator < char > () );
+            std::ifstream config_file ( "config.json" );
 
-            Json::Reader reader;
-            bool success = reader.parse ( content, *root );
-            if ( !success )
+            if ( config_file.is_open () )
             {
-                throw std::runtime_error ( "Error: Failed to parse config file" );
+                // Read the whole file at once
+                std::string content ( ( std::istreambuf_iterator < char > ( config_file ) ), std::istreambuf_iterator < char > () );
+
+                Json::Reader reader;
+                json_value = std::make_shared < Json::Value > ();
+                bool success = reader.parse ( content, *json_value );
+                if ( !success )
+                    throw std::runtime_error ( "Error: Failed to parse config file" );
             }
-        }
-        else
-            throw std::runtime_error ( "Error: Couldn't open config file" );
-    }
-
-    std::shared_ptr < Configuration > Configuration::get_configuration ()
-    {
-        if ( configuration_instance.get () == nullptr )
-        {
-            configuration_instance = std::shared_ptr < Configuration > ( new Configuration () );
+            else
+                throw std::runtime_error ( "Error: Couldn't open config file" );
         }
 
-        return configuration_instance;
+        return std::make_shared < Configuration_element > ( json_value.get () );
     }
 
     void Configuration::save ()
     {
-        std::ofstream save_file ( "config.json", std::ios::trunc );
+        if ( json_value.get () != nullptr )
+        {
+            std::shared_ptr < Configuration_element > root = std::make_shared < Configuration_element > ( json_value.get () );
+            std::ofstream save_file ( "config.json", std::ios::trunc );
+            save_file << root->to_string () << std::endl;
+        }
+    }
+
+
+    // Configuration_element
+    Configuration_element::Configuration_element ( Json::Value* value ) :
+        value ( value ),
+        own ( false )
+    {}
+
+    Configuration_element::Configuration_element () :
+        value ( new Json::Value () ),
+        own ( true )
+    {}
+
+    Configuration_element::~Configuration_element ()
+    {
+        if ( own )
+            delete value;
+    }
+
+    std::string Configuration_element::to_string ()
+    {
         Json::StyledWriter writer;
-        save_file << writer.write ( *root ) << std::endl;
+        return writer.write ( *value );
     }
 
     // Getters
-    bool Configuration::get_bool ( std::string identifier )
+    bool Configuration_element::get_bool ( std::string identifier )
     {
-        if ( ( *root ) [ identifier ].isBool () )
-            return ( *root ) [ identifier ].asBool ();
+        if ( ( *value ) [ identifier ].isBool () )
+            return ( *value ) [ identifier ].asBool ();
         else
             return DEFAULT_BOOL;
     }
 
-    int Configuration::get_int ( std::string identifier )
+    int Configuration_element::get_int ( std::string identifier )
     {
-        if ( ( *root ) [ identifier ].isInt () )
-            return ( *root ) [identifier].asInt ();
+        if ( ( *value ) [ identifier ].isInt () )
+            return ( *value ) [identifier].asInt ();
         else
             return DEFAULT_INT;
     }
 
-    std::string Configuration::get_string ( std::string identifier )
+    std::string Configuration_element::get_string ( std::string identifier )
     {
-        if ( ( *root ) [ identifier ].isString () )
-            return ( *root ) [ identifier ].asString ();
+        if ( ( *value ) [ identifier ].isString () )
+            return ( *value ) [ identifier ].asString ();
         else
             return DEFAULT_STRING;
     }
 
-    double Configuration::get_double ( std::string identifier )
+    double Configuration_element::get_double ( std::string identifier )
     {
-        if ( ( *root ) [ identifier ].isDouble () )
-            return ( *root ) [ identifier ].asDouble ();
+        if ( ( *value ) [ identifier ].isDouble () )
+            return ( *value ) [ identifier ].asDouble ();
         else
-            return DEFAULT_DOUBLE;
+                return DEFAULT_DOUBLE;
+    }
+
+    Configuration_element Configuration_element::get_element ( std::string identifier )
+    {
+        if ( ( *value ) [ identifier ].isObject () )
+        {
+            return Configuration_element ( & ( ( *value ) [ identifier ] ) );
+        }
+        throw std::runtime_error ( "Error: Requested element ( \"" + identifier + "\") is not an object" );
     }
 
     // Setters
-    void Configuration::set_bool ( std::string identifier, bool value )
+    void Configuration_element::set_bool ( std::string identifier, bool new_value )
     {
-        ( *root ) [ identifier ] = value;
+        ( *value ) [ identifier ] = new_value;
     }
 
-    void Configuration::set_int ( std::string identifier, int value )
+    void Configuration_element::set_int ( std::string identifier, int new_value )
     {
-        ( *root ) [ identifier ] = value;
+        ( *value ) [ identifier ] = new_value;
     }
 
-    void Configuration::set_string ( std::string identifier, std::string value )
+    void Configuration_element::set_string ( std::string identifier, std::string new_value )
     {
-        ( *root ) [ identifier ] = value;
+        ( *value ) [ identifier ] = new_value;
     }
 
-    void Configuration::set_double ( std::string identifier, double value )
+    void Configuration_element::set_double ( std::string identifier, double new_value )
     {
-        ( *root ) [ identifier ] = value;
+        ( *value ) [ identifier ] = new_value;
+    }
+
+    void Configuration_element::set_element ( std::string identifier, const Configuration_element& new_value )
+    {
+        ( *value ) [ identifier ] = *new_value.value;
     }
 }
