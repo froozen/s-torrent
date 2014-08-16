@@ -1,30 +1,29 @@
-#include "configuration_element.h"
 #include "configuration_list_element.h"
+#include "configuration_element.h"
 #include <exception>
 
-#include <iostream>
 namespace utils
 {
-    Configuration_element::Configuration_element ( Json::Value* value ) :
+    Configuration_list_element::Configuration_list_element ( Json::Value* value ) :
         value ( value ),
         own ( false )
     {
-        if ( !value->isObject () )
-            throw std::runtime_error ( "Error: value is not an object" );
+        if ( !value->isArray () )
+            throw std::runtime_error ( "Error: value is not an array" );
     }
 
-    Configuration_element::Configuration_element () :
+    Configuration_list_element::Configuration_list_element () :
         value ( new Json::Value () ),
         own ( true )
     {}
 
-    Configuration_element::~Configuration_element ()
+    Configuration_list_element::~Configuration_list_element ()
     {
         if ( own )
             delete value;
     }
 
-    Configuration_element& Configuration_element::operator= ( const Configuration_element& rhs )
+    Configuration_list_element& Configuration_list_element::operator= ( const Configuration_list_element& rhs )
     {
         if ( this != &rhs )
         {
@@ -40,14 +39,14 @@ namespace utils
         return *this;
     }
 
-    std::string Configuration_element::to_string ()
+    std::string Configuration_list_element::to_string ()
     {
         Json::StyledWriter writer;
         return writer.write ( *value );
     }
 
     // Getters
-    bool Configuration_element::get_bool ( std::string identifier )
+    bool Configuration_list_element::get_bool ( int identifier )
     {
         if ( ( *value ) [ identifier ].isBool () )
             return ( *value ) [ identifier ].asBool ();
@@ -55,7 +54,7 @@ namespace utils
             return DEFAULT_BOOL;
     }
 
-    int Configuration_element::get_int ( std::string identifier )
+    int Configuration_list_element::get_int ( int identifier )
     {
         if ( ( *value ) [ identifier ].isInt () )
             return ( *value ) [ identifier ].asInt ();
@@ -63,7 +62,7 @@ namespace utils
             return DEFAULT_INT;
     }
 
-    std::string Configuration_element::get_string ( std::string identifier )
+    std::string Configuration_list_element::get_string ( int identifier )
     {
         if ( ( *value ) [ identifier ].isString () )
             return ( *value ) [ identifier ].asString ();
@@ -71,7 +70,7 @@ namespace utils
             return DEFAULT_STRING;
     }
 
-    double Configuration_element::get_double ( std::string identifier )
+    double Configuration_list_element::get_double ( int identifier )
     {
         if ( ( *value ) [ identifier ].isDouble () )
             return ( *value ) [ identifier ].asDouble ();
@@ -79,51 +78,51 @@ namespace utils
             return DEFAULT_DOUBLE;
     }
 
-    Configuration_element Configuration_element::get_element ( std::string identifier )
+    Configuration_element Configuration_list_element::get_element ( int identifier )
     {
         if ( ( *value ) [ identifier ].isObject () )
         {
             return Configuration_element ( & ( ( *value ) [ identifier ] ) );
         }
-        throw std::runtime_error ( "Error: Requested element \"" + identifier + "\" is not an object" );
+        throw std::runtime_error ( "Error: Requested element \"" + std::to_string ( identifier ) + "\" is not an object" );
     }
 
-    Configuration_list_element Configuration_element::get_list_element ( std::string identifier )
+    Configuration_list_element Configuration_list_element::get_list_element ( int identifier )
     {
         if ( ( *value ) [ identifier ].isArray () )
         {
             return Configuration_list_element ( & ( ( *value ) [ identifier ] ) );
         }
-        throw std::runtime_error ( "Error: Requested element \"" + identifier + "\" is not an object" );
+        throw std::runtime_error ( "Error: Requested element \"" + std::to_string ( identifier ) + "\" is not an array" );
     }
 
     // Setters
-    void Configuration_element::set_bool ( std::string identifier, bool new_value )
+    void Configuration_list_element::set_bool ( int identifier, bool new_value )
     {
         ( *value ) [ identifier ] = new_value;
     }
 
-    void Configuration_element::set_int ( std::string identifier, int new_value )
+    void Configuration_list_element::set_int ( int identifier, int new_value )
     {
         ( *value ) [ identifier ] = new_value;
     }
 
-    void Configuration_element::set_string ( std::string identifier, std::string new_value )
+    void Configuration_list_element::set_string ( int identifier, std::string new_value )
     {
         ( *value ) [ identifier ] = new_value;
     }
 
-    void Configuration_element::set_double ( std::string identifier, double new_value )
+    void Configuration_list_element::set_double ( int identifier, double new_value )
     {
         ( *value ) [ identifier ] = new_value;
     }
 
-    void Configuration_element::set_element ( std::string identifier, const Configuration_element& new_value )
+    void Configuration_list_element::set_element ( int identifier, const Configuration_element& new_value )
     {
         ( *value ) [ identifier ] = *new_value.value;
     }
 
-    void Configuration_element::set_list_element ( std::string identifier, const Configuration_list_element& new_value )
+    void Configuration_list_element::set_list_element ( int identifier, const Configuration_list_element& new_value )
     {
         ( *value ) [ identifier ] = *new_value.value;
     }
