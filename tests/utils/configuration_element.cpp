@@ -46,8 +46,8 @@ TEST_F ( ConfigurationElementTest, Reading )
     EXPECT_EQ ( true, config->get_bool ( "bool" ) );
     EXPECT_EQ ( "test_string", config->get_string ( "string" ) );
 
-    utils::Configuration_element sub_element = config->get_element ( "element" );
-    EXPECT_EQ ( 1, sub_element.get_int ( "value" ) );
+    std::shared_ptr < utils::Configuration_element > sub_element = config->get_element ( "element" );
+    EXPECT_EQ ( 1, sub_element->get_int ( "value" ) );
 }
 
 TEST_F ( ConfigurationElementTest, FailedValues )
@@ -94,8 +94,8 @@ TEST_F ( ConfigurationElementTest, Setting )
     EXPECT_EQ ( false, config->get_bool ( "bool" ) );
     EXPECT_EQ ( "another_string", config->get_string ( "string" ) );
 
-    utils::Configuration_element test_element = config->get_element ( "element" );
-    EXPECT_EQ  ( 2, test_element.get_int ( "value" ) );
+    std::shared_ptr < utils::Configuration_element > test_element = config->get_element ( "element" );
+    EXPECT_EQ  ( 2, test_element->get_int ( "value" ) );
 }
 
 TEST_F ( ConfigurationElementTest, Death )

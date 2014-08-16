@@ -23,8 +23,8 @@ namespace utils
             int get_int ( std::string identifier );
             std::string get_string ( std::string identifier );
             double get_double ( std::string identifier );
-            Configuration_element get_element ( std::string identifier );
-            Configuration_list_element get_list_element ( std::string identifier );
+            std::shared_ptr < Configuration_element > get_element ( std::string identifier );
+            std::shared_ptr < Configuration_list_element > get_list_element ( std::string identifier );
 
             void set_bool ( std::string identifier, bool new_value );
             void set_int  ( std::string identifier, int new_value );

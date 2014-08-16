@@ -78,20 +78,20 @@ namespace utils
             return DEFAULT_DOUBLE;
     }
 
-    Configuration_element Configuration_list_element::get_element ( int identifier )
+    std::shared_ptr < Configuration_element > Configuration_list_element::get_element ( int identifier )
     {
         if ( ( *value ) [ identifier ].isObject () )
         {
-            return Configuration_element ( & ( ( *value ) [ identifier ] ) );
+            return std::make_shared < Configuration_element > ( & ( ( *value ) [ identifier ] ) );
         }
         throw std::runtime_error ( "Error: Requested element \"" + std::to_string ( identifier ) + "\" is not an object" );
     }
 
-    Configuration_list_element Configuration_list_element::get_list_element ( int identifier )
+    std::shared_ptr < Configuration_list_element > Configuration_list_element::get_list_element ( int identifier )
     {
         if ( ( *value ) [ identifier ].isArray () )
         {
-            return Configuration_list_element ( & ( ( *value ) [ identifier ] ) );
+            return std::make_shared < Configuration_list_element > ( & ( ( *value ) [ identifier ] ) );
         }
         throw std::runtime_error ( "Error: Requested element \"" + std::to_string ( identifier ) + "\" is not an array" );
     }
