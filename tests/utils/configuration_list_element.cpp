@@ -11,25 +11,25 @@ class ConfigurationListElementTest : public testing::Test
         virtual void SetUp ()
         {
             // Back old file up
-            std::ifstream config_file ( "config->json" );
+            std::ifstream config_file ( "config.json" );
             old_config = std::string ( ( std::istreambuf_iterator < char > ( config_file ) ), std::istreambuf_iterator < char > () );
             config_file.close ();
 
             // Overwrite it with test_config
-            std::ofstream create_file ( "config->json", std::ios::trunc );
+            std::ofstream create_file ( "config.json", std::ios::trunc );
             std::string test_config = "{\"list\": [ 123, 0.85, true, \"test_string\", { \"value\": 1 } ]}";
             create_file << test_config << std::endl;
             create_file.close ();
 
             // Create config
-            utils::Configuration::load ( "config->json" );
+            utils::Configuration::load ( "config.json" );
             config = utils::Configuration::get_root ()->get_list_element ( "list" );
         }
 
         void TearDown ()
         {
             // Put old file contents back
-            std::ofstream create_file ( "config->json", std::ios::trunc );
+            std::ofstream create_file ( "config.json", std::ios::trunc );
             create_file << old_config;
             create_file.close ();
         }
