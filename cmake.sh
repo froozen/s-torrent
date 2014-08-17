@@ -4,11 +4,11 @@
 
 case $1 in
     "setup")
+        ./cmake.sh clean
         cmake -H. -Bbuild
-        mkdir -p build
         ./cmake.sh
         ;;
-    "rebuild")
+    "refresh")
         cmake -H. -Bbuild
         ./cmake.sh
         ;;
