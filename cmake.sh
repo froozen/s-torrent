@@ -5,8 +5,6 @@
 case $1 in
     "setup")
         echo "creating makefile"
-        rm -rf build
-        mkdir -p build
         cmake -H. -Bbuild
         ./cmake.sh
         ;;
