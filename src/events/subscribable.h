@@ -19,47 +19,23 @@
    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#ifndef ENGINE_EVENTS_RECEIVER_FORWARDER_GUARD
-#define ENGINE_EVENTS_RECEIVER_FORWARDER_GUARD
+#ifndef ENGINE_EVENTS_SUBSCRIBABLE_GUARD
+#define ENGINE_EVENTS_SUBSCRIBABLE_GUARD
 
 #include <memory>
-
-#include "Receiver.h"
-#include "Broadcaster.hpp"
+#include "receiver.h"
 
 namespace events
 {
     template < typename Event_type >
-        class Receiver_forwarder : public Receiver < Event_type >
+        class Subscribable
         {
             public:
-                Receiver_forwarder ( std::shared_ptr < Receiver < Event_type > > target );
+                virtual void subscribe ( std::shared_ptr < Receiver < Event_type > > ) = 0;
+                virtual void unsubscribe ( Receiver < Event_type >* ) = 0;
 
-                virtual void receive ( Event_type event );
-                void redirect ( std::shared_ptr < Receiver < Event_type > > target );
-
-                virtual ~Receiver_forwarder () = default;
-            private:
-                std::shared_ptr < Receiver < Event_type > > target;
+                virtual ~Subscribable () = default;
         };
-
-    template < typename Event_type >
-        Receiver_forwarder < Event_type >::Receiver_forwarder ( std::shared_ptr < Receiver < Event_type > > target ) :
-            target ( target )
-        {}
-
-    template < typename Event_type >
-        void Receiver_forwarder < Event_type >::receive ( Event_type event )
-            {
-                if ( target != nullptr )
-                    target->receive ( event );
-            }
-
-    template < typename Event_type >
-        void Receiver_forwarder < Event_type >::redirect ( std::shared_ptr < Receiver < Event_type > > target )
-        {
-            this->target = target;
-        }
 }
 
-#endif // ENGINE_EVENTS_RECEIVER_FORWARDER_GUARD
+#endif // ENGINE_EVENTS_SUBSCRIBABLE_GUARD

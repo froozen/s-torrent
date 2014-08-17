@@ -21,9 +21,9 @@
 
 #include <gtest/gtest.h>
 
-#include "Test_receiver.hpp"
-#include "events/Broadcaster.hpp"
-#include "events/Receiver_forwarder.hpp"
+#include "test_receiver.hpp"
+#include "events/broadcaster.hpp"
+#include "events/receiver_forwarder.hpp"
 #include <memory>
 
 using namespace events;

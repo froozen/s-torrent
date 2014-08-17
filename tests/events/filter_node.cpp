@@ -21,8 +21,8 @@
 
 #include <gtest/gtest.h>
 
-#include "Test_receiver.hpp"
-#include "events/Filter_node.hpp"
+#include "test_receiver.hpp"
+#include "events/filter_node.hpp"
 #include <memory>
 
 using namespace events;

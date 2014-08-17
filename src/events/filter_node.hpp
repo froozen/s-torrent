@@ -25,9 +25,9 @@
 #include <memory>
 #include <functional>
 
-#include "Receiver.h"
-#include "Subscribable.h"
-#include "Broadcaster.hpp"
+#include "receiver.h"
+#include "subscribable.h"
+#include "broadcaster.hpp"
 
 namespace events
 {

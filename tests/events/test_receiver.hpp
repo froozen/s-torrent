@@ -19,23 +19,13 @@
    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
    THE SOFTWARE. */
 
-#include <gtest/gtest.h>
+#include "events/receiver.h"
 
-#include "Test_receiver.hpp"
-#include "events/Broadcaster.hpp"
-#include "events/Lambda_receiver.hpp"
-#include <memory>
+template < typename Event_type >
+    class Test_receiver : public events::Receiver < Event_type >
+    {
+        public:
+            virtual void receive ( Event_type e ) { result = e; }
 
-using namespace events;
-
-TEST ( engineEventsLambdaReceiver, generalTest )
-{
-    Broadcaster < int > test_broadcaster;
-    int result = 0;
-    auto lambda = [&] ( int i ) { result = i; };
-    std::shared_ptr < Lambda_receiver < int > > lambda_receiver = std::make_shared < Lambda_receiver < int > > ( lambda );
-
-    test_broadcaster.subscribe ( lambda_receiver );
-    test_broadcaster.receive ( 5 );
-    EXPECT_EQ ( 5, result );
-}
+            Event_type result;
+    };

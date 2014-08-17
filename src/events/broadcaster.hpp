@@ -29,8 +29,8 @@
 #include <mutex>
 #include <set>
 
-#include "Receiver.h"
-#include "Subscribable.h"
+#include "receiver.h"
+#include "subscribable.h"
 
 namespace events
 {

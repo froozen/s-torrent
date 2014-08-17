@@ -21,9 +21,9 @@
 
 #include <gtest/gtest.h>
 
-#include "Test_receiver.hpp"
-#include "events/Broadcaster.hpp"
-#include "events/Lambda_receiver.hpp"
+#include "test_receiver.hpp"
+#include "events/broadcaster.hpp"
+#include "events/lambda_receiver.hpp"
 #include <memory>
 
 using namespace events;
