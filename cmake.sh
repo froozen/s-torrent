@@ -4,16 +4,22 @@
 
 case $1 in
     "setup")
-        echo "creating makefile"
+        cmake -H. -Bbuild
+        mkdir -p build
+        ./cmake.sh
+        ;;
+    "rebuild")
         cmake -H. -Bbuild
         ./cmake.sh
         ;;
+    "debug")
+        cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Debug
+        ./cmake.sh
+        ;;
     "clean")
-        echo "removing build/ and libboost.asio-wrapper.a"
-        rm -rf build libboost.asio-wrapper.a
+        rm -rf build test_executable s-torrent
         ;;
     *)
-        echo "building "$1
         make -C build $1
         ;;
 esac
