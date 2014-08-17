@@ -2,6 +2,7 @@ project ( S-TORRENT )
 cmake_minimum_required ( VERSION 3.0 )
 
 set ( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/.. )
+set ( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/" )
 
 if ( CMAKE_CXX_COMPILER MATCHES ".*clang" )
     set ( CMAKE_COMPILER_IS_CLANG )
