@@ -156,3 +156,21 @@ TEST ( engineEventsBroadcaster, duplicateSubscription )
     EXPECT_EQ ( access_count, 1 );
 }
 
+TEST ( engineEventsBroadcaster, correctReceivingOrder )
+{
+    Broadcaster < int > test_broadcaster;
+
+    std::vector < int > received;
+    auto put_in_received = [ & ]  ( int i )
+    {
+        if ( i == 1 ) test_broadcaster.receive ( 2 );
+        received.push_back ( i );
+    };
+    std::shared_ptr < Lambda_receiver < int > > test_lambda_receiver =
+        std::make_shared < Lambda_receiver < int > > ( put_in_received );
+    test_broadcaster.subscribe ( test_lambda_receiver );
+
+    test_broadcaster.receive ( 1 );
+
+    EXPECT_EQ ( std::vector <int > ( { 1, 2 } ), received );
+}
