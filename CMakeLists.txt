@@ -26,4 +26,4 @@ target_link_libraries ( core asio_wrapper utils )
 
 set ( S-TORRENT_EXECUTABLE_SRC ${CMAKE_SOURCE_DIR}/src/main.cpp )
 add_executable ( s-torrent ${S-TORRENT_EXECUTABLE_SRC} )
-target_link_libraries ( s-torrent ncurses_wrapper core )
+target_link_libraries ( s-torrent ncurses_wrapper core events )
