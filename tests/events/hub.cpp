@@ -55,6 +55,7 @@ TEST ( HubTest, regexTest )
     Hub::get_filter ( "regexTest" ).subscribe ( lambda_receiver );
 
     Hub::send ( std::make_shared < Simple_event > ( "wild_dog_appeared" ) );
+    Hub::send ( std::make_shared < Simple_event > ( "tame_dog_appeared" ) );
     Hub::send ( std::make_shared < Simple_event > ( "wild_cat_appeared" ) );
 
     EXPECT_EQ ( std::vector < std::string > ( { "wild_dog_appeared", "wild_cat_appeared" } ), received_types );
