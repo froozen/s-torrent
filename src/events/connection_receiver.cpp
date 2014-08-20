@@ -2,9 +2,7 @@
 #include <stdexcept>
 
 #include "hub.h"
-#include "event_types/read_line_event.h"
-#include "event_types/connection_closed_event.h"
-#include "event_types/send_message_event.h"
+#include "events.h"
 
 namespace events
 {

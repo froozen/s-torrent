@@ -4,7 +4,7 @@
 #include <string>
 #include "events/hub.h"
 #include "events/filter_node.hpp"
-#include "events/event_types/event.h"
+#include "events/events.h"
 #include "events/lambda_receiver.hpp"
 
 using namespace events;

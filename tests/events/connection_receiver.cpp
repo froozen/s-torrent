@@ -2,8 +2,7 @@
 #include "events/hub.h"
 #include "events/connection_receiver.h"
 #include "events/lambda_receiver.hpp"
-#include "events/event_types/event.h"
-#include "events/event_types/read_line_event.h"
+#include "events/events.h"
 #include "wrappers/asio/server_socket.h"
 #include "wrappers/asio/client_socket.h"
 
