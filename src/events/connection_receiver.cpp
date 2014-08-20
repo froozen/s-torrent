@@ -10,17 +10,22 @@ namespace events
 {
     Connection_receiver::Connection_receiver ( std::string address, std::string service ) :
         connection ( std::unique_ptr < sockets::Client_socket > ( new sockets::Client_socket ( address, service ) ) ),
-        connected ( true ),
-        listening_thread ( std::thread ( &Connection_receiver::listen_on_socket, this ) )
+        connected ( true )
     {}
 
     Connection_receiver::Connection_receiver ( std::string address, int port ) :
         Connection_receiver ( address, std::to_string ( port ) )
     {}
 
+    void Connection_receiver::start ()
+    {
+        listening_thread = std::thread ( std::thread ( &Connection_receiver::listen_on_socket, this ) );
+        listening_thread.detach ();
+    }
+
     void Connection_receiver::listen_on_socket ()
     {
-        while ( true )
+        while ( connected )
         {
             try
             {
@@ -33,7 +38,6 @@ namespace events
                 std::shared_ptr < Event > event = std::make_shared < Connection_closed_event > ( this );
                 Hub::send ( event );
                 disconnect ();
-                break;
             }
         }
     }
