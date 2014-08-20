@@ -59,3 +59,25 @@ TEST ( HubTest, regexTest )
 
     EXPECT_EQ ( std::vector < std::string > ( { "wild_dog_appeared", "wild_cat_appeared" } ), received_types );
 }
+
+TEST ( HubTest, duplicateCreate )
+{
+    Hub::create_filter ( "doubleCreate", "first create" );
+    Hub::create_filter ( "doubleCreate", "second create" );
+
+    bool received = false;
+    auto save_received_event_type = [ & ] ( std::shared_ptr < Event > event )
+    {
+        received = true;
+    };
+    std::shared_ptr < Lambda_receiver < std::shared_ptr < Event > > > lambda_receiver =
+        std::make_shared < Lambda_receiver < std::shared_ptr < Event > > > ( save_received_event_type );
+    Hub::get_filter ( "doubleCreate" ).subscribe ( lambda_receiver );
+
+    Hub::send ( std::make_shared < Simple_event > ( "first create" ) );
+    EXPECT_TRUE ( received );
+    received = false;
+
+    Hub::send ( std::make_shared < Simple_event > ( "second create" ) );
+    EXPECT_FALSE ( received );
+}
