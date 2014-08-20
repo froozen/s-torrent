@@ -4,6 +4,7 @@ namespace ncurses
 {
     Panel::Panel ( std::shared_ptr < Layout > layout ):
         layout ( layout ),
+        has_border ( false ),
         prefered_width ( 0 ),
         prefered_height ( 0 )
     {}
@@ -11,8 +12,9 @@ namespace ncurses
     void Panel::update ( char key, std::shared_ptr < Window > window )
     {
         std::shared_ptr < Window > layout_window;
-        if ( border )
+        if ( has_border )
         {
+            // Draw the border use window without border in it for the layout
             window->draw_border ();
             window->refresh ();
             layout_window = std::make_shared < Window > (
@@ -29,18 +31,18 @@ namespace ncurses
             layout->update_elements ( element_vector, key, layout_window );
         else
         {
-            window->print_string ( "Error: No Layout" );
+            window->draw_string ( "Error: No Layout" );
             window->refresh ();
         }
     }
 
-    void Panel::add_element ( std::string name, std::shared_ptr < Element > element )
+    void Panel::add_element ( std::string name, const std::shared_ptr < Element >& element )
     {
         element_map.insert ( { name, element } );
         element_vector.push_back ( element );
     }
 
-    std::shared_ptr < Element > Panel::get_element ( std::string name )
+    std::shared_ptr < Element > Panel::get_element ( std::string name ) const
     {
         return element_map.at ( name );
     }

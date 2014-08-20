@@ -8,6 +8,7 @@ namespace ncurses
 
     Session::Session ()
     {
+        // Standard ncurses init methods
         initscr ();
         cbreak ();
         noecho ();
@@ -15,8 +16,9 @@ namespace ncurses
         use_default_colors ();
         refresh ();
 
-        // Init all possible color pairs, to enable
-        // Window::set_color
+        // Initialize all possible color combinations, using a simple calculation
+        // This enables us to change the colors in Window way comfortably than any
+        // other solution
         for ( int fg = -1; fg < 8; fg++ )
         {
             for ( int bg = -1; bg < 8; bg++ )
@@ -28,6 +30,7 @@ namespace ncurses
 
     Session::~Session ()
     {
+        // Standard ncurses end function
         endwin ();
     }
 
@@ -61,7 +64,7 @@ namespace ncurses
         }
     }
 
-    void Session::set_panel ( std::shared_ptr < Panel > panel )
+    void Session::set_panel ( const std::shared_ptr < Panel >& panel )
     {
         this->panel = panel;
     }

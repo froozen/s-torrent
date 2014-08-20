@@ -14,10 +14,12 @@ namespace sockets
     {
         try
         {
+            // Resolve address
             tcp::resolver resolver ( *io_service );
             tcp::resolver::query query ( address, service );
             tcp::resolver::iterator endpoint_iterator = resolver.resolve ( query );
 
+            // Connect to address
             boost::asio::connect ( *socket, endpoint_iterator );
         }
         catch ( boost::exception& e )
@@ -26,6 +28,7 @@ namespace sockets
         }
     }
 
+    // Simple constructor used by Server_socket
     Client_socket::Client_socket (
             std::unique_ptr < tcp::socket >&& socket,
             std::shared_ptr < boost::asio::io_service > io_service
@@ -36,6 +39,7 @@ namespace sockets
 
     std::string Client_socket::read_line ()
     {
+        // Read until we have at least one line
         while ( next_lines.empty () )
         {
             std::vector < char > buffer ( 1024 );
@@ -50,29 +54,36 @@ namespace sockets
                 throw std::runtime_error ( boost::diagnostic_information ( e ) );
             }
 
+            // Create actual string from vector
             std::string data_string = std::string ( buffer.begin (), buffer.begin () + len );
 
             std::string line;
             std::string buffer_string = std::string ( buffer.begin (), buffer.begin () + len );
             std::stringstream ss ( buffer_string );
+            // Split lines at '\n'
             while ( ( std::getline ( ss, line, '\n' ) ) )
             {
+                // Apply line_rest ( if any )
                 line = line_rest + line;
                 line_rest.clear ();
-                while ( line.back () == '\n' || line.back () == '\r' )
+                // Save yourself the hassle of dealing with DOS linebreaks
+                while ( line.back () == '\r' )
                 {
                     line.pop_back ();
                 }
                 next_lines.push_back ( line );
             }
 
+            // If buffer_string doesn't end with an '\n'
             if ( buffer_string.back () != '\n' )
             {
+                // Create a line_rest
                 line_rest = next_lines.back ();
                 next_lines.pop_back ();
             }
         }
 
+        // Return next line
         std::string line = next_lines.front ();
         next_lines.pop_front ();
         return line;
