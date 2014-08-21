@@ -15,6 +15,10 @@ namespace events
         Connection_receiver ( address, std::to_string ( port ) )
     {}
 
+    Connection_receiver::Connection_receiver ( sockets::Client_socket&& socket ) :
+        connection ( std::unique_ptr < sockets::Client_socket > ( new sockets::Client_socket ( std::move ( socket ) ) ) )
+    {}
+
     void Connection_receiver::start ()
     {
         listening_thread = std::thread ( std::thread ( &Connection_receiver::listen_on_socket, this ) );

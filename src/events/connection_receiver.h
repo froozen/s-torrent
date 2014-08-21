@@ -16,6 +16,7 @@ namespace events
         public:
             Connection_receiver ( std::string address, std::string service );
             Connection_receiver ( std::string address, int port );
+            Connection_receiver ( sockets::Client_socket&& socket );
 
             void start ();
             void receive ( std::shared_ptr < Event > );
