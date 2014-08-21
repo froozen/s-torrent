@@ -4,7 +4,7 @@
 #include "acceptor.h"
 
 #include <string>
-#include <vector>
+#include <map>
 #include <memory>
 
 namespace events
@@ -12,10 +12,11 @@ namespace events
     class Acceptor_hub
     {
         public:
-            static void accept ( int port, std::string service = "" );
+            static void accept ( int port, std::string service );
+            static void stop ( std::string service );
 
         private:
-            static std::vector < std::shared_ptr < Acceptor > > acceptors;
+            static std::map < std::string, std::shared_ptr < Acceptor > > acceptors;
     };
 }
 
