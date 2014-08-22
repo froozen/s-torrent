@@ -38,4 +38,5 @@ TEST ( AcceptorHubTest, doubleCreateTest )
 {
     events::Acceptor_hub::accept ( 12345, "AcceptorHubTest.doubleCreateTest" );
     EXPECT_THROW ( events::Acceptor_hub::accept ( 12345, "AcceptorHubTest.doubleCreateTest" ), std::runtime_error );
+    events::Acceptor_hub::stop ( "AcceptorHubTest.doubleCreateTest" );
 }

@@ -16,7 +16,8 @@ namespace events
     {}
 
     Connection_receiver::Connection_receiver ( sockets::Client_socket&& socket ) :
-        connection ( std::unique_ptr < sockets::Client_socket > ( new sockets::Client_socket ( std::move ( socket ) ) ) )
+        connection ( std::unique_ptr < sockets::Client_socket > ( new sockets::Client_socket ( std::move ( socket ) ) ) ),
+        connected ( true )
     {}
 
     void Connection_receiver::start ()
