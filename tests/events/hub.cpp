@@ -22,7 +22,7 @@ class Simple_event : public Event
         virtual ~Simple_event () = default;
 };
 
-TEST ( HubTest, simpleTest )
+TEST ( HubTest, SimpleTest )
 {
     Hub::create_filter ( "generalTest", "some_event_type" );
 
@@ -41,7 +41,7 @@ TEST ( HubTest, simpleTest )
     EXPECT_EQ ( send_event, received_event );
 }
 
-TEST ( HubTest, regexTest )
+TEST ( HubTest, RegexTest )
 {
     Hub::create_filter ( "regexTest", "wild_.*_appeared" );
 
@@ -61,7 +61,7 @@ TEST ( HubTest, regexTest )
     EXPECT_EQ ( std::vector < std::string > ( { "wild_dog_appeared", "wild_cat_appeared" } ), received_types );
 }
 
-TEST ( HubTest, duplicateCreate )
+TEST ( HubTest, DuplicateCreateTest )
 {
     Hub::create_filter ( "doubleCreate", "first create" );
     Hub::create_filter ( "doubleCreate", "second create" );

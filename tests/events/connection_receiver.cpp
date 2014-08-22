@@ -12,7 +12,7 @@
 #include <chrono>
 #include <thread>
 
-TEST ( ConnectionReceiverTest, generalTest )
+TEST ( ConnectionReceiverTest, GeneralTest )
 {
     events::Hub::create_filter ( "ConnectionReceiverTest.generalTest", "Read.*" );
     std::vector < std::string > received_strings;

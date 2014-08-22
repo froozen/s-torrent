@@ -11,7 +11,7 @@
 #include <chrono>
 #include <thread>
 
-TEST ( AcceptorHubTest, generalTest )
+TEST ( AcceptorHubTest, GeneralTest )
 {
     bool accepted = true;
     auto acceptor_receiver = std::make_shared < events::Lambda_receiver < std::shared_ptr < events::Event > > > (
@@ -34,7 +34,7 @@ TEST ( AcceptorHubTest, generalTest )
     events::Acceptor_hub::stop ( "AcceptorHubTest" );
 }
 
-TEST ( AcceptorHubTest, doubleCreateTest )
+TEST ( AcceptorHubTest, DoubleCreateTest )
 {
     events::Acceptor_hub::accept ( 12345, "AcceptorHubTest.doubleCreateTest" );
     EXPECT_THROW ( events::Acceptor_hub::accept ( 12345, "AcceptorHubTest.doubleCreateTest" ), std::runtime_error );

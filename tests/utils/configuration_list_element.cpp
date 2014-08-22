@@ -40,7 +40,7 @@ class ConfigurationListElementTest : public testing::Test
         std::shared_ptr < utils::Configuration_list_element > config;
 };
 
-TEST_F ( ConfigurationListElementTest, Reading )
+TEST_F ( ConfigurationListElementTest, ReadingTest )
 {
     EXPECT_EQ ( 123, config->get_int ( 0 ) );
     EXPECT_EQ ( 0.85, config->get_double ( 1 ) );
@@ -51,14 +51,14 @@ TEST_F ( ConfigurationListElementTest, Reading )
     EXPECT_EQ ( 1, sub_element->get_int ( "value" ) );
 }
 
-TEST_F ( ConfigurationListElementTest, FailedValues )
+TEST_F ( ConfigurationListElementTest, FailedValuesTest )
 {
     EXPECT_EQ ( -1, config->get_int ( 3 ) );
     EXPECT_EQ ( -1, config->get_double ( 3 ) );
     EXPECT_EQ ( false, config->get_bool ( 3 ) );
 }
 
-TEST_F ( ConfigurationListElementTest, MissingValues )
+TEST_F ( ConfigurationListElementTest, MissingValuesTest )
 {
     EXPECT_EQ ( -1, config->get_int ( 5 ) );
     EXPECT_EQ ( -1, config->get_double ( 5 ) );
@@ -66,7 +66,7 @@ TEST_F ( ConfigurationListElementTest, MissingValues )
     EXPECT_EQ ( "None", config->get_string ( 5 ) );
 }
 
-TEST_F ( ConfigurationListElementTest, CreatingNewValues )
+TEST_F ( ConfigurationListElementTest, CreatingNewValuesTest )
 {
     config->set_int ( 5, 13 );
     config->set_double ( 6, 3.14 );
@@ -79,7 +79,7 @@ TEST_F ( ConfigurationListElementTest, CreatingNewValues )
     EXPECT_EQ ( "a new string", config->get_string ( 8 ) );
 }
 
-TEST_F ( ConfigurationListElementTest, Setting )
+TEST_F ( ConfigurationListElementTest, SettingTest )
 {
     config->set_int ( 0, 321 );
     config->set_double ( 1, 1.5 );
@@ -99,7 +99,7 @@ TEST_F ( ConfigurationListElementTest, Setting )
     EXPECT_EQ  ( 2, test_element->get_int ( "value" ) );
 }
 
-TEST_F ( ConfigurationListElementTest, Death )
+TEST_F ( ConfigurationListElementTest, DeathTest )
 {
     EXPECT_THROW ( config->get_element ( 0 ), std::runtime_error );
     EXPECT_THROW ( config->get_list_element ( 0 ), std::runtime_error );

@@ -27,7 +27,7 @@
 
 using namespace events;
 
-TEST ( engineEventsFilterNode, generalTest )
+TEST ( FilterNodeTest, GeneralTest )
 {
     Filter_node < int > test_filter_node ( [] ( int e ) { return e % 2 == 0; } );
     std::shared_ptr < Test_receiver < int > > test_receiver = std::make_shared < Test_receiver < int > > ();

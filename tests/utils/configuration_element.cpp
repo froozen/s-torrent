@@ -39,7 +39,7 @@ class ConfigurationElementTest : public testing::Test
         std::shared_ptr < utils::Configuration_element > config;
 };
 
-TEST_F ( ConfigurationElementTest, Reading )
+TEST_F ( ConfigurationElementTest, ReadingTest )
 {
     EXPECT_EQ ( 123, config->get_int ( "int" ) );
     EXPECT_EQ ( 0.85, config->get_double ( "double" ) );
@@ -50,14 +50,14 @@ TEST_F ( ConfigurationElementTest, Reading )
     EXPECT_EQ ( 1, sub_element->get_int ( "value" ) );
 }
 
-TEST_F ( ConfigurationElementTest, FailedValues )
+TEST_F ( ConfigurationElementTest, FailedValuesTest )
 {
     EXPECT_EQ ( -1, config->get_int ( "string" ) );
     EXPECT_EQ ( -1, config->get_double ( "string" ) );
     EXPECT_EQ ( false, config->get_bool ( "string" ) );
 }
 
-TEST_F ( ConfigurationElementTest, MissingValues )
+TEST_F ( ConfigurationElementTest, MissingValuesTest )
 {
     EXPECT_EQ ( -1, config->get_int ( "missing" ) );
     EXPECT_EQ ( -1, config->get_double ( "missing" ) );
@@ -65,7 +65,7 @@ TEST_F ( ConfigurationElementTest, MissingValues )
     EXPECT_EQ ( "None", config->get_string ( "missing" ) );
 }
 
-TEST_F ( ConfigurationElementTest, CreatingNewValues )
+TEST_F ( ConfigurationElementTest, CreatingNewValuesTest )
 {
     config->set_int ( "new_int", 13 );
     config->set_double ( "new_double", 3.14 );
@@ -78,7 +78,7 @@ TEST_F ( ConfigurationElementTest, CreatingNewValues )
     EXPECT_EQ ( "a new string", config->get_string ( "new_string" ) );
 }
 
-TEST_F ( ConfigurationElementTest, Setting )
+TEST_F ( ConfigurationElementTest, SettingTest )
 {
     config->set_int ( "int", 321 );
     config->set_double ( "double", 1.5 );
@@ -98,7 +98,7 @@ TEST_F ( ConfigurationElementTest, Setting )
     EXPECT_EQ  ( 2, test_element->get_int ( "value" ) );
 }
 
-TEST_F ( ConfigurationElementTest, Death )
+TEST_F ( ConfigurationElementTest, DeathTest )
 {
     EXPECT_THROW ( config->get_element ( "int" ), std::runtime_error );
     EXPECT_THROW ( config->get_list_element ( "int" ), std::runtime_error );
