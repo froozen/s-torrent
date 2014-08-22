@@ -4,9 +4,9 @@
 
 namespace ncurses
 {
-    std::shared_ptr < Session > Session::session_instance;
+    std::shared_ptr < Panel > Session::panel;
 
-    Session::Session ()
+    void Session::init ()
     {
         // Standard ncurses init methods
         initscr ();
@@ -28,26 +28,9 @@ namespace ncurses
         }
     }
 
-    Session::~Session ()
-    {
-        // Standard ncurses end function
-        endwin ();
-    }
-
-    std::weak_ptr < Session > Session::get_session ()
-    {
-        if ( session_instance.get () == nullptr )
-            session_instance = std::shared_ptr < Session > ( new Session () );
-
-        return std::weak_ptr < Session > ( session_instance );
-    }
-
     void Session::end ()
     {
-        if ( session_instance.get () != nullptr )
-        {
-            session_instance.reset ();
-        }
+        endwin ();
     }
 
     void Session::update ()
@@ -64,13 +47,13 @@ namespace ncurses
         }
     }
 
-    void Session::set_panel ( const std::shared_ptr < Panel >& panel )
+    void Session::set_panel ( const std::shared_ptr < Panel >& panel_ )
     {
-        this->panel = panel;
+        panel = panel_;
     }
 
-    std::shared_ptr < Panel > Session::get_panel () const
+    std::shared_ptr < Panel > Session::get_panel ()
     {
-        return this->panel;
+        return panel;
     }
 }
