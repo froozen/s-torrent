@@ -42,3 +42,23 @@ TEST ( ConnectionReceiverTest, GeneralTest )
         received_strings.pop_back ();
     }
 }
+
+TEST ( ConnectionReceiverTest, SendTest )
+{
+    events::Hub::create_filter ( "ConnectionReceiverTest.sendTest", "Send_message_event" );
+    sockets::Server_socket server ( 12345 );
+    std::shared_ptr < events::Connection_receiver > receiver = std::make_shared < events::Connection_receiver > ( "127.0.0.1", 12345 );
+    events::Hub::get_filter ( "ConnectionReceiverTest.sendTest" ).subscribe ( receiver );
+    receiver->start ();
+    sockets::Client_socket connection = server.accept ();
+
+    std::shared_ptr < events::Event > event = std::make_shared < events::Send_message_event >
+        ( "ConnectionReceiverTest -- sendTest\n", receiver.get () );
+
+    events::Hub::send ( event );
+
+    // We need to wait a little bit, so we don't get an ugly segfault
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
+    std::string received = connection.read_line ();
+    EXPECT_EQ ( "ConnectionReceiverTest -- sendTest", received );
+}
