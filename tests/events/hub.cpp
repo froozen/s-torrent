@@ -2,6 +2,9 @@
 #include <memory>
 #include <functional>
 #include <string>
+#include <chrono>
+#include <thread>
+
 #include "events/hub.h"
 #include "events/filter_node.hpp"
 #include "events/events.h"
@@ -37,6 +40,8 @@ TEST ( HubTest, SimpleTest )
 
     std::shared_ptr < Event > send_event = std::make_shared < Simple_event > ( "some_event_type" );
     Hub::send ( send_event );
+
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
 
     EXPECT_EQ ( send_event, received_event );
 }
