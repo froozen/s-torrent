@@ -37,6 +37,11 @@ namespace sockets
         socket ( std::move ( socket ) )
     {}
 
+    // Allows connecting to an int port
+    Client_socket::Client_socket ( std::string address, int port ) :
+        Client_socket ( address, std::to_string ( port ) )
+    {}
+
     std::string Client_socket::read_line ()
     {
         // Read until we have at least one line

@@ -14,6 +14,7 @@ namespace sockets
         public:
             Client_socket ( Client_socket&& ) = default;
             Client_socket ( std::string address, std::string service );
+            Client_socket ( std::string address, int port );
             Client_socket (
                     std::unique_ptr < boost::asio::ip::tcp::socket >&& socket,
                     std::shared_ptr < boost::asio::io_service > io_service

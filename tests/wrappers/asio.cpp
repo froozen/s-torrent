@@ -9,7 +9,7 @@
 TEST ( AsioTest, GeneralTest )
 {
     sockets::Server_socket server ( 12346 );
-    sockets::Client_socket client ( "127.0.0.1", "12346" );
+    sockets::Client_socket client ( "127.0.0.1", 12346 );
     sockets::Client_socket accepted = server.accept ();
 
     std::string lines [] = { "This is the first line.", "This is the second one.", "And now there is a third one." };
