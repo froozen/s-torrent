@@ -14,7 +14,7 @@ endif ( CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG )
 
 set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall" )
 
-set ( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O1" )
+set ( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0" )
 
 include_directories ( ${CMAKE_SOURCE_DIR}/src )
 
@@ -26,4 +26,4 @@ target_link_libraries ( core asio_wrapper utils )
 
 set ( S-TORRENT_EXECUTABLE_SRC ${CMAKE_SOURCE_DIR}/src/main.cpp )
 add_executable ( s-torrent ${S-TORRENT_EXECUTABLE_SRC} )
-target_link_libraries ( s-torrent ncurses_wrapper core )
+target_link_libraries ( s-torrent ncurses_wrapper core events )
