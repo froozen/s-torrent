@@ -15,6 +15,7 @@ namespace events
             static void accept ( int port, std::string service );
 
         private:
+            Acceptor_hub () = default;
             static std::map < std::string, std::shared_ptr < Acceptor > > acceptors;
     };
 }
