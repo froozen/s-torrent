@@ -30,13 +30,10 @@ TEST ( AcceptorHubTest, GeneralTest )
     sockets::Client_socket c ( "127.0.0.1", "12344" );
     std::this_thread::sleep_for ( std::chrono::microseconds ( 50 ) );
     EXPECT_TRUE ( accepted );
-
-    events::Acceptor_hub::stop ( "AcceptorHubTest" );
 }
 
 TEST ( AcceptorHubTest, DoubleCreateTest )
 {
     events::Acceptor_hub::accept ( 12345, "AcceptorHubTest.doubleCreateTest" );
     EXPECT_THROW ( events::Acceptor_hub::accept ( 12345, "AcceptorHubTest.doubleCreateTest" ), std::runtime_error );
-    events::Acceptor_hub::stop ( "AcceptorHubTest.doubleCreateTest" );
 }

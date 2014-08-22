@@ -19,14 +19,4 @@ namespace events
             throw std::runtime_error ( "Error: service \"" + service + "\" already exists" );
         }
     }
-
-    void Acceptor_hub::stop ( std::string service )
-    {
-        acceptors.at ( service )->set_stop ();
-
-        try { sockets::Client_socket signal ( "127.0.0.1", std::to_string ( acceptors.at ( service )->get_port () ) ); }
-        catch ( std::runtime_error& e ) {}
-
-        acceptors.erase ( service );
-    }
 }

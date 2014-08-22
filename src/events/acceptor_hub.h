@@ -13,7 +13,6 @@ namespace events
     {
         public:
             static void accept ( int port, std::string service );
-            static void stop ( std::string service );
 
         private:
             static std::map < std::string, std::shared_ptr < Acceptor > > acceptors;

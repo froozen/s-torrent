@@ -14,7 +14,6 @@ namespace events
         public:
             Acceptor ( int port, std::string service );
 
-            void set_stop ();
             int get_port () const;
 
             virtual ~Acceptor () = default;
@@ -26,7 +25,6 @@ namespace events
             std::string service;
             std::shared_ptr < sockets::Server_socket > socket;
             std::thread do_accept_thread;
-            bool stop;
     };
 }
 
