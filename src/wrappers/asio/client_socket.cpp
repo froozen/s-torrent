@@ -93,7 +93,7 @@ namespace sockets
     {
         try
         {
-            boost::asio::write ( *socket, boost::asio::buffer ( message ) );
+            boost::asio::write ( *socket, boost::asio::buffer ( message + "\n" ) );
         }
         catch ( boost::exception& e )
         {

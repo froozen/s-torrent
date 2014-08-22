@@ -29,7 +29,7 @@ TEST ( ConnectionReceiverTest, GeneralTest )
     sockets::Client_socket connection = server.accept ();
     for ( int i = 0; i < 10; i++ )
     {
-        connection.send ( std::to_string ( i ) + "\n" );
+        connection.send ( std::to_string ( i ) );
     }
     connection.close ();
 
@@ -53,7 +53,7 @@ TEST ( ConnectionReceiverTest, SendTest )
     sockets::Client_socket connection = server.accept ();
 
     std::shared_ptr < events::Event > event = std::make_shared < events::Send_message_event >
-        ( "ConnectionReceiverTest -- sendTest\n", receiver.get () );
+        ( "ConnectionReceiverTest -- sendTest", receiver.get () );
 
     events::Hub::send ( event );
 
