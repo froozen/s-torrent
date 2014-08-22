@@ -59,7 +59,8 @@ namespace events
         if ( e->get_type () == "Send_message_event" )
         {
             std::shared_ptr < Send_message_event > actual_event = std::dynamic_pointer_cast < Send_message_event > ( e );
-            connection->send ( actual_event->get_message () );
+            if ( actual_event->get_target () == this )
+                connection->send ( actual_event->get_message () );
         }
     }
 }
