@@ -1,4 +1,5 @@
 #include "panel.h"
+#include <stdexcept>
 
 namespace ncurses
 {
@@ -44,6 +45,9 @@ namespace ncurses
 
     std::shared_ptr < Element > Panel::get_element ( std::string name ) const
     {
-        return element_map.at ( name );
+        if ( element_map.find ( name ) != element_map.end () )
+            return element_map.at ( name );
+        else
+            throw std::runtime_error ( "Error in ncurses::Panel::get_element : Can't find element \"" + name + "\"" );
     }
 }

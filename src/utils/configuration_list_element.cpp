@@ -9,7 +9,7 @@ namespace utils
         own ( false )
     {
         if ( !value->isArray () )
-            throw std::runtime_error ( "Error: value is not an array" );
+            throw std::runtime_error ( "Error in utils::Configuration_list_element::Configuration_list_element : value is not an array" );
     }
 
     Configuration_list_element::Configuration_list_element () :
@@ -84,7 +84,7 @@ namespace utils
         {
             return std::make_shared < Configuration_element > ( & ( ( *value ) [ identifier ] ) );
         }
-        throw std::runtime_error ( "Error: Requested element \"" + std::to_string ( identifier ) + "\" is not an object" );
+        throw std::runtime_error ( "Error in utils::Configuration_list_element::get_element : Requested element \"" + std::to_string ( identifier ) + "\" is not an object" );
     }
 
     std::shared_ptr < Configuration_list_element > Configuration_list_element::get_list_element ( int identifier )
@@ -93,7 +93,7 @@ namespace utils
         {
             return std::make_shared < Configuration_list_element > ( & ( ( *value ) [ identifier ] ) );
         }
-        throw std::runtime_error ( "Error: Requested element \"" + std::to_string ( identifier ) + "\" is not an array" );
+        throw std::runtime_error ( "Error in utils::Configuration_list_element::get_list_element : Requested element \"" + std::to_string ( identifier ) + "\" is not an array" );
     }
 
     // Setters

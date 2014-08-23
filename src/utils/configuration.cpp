@@ -9,7 +9,7 @@ namespace utils
     std::shared_ptr < Configuration_element > Configuration::get_root ()
     {
         if ( json_value.get () == nullptr )
-            throw std::runtime_error ( "Error: Confinguration file isn't loaded" );
+            throw std::runtime_error ( "Error in utils::Confiugration::get_root : Confinguration file isn't loaded" );
 
         return std::make_shared < Configuration_element > ( json_value.get () );
     }
@@ -37,9 +37,9 @@ namespace utils
             json_value = std::make_shared < Json::Value > ();
             bool success = reader.parse ( content, *json_value );
             if ( !success )
-                throw std::runtime_error ( "Error: Failed to parse config file" );
+                throw std::runtime_error ( "Error in utils::Configuration::load : Failed to parse config file" );
         }
         else
-            throw std::runtime_error ( "Error: Couldn't open file: " + path );
+            throw std::runtime_error ( "Error in utils::Configuration::load : Couldn't open file: " + path );
     }
 }

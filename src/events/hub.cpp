@@ -1,6 +1,7 @@
 #include "hub.h"
 #include <regex>
 #include <functional>
+#include <stdexcept>
 
 namespace events
 {
@@ -25,7 +26,10 @@ namespace events
 
     Filter_node < std::shared_ptr < Event > >& Hub::get_filter ( std::string identifier )
     {
-        return *( filters.at ( identifier ) );
+        if ( filters.find ( identifier ) != filters.end () )
+            return *( filters.at ( identifier ) );
+        else
+            throw std::runtime_error ( "Error in events::Hub::get_filter : Can't find filter \"" + identifier + "\"" );
     }
 
     void Hub::send ( std::shared_ptr < Event > event )

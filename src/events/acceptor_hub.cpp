@@ -16,7 +16,7 @@ namespace events
         }
         else
         {
-            throw std::runtime_error ( "Error: service \"" + service + "\" already exists" );
+            throw std::runtime_error ( "Error in events::Acceptor_hub::accept : service \"" + service + "\" already exists" );
         }
     }
 }

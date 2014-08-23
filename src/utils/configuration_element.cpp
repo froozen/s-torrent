@@ -10,7 +10,7 @@ namespace utils
         own ( false )
     {
         if ( !value->isObject () )
-            throw std::runtime_error ( "Error: value is not an object" );
+            throw std::runtime_error ( "Error in utils::Configuration_element::Confiuguartion_element : value is not an object" );
     }
 
     Configuration_element::Configuration_element () :
@@ -85,7 +85,7 @@ namespace utils
         {
             return std::make_shared < Configuration_element > ( & ( ( *value ) [ identifier ] ) );
         }
-        throw std::runtime_error ( "Error: Requested element \"" + identifier + "\" is not an object" );
+        throw std::runtime_error ( "Error in utils::Confiugarion_element::get_element : Requested element \"" + identifier + "\" is not an object" );
     }
 
     std::shared_ptr < Configuration_list_element > Configuration_element::get_list_element ( std::string identifier )
@@ -94,7 +94,7 @@ namespace utils
         {
             return std::make_shared < Configuration_list_element > ( & ( ( *value ) [ identifier ] ) );
         }
-        throw std::runtime_error ( "Error: Requested element \"" + identifier + "\" is not an object" );
+        throw std::runtime_error ( "Error in utils::Configuration_element::get_list_element : Requested element \"" + identifier + "\" is not an object" );
     }
 
     // Setters

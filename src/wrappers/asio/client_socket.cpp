@@ -24,7 +24,7 @@ namespace sockets
         }
         catch ( boost::exception& e )
         {
-            throw std::runtime_error ( boost::diagnostic_information ( e ) );
+            throw std::runtime_error ( "Error in sockets::Client_socket::Client_socket : " + boost::diagnostic_information ( e ) );
         }
     }
 
@@ -56,7 +56,7 @@ namespace sockets
             }
             catch ( boost::exception& e )
             {
-                throw std::runtime_error ( boost::diagnostic_information ( e ) );
+                throw std::runtime_error ( "Error in sockets::Client_socket::read_line : " + boost::diagnostic_information ( e ) );
             }
 
             // Create actual string from vector
@@ -102,7 +102,7 @@ namespace sockets
         }
         catch ( boost::exception& e )
         {
-            throw std::runtime_error ( boost::diagnostic_information ( e ) );
+            throw std::runtime_error ( "Error in sockets::Client_socket::send : " + boost::diagnostic_information ( e ) );
         }
     }
 
@@ -115,7 +115,7 @@ namespace sockets
         }
         catch ( boost::exception& e )
         {
-            throw std::runtime_error ( boost::diagnostic_information ( e ) );
+            throw std::runtime_error ( "Error in sockets::Client_socket::close : " + boost::diagnostic_information ( e ) );
         }
     }
 }
