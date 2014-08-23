@@ -19,12 +19,12 @@ namespace utils
 
             std::string to_string ();
 
-            bool get_bool ( std::string identifier );
-            int get_int ( std::string identifier );
-            std::string get_string ( std::string identifier );
-            double get_double ( std::string identifier );
-            std::shared_ptr < Configuration_element > get_element ( std::string identifier );
-            std::shared_ptr < Configuration_list_element > get_list_element ( std::string identifier );
+            bool get_bool ( std::string identifier ) const;
+            int get_int ( std::string identifier ) const;
+            std::string get_string ( std::string identifier ) const;
+            double get_double ( std::string identifier ) const;
+            std::shared_ptr < Configuration_element > get_element ( std::string identifier ) const;
+            std::shared_ptr < Configuration_list_element > get_list_element ( std::string identifier ) const;
 
             void set_bool ( std::string identifier, bool new_value );
             void set_int  ( std::string identifier, int new_value );

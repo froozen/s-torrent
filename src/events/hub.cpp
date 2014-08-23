@@ -24,7 +24,7 @@ namespace events
         filters.insert ( { identifier, new_filter } );
     }
 
-    Filter_node < std::shared_ptr < Event > >& Hub::get_filter ( std::string identifier )
+    Filter_node < std::shared_ptr < Event > >& Hub::get_filter ( std::string identifier ) const
     {
         if ( filters.find ( identifier ) != filters.end () )
             return *( filters.at ( identifier ) );

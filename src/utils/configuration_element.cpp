@@ -47,7 +47,7 @@ namespace utils
     }
 
     // Getters
-    bool Configuration_element::get_bool ( std::string identifier )
+    bool Configuration_element::get_bool ( std::string identifier ) const
     {
         if ( ( *value ) [ identifier ].isBool () )
             return ( *value ) [ identifier ].asBool ();
@@ -55,7 +55,7 @@ namespace utils
             return DEFAULT_BOOL;
     }
 
-    int Configuration_element::get_int ( std::string identifier )
+    int Configuration_element::get_int ( std::string identifier ) const
     {
         if ( ( *value ) [ identifier ].isInt () )
             return ( *value ) [ identifier ].asInt ();
@@ -63,7 +63,7 @@ namespace utils
             return DEFAULT_INT;
     }
 
-    std::string Configuration_element::get_string ( std::string identifier )
+    std::string Configuration_element::get_string ( std::string identifier ) const
     {
         if ( ( *value ) [ identifier ].isString () )
             return ( *value ) [ identifier ].asString ();
@@ -71,7 +71,7 @@ namespace utils
             return DEFAULT_STRING;
     }
 
-    double Configuration_element::get_double ( std::string identifier )
+    double Configuration_element::get_double ( std::string identifier ) const
     {
         if ( ( *value ) [ identifier ].isDouble () )
             return ( *value ) [ identifier ].asDouble ();
@@ -79,7 +79,7 @@ namespace utils
             return DEFAULT_DOUBLE;
     }
 
-    std::shared_ptr < Configuration_element > Configuration_element::get_element ( std::string identifier )
+    std::shared_ptr < Configuration_element > Configuration_element::get_element ( std::string identifier ) const
     {
         if ( ( *value ) [ identifier ].isObject () )
         {
@@ -88,7 +88,7 @@ namespace utils
         throw std::runtime_error ( "Error in utils::Confiugarion_element::get_element : Requested element \"" + identifier + "\" is not an object" );
     }
 
-    std::shared_ptr < Configuration_list_element > Configuration_element::get_list_element ( std::string identifier )
+    std::shared_ptr < Configuration_list_element > Configuration_element::get_list_element ( std::string identifier ) const
     {
         if ( ( *value ) [ identifier ].isArray () )
         {
