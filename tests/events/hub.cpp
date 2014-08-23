@@ -27,8 +27,6 @@ class Simple_event : public Event
 
 TEST ( HubTest, SimpleTest )
 {
-    Hub::create_filter ( "generalTest", "some_event_type" );
-
     std::shared_ptr < Event > received_event;
     auto save_received_event = [ & ] ( std::shared_ptr < Event > event )
     {
@@ -36,7 +34,7 @@ TEST ( HubTest, SimpleTest )
     };
     std::shared_ptr < Lambda_receiver < std::shared_ptr < Event > > > lambda_receiver =
         std::make_shared < Lambda_receiver < std::shared_ptr < Event > > > ( save_received_event );
-    Hub::get_filter ( "generalTest" ).subscribe ( lambda_receiver );
+    Hub::create_filter ( "generalTest", "some_event_type" ).subscribe ( lambda_receiver );
 
     std::shared_ptr < Event > send_event = std::make_shared < Simple_event > ( "some_event_type" );
     Hub::send ( send_event );
@@ -48,8 +46,6 @@ TEST ( HubTest, SimpleTest )
 
 TEST ( HubTest, RegexTest )
 {
-    Hub::create_filter ( "regexTest", "wild_.*_appeared" );
-
     std::vector < std::string > received_types;
     auto save_received_event_type = [ & ] ( std::shared_ptr < Event > event )
     {
@@ -57,7 +53,7 @@ TEST ( HubTest, RegexTest )
     };
     std::shared_ptr < Lambda_receiver < std::shared_ptr < Event > > > lambda_receiver =
         std::make_shared < Lambda_receiver < std::shared_ptr < Event > > > ( save_received_event_type );
-    Hub::get_filter ( "regexTest" ).subscribe ( lambda_receiver );
+    Hub::create_filter ( "regexTest", "wild_.*_appeared" ).subscribe ( lambda_receiver );
 
     Hub::send ( std::make_shared < Simple_event > ( "wild_dog_appeared" ) );
     Hub::send ( std::make_shared < Simple_event > ( "tame_dog_appeared" ) );

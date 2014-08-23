@@ -23,8 +23,7 @@ TEST ( AcceptorHubTest, GeneralTest )
                     accepted = true;
                 }
             });
-    events::Hub::create_filter ( "AcceptorHubTest", "Connection_accepted_event" );
-    events::Hub::get_filter ( "AcceptorHubTest" ).subscribe ( acceptor_receiver );
+    events::Hub::create_filter ( "AcceptorHubTest", "Connection_accepted_event" ).subscribe ( acceptor_receiver );
     events::Acceptor_hub::accept ( 12344, "AcceptorHubTest" );
 
     sockets::Client_socket c ( "127.0.0.1", "12344" );

@@ -8,7 +8,7 @@ namespace events
     std::map < std::string, std::shared_ptr < Filter_node < std::shared_ptr < Event > > > > Hub::filters;
     Broadcaster < std::shared_ptr < Event > > Hub::broadcaster;
 
-    void Hub::create_filter ( std::string identifier, std::string regex )
+    Filter_node < std::shared_ptr < Event > >& Hub::create_filter ( std::string identifier, std::string regex )
     {
         // This lambda matches the regex against Event::get_type
         std::function < bool ( std::shared_ptr < Event > ) > qualifies = std::bind (
@@ -23,6 +23,8 @@ namespace events
 
         broadcaster.subscribe ( new_filter );
         filters.insert ( { identifier, new_filter } );
+
+        return *( filters.at ( identifier ) );
     }
 
     Filter_node < std::shared_ptr < Event > >& Hub::get_filter ( std::string identifier )
