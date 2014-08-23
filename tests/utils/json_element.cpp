@@ -2,10 +2,10 @@
 #include <fstream>
 #include "utils/configuration.h"
 
-class ConfigurationElementTest : public testing::Test
+class JsonElementTest : public testing::Test
 {
     public:
-        ConfigurationElementTest () = default;
+        JsonElementTest () = default;
 
         virtual void SetUp ()
         {
@@ -33,31 +33,31 @@ class ConfigurationElementTest : public testing::Test
             create_file.close ();
         }
 
-        virtual ~ConfigurationElementTest () = default;
+        virtual ~JsonElementTest () = default;
 
         std::string old_config;
-        std::shared_ptr < utils::Configuration_element > config;
+        std::shared_ptr < utils::Json_element > config;
 };
 
-TEST_F ( ConfigurationElementTest, ReadingTest )
+TEST_F ( JsonElementTest, ReadingTest )
 {
     EXPECT_EQ ( 123, config->get_int ( "int" ) );
     EXPECT_EQ ( 0.85, config->get_double ( "double" ) );
     EXPECT_EQ ( true, config->get_bool ( "bool" ) );
     EXPECT_EQ ( "test_string", config->get_string ( "string" ) );
 
-    std::shared_ptr < utils::Configuration_element > sub_element = config->get_element ( "element" );
+    std::shared_ptr < utils::Json_element > sub_element = config->get_element ( "element" );
     EXPECT_EQ ( 1, sub_element->get_int ( "value" ) );
 }
 
-TEST_F ( ConfigurationElementTest, FailedValuesTest )
+TEST_F ( JsonElementTest, FailedValuesTest )
 {
     EXPECT_EQ ( -1, config->get_int ( "string" ) );
     EXPECT_EQ ( -1, config->get_double ( "string" ) );
     EXPECT_EQ ( false, config->get_bool ( "string" ) );
 }
 
-TEST_F ( ConfigurationElementTest, MissingValuesTest )
+TEST_F ( JsonElementTest, MissingValuesTest )
 {
     EXPECT_EQ ( -1, config->get_int ( "missing" ) );
     EXPECT_EQ ( -1, config->get_double ( "missing" ) );
@@ -65,7 +65,7 @@ TEST_F ( ConfigurationElementTest, MissingValuesTest )
     EXPECT_EQ ( "None", config->get_string ( "missing" ) );
 }
 
-TEST_F ( ConfigurationElementTest, CreatingNewValuesTest )
+TEST_F ( JsonElementTest, CreatingNewValuesTest )
 {
     config->set_int ( "new_int", 13 );
     config->set_double ( "new_double", 3.14 );
@@ -78,14 +78,14 @@ TEST_F ( ConfigurationElementTest, CreatingNewValuesTest )
     EXPECT_EQ ( "a new string", config->get_string ( "new_string" ) );
 }
 
-TEST_F ( ConfigurationElementTest, SettingTest )
+TEST_F ( JsonElementTest, SettingTest )
 {
     config->set_int ( "int", 321 );
     config->set_double ( "double", 1.5 );
     config->set_bool ( "bool", false );
     config->set_string ( "string", "another_string" );
 
-    utils::Configuration_element element;
+    utils::Json_element element;
     element.set_int ( "value", 2 );
     config->set_element ( "element", element );
 
@@ -94,11 +94,11 @@ TEST_F ( ConfigurationElementTest, SettingTest )
     EXPECT_EQ ( false, config->get_bool ( "bool" ) );
     EXPECT_EQ ( "another_string", config->get_string ( "string" ) );
 
-    std::shared_ptr < utils::Configuration_element > test_element = config->get_element ( "element" );
+    std::shared_ptr < utils::Json_element > test_element = config->get_element ( "element" );
     EXPECT_EQ  ( 2, test_element->get_int ( "value" ) );
 }
 
-TEST_F ( ConfigurationElementTest, DeathTest )
+TEST_F ( JsonElementTest, DeathTest )
 {
     EXPECT_THROW ( config->get_element ( "int" ), std::runtime_error );
     EXPECT_THROW ( config->get_list_element ( "int" ), std::runtime_error );
@@ -107,5 +107,5 @@ TEST_F ( ConfigurationElementTest, DeathTest )
     Json::Value not_an_object;
     not_an_object = 1;
     Json::Value* ptr = &not_an_object;
-    EXPECT_THROW ( utils::Configuration_element c = utils::Configuration_element ( ptr ), std::runtime_error );
+    EXPECT_THROW ( utils::Json_element c = utils::Json_element ( ptr ), std::runtime_error );
 }

@@ -6,12 +6,12 @@ namespace utils
 {
     std::shared_ptr < Json::Value > Configuration::json_value;
 
-    std::shared_ptr < Configuration_element > Configuration::get_root ()
+    std::shared_ptr < Json_element > Configuration::get_root ()
     {
         if ( json_value.get () == nullptr )
             throw std::runtime_error ( "Error in utils::Confiugration::get_root : Confinguration file isn't loaded" );
 
-        return std::make_shared < Configuration_element > ( json_value.get () );
+        return std::make_shared < Json_element > ( json_value.get () );
     }
 
     void Configuration::save ()

@@ -7,15 +7,16 @@
 
 namespace utils
 {
-    class Configuration_list_element;
+    class Json_list_element;
 
-    class Configuration_element
+    class Json_element
     {
         public:
-            Configuration_element ();
-            Configuration_element ( Json::Value* root );
+            Json_element ();
+            Json_element ( Json::Value* root );
+            Json_element ( std::string json_string );
 
-            Configuration_element& operator= ( const Configuration_element& rhs );
+            Json_element& operator= ( const Json_element& rhs );
 
             std::string to_string ();
 
@@ -23,19 +24,19 @@ namespace utils
             int get_int ( std::string identifier ) const;
             std::string get_string ( std::string identifier ) const;
             double get_double ( std::string identifier ) const;
-            std::shared_ptr < Configuration_element > get_element ( std::string identifier ) const;
-            std::shared_ptr < Configuration_list_element > get_list_element ( std::string identifier ) const;
+            std::shared_ptr < Json_element > get_element ( std::string identifier ) const;
+            std::shared_ptr < Json_list_element > get_list_element ( std::string identifier ) const;
 
             void set_bool ( std::string identifier, bool new_value );
             void set_int  ( std::string identifier, int new_value );
             void set_string ( std::string identifier, std::string new_value );
             void set_double ( std::string identifier, double new_value );
-            void set_element ( std::string identifier, const Configuration_element& new_value );
-            void set_list_element ( std::string identifier, const Configuration_list_element& new_value );
+            void set_element ( std::string identifier, const Json_element& new_value );
+            void set_list_element ( std::string identifier, const Json_list_element& new_value );
 
-            virtual ~Configuration_element ();
+            virtual ~Json_element ();
 
-            friend class Configuration_list_element;
+            friend class Json_list_element;
 
         private:
             // Values returned if something went wrong

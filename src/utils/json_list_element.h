@@ -7,15 +7,16 @@
 
 namespace utils
 {
-    class Configuration_element;
+    class Json_element;
 
-    class Configuration_list_element
+    class Json_list_element
     {
         public:
-            Configuration_list_element ();
-            Configuration_list_element ( Json::Value* root );
+            Json_list_element ();
+            Json_list_element ( Json::Value* root );
+            Json_list_element ( std::string json_string );
 
-            Configuration_list_element& operator= ( const Configuration_list_element& rhs );
+            Json_list_element& operator= ( const Json_list_element& rhs );
 
             std::string to_string ();
 
@@ -23,19 +24,19 @@ namespace utils
             int get_int ( int identifier ) const;
             std::string get_string ( int identifier ) const;
             double get_double ( int identifier ) const;
-            std::shared_ptr < Configuration_element > get_element ( int identifier ) const;
-            std::shared_ptr < Configuration_list_element > get_list_element ( int identifier ) const;
+            std::shared_ptr < Json_element > get_element ( int identifier ) const;
+            std::shared_ptr < Json_list_element > get_list_element ( int identifier ) const;
 
             void set_bool ( int identifier, bool new_value );
             void set_int  ( int identifier, int new_value );
             void set_string ( int identifier, std::string new_value );
             void set_double ( int identifier, double new_value );
-            void set_element ( int identifier, const Configuration_element& new_value );
-            void set_list_element ( int identifier, const Configuration_list_element& new_value );
+            void set_element ( int identifier, const Json_element& new_value );
+            void set_list_element ( int identifier, const Json_list_element& new_value );
 
-            virtual ~Configuration_list_element ();
+            virtual ~Json_list_element ();
 
-            friend class Configuration_element;
+            friend class Json_element;
 
         private:
             // Values returned if something went wrong
