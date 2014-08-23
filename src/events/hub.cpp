@@ -10,6 +10,7 @@ namespace events
 
     void Hub::create_filter ( std::string identifier, std::string regex )
     {
+        // This lambda matches the regex against Event::get_type
         std::function < bool ( std::shared_ptr < Event > ) > qualifies = std::bind (
                 [] ( std::shared_ptr < Event > event, std::string regex )
                 {
@@ -24,7 +25,7 @@ namespace events
         filters.insert ( { identifier, new_filter } );
     }
 
-    Filter_node < std::shared_ptr < Event > >& Hub::get_filter ( std::string identifier ) const
+    Filter_node < std::shared_ptr < Event > >& Hub::get_filter ( std::string identifier )
     {
         if ( filters.find ( identifier ) != filters.end () )
             return *( filters.at ( identifier ) );

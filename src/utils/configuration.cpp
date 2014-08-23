@@ -19,6 +19,7 @@ namespace utils
         if ( json_value.get () != nullptr )
         {
             std::shared_ptr < Configuration_element > root = std::make_shared < Configuration_element > ( json_value.get () );
+            // Open the file in overwrite mode
             std::ofstream save_file ( "config.json", std::ios::trunc );
             save_file << root->to_string () << std::endl;
         }

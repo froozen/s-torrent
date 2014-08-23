@@ -19,14 +19,17 @@ namespace events
     {
         while ( true )
         {
+            // Accept and create Connection_receiver
             sockets::Client_socket client = socket->accept ();
-
             std::shared_ptr < Connection_receiver > receiver = std::make_shared < Connection_receiver > ( std::move ( client ) );
 
-            // We want to make sure that our filter actually exists
+            // Make the Connection_receiver received Send_message_events
+            // We want to make sure that sure filter actually exists
             Hub::create_filter ( "send_message", "Send_message_event" );
             Hub::get_filter ( "send_message" ).subscribe ( receiver );
             receiver->start ();
+
+            // Send event to notify others
             std::shared_ptr < Connection_accepted_event > event =
                 std::make_shared < Connection_accepted_event > ( receiver.get (), port, service );
             Hub::send ( event );

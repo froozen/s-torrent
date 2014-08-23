@@ -7,6 +7,7 @@
 #include <thread>
 #include <memory>
 
+// Not much more than a handle for a do_accpet thread
 namespace events
 {
     class Acceptor

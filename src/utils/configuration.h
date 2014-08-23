@@ -14,8 +14,10 @@ namespace utils
     class Configuration
     {
         public:
+            // Get root Configuration_element
             static std::shared_ptr < Configuration_element > get_root ();
 
+            // Save and load from and to file
             static void save ();
             static void load ( std::string path );
 
