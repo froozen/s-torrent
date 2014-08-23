@@ -20,7 +20,7 @@ namespace utils
         {
             // Open the file in overwrite mode
             std::ofstream save_file ( "config.json", std::ios::trunc );
-            save_file << get_root ()->to_string () << std::endl;
+            save_file << get_root ()->to_formatted_string () << std::endl;
         }
         else
             throw std::runtime_error ( "Error in utils::Confiugration::save : Confinguration file isn't loaded" );

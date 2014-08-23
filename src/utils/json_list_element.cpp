@@ -52,9 +52,15 @@ namespace utils
         return *this;
     }
 
-    std::string Json_list_element::to_string ()
+    std::string Json_list_element::to_formatted_string ()
     {
         Json::StyledWriter writer;
+        return writer.write ( *value );
+    }
+
+    std::string Json_list_element::to_small_string ()
+    {
+        Json::FastWriter writer;
         return writer.write ( *value );
     }
 

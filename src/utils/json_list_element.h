@@ -18,7 +18,8 @@ namespace utils
 
             Json_list_element& operator= ( const Json_list_element& rhs );
 
-            std::string to_string ();
+            std::string to_formatted_string ();
+            std::string to_small_string ();
 
             bool get_bool ( int identifier ) const;
             int get_int ( int identifier ) const;
