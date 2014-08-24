@@ -28,7 +28,7 @@
 
 using namespace events;
 
-TEST ( engineEventsLambdaReceiver, generalTest )
+TEST ( LambdaReceiverTest, GeneralTest )
 {
     Broadcaster < int > test_broadcaster;
     int result = 0;

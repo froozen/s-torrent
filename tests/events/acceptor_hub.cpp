@@ -11,7 +11,7 @@
 #include <chrono>
 #include <thread>
 
-TEST ( AcceptorHubTest, generalTest )
+TEST ( AcceptorHubTest, GeneralTest )
 {
     bool accepted = true;
     auto acceptor_receiver = std::make_shared < events::Lambda_receiver < std::shared_ptr < events::Event > > > (
@@ -23,20 +23,16 @@ TEST ( AcceptorHubTest, generalTest )
                     accepted = true;
                 }
             });
-    events::Hub::create_filter ( "AcceptorHubTest", "Connection_accepted_event" );
-    events::Hub::get_filter ( "AcceptorHubTest" ).subscribe ( acceptor_receiver );
+    events::Hub::get_filter ( "Connection_accepted_event" ).subscribe ( acceptor_receiver );
     events::Acceptor_hub::accept ( 12344, "AcceptorHubTest" );
 
     sockets::Client_socket c ( "127.0.0.1", "12344" );
     std::this_thread::sleep_for ( std::chrono::microseconds ( 50 ) );
     EXPECT_TRUE ( accepted );
-
-    events::Acceptor_hub::stop ( "AcceptorHubTest" );
 }
 
-TEST ( AcceptorHubTest, doubleCreateTest )
+TEST ( AcceptorHubTest, DoubleCreateTest )
 {
     events::Acceptor_hub::accept ( 12345, "AcceptorHubTest.doubleCreateTest" );
     EXPECT_THROW ( events::Acceptor_hub::accept ( 12345, "AcceptorHubTest.doubleCreateTest" ), std::runtime_error );
-    events::Acceptor_hub::stop ( "AcceptorHubTest.doubleCreateTest" );
 }

@@ -20,7 +20,7 @@ namespace sockets
         }
         catch ( boost::exception& e )
         {
-            throw std::runtime_error ( boost::diagnostic_information ( e ) );
+            throw std::runtime_error ( "Error in sockets::Server_socket::accept : " + boost::diagnostic_information ( e ) );
         }
     }
 }

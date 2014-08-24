@@ -28,7 +28,7 @@
 
 using namespace events;
 
-TEST ( engineEventsReceiverForwarder, generalTest )
+TEST ( ReciverForwarderTest, GeneralTest )
 {
     Broadcaster < int > test_broadcaster;
     std::shared_ptr < Test_receiver < int > > test_receiver = std::make_shared < Test_receiver < int > > ();
@@ -45,7 +45,7 @@ TEST ( engineEventsReceiverForwarder, generalTest )
     EXPECT_EQ ( 6, test_receiver2->result );
 }
 
-TEST ( engineEventsReceiverForwarder, nullptrTest )
+TEST ( ReciverForwarderTest, NullptrTest )
 {
     Broadcaster < int > test_broadcaster;
     std::shared_ptr < Receiver_forwarder < int > > test_receiver_forwarder = std::make_shared < Receiver_forwarder < int > > ( nullptr );

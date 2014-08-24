@@ -2,6 +2,9 @@
 #include <memory>
 #include <functional>
 #include <string>
+#include <chrono>
+#include <thread>
+
 #include "events/hub.h"
 #include "events/filter_node.hpp"
 #include "events/events.h"
@@ -22,10 +25,8 @@ class Simple_event : public Event
         virtual ~Simple_event () = default;
 };
 
-TEST ( HubTest, simpleTest )
+TEST ( HubTest, SimpleTest )
 {
-    Hub::create_filter ( "generalTest", "some_event_type" );
-
     std::shared_ptr < Event > received_event;
     auto save_received_event = [ & ] ( std::shared_ptr < Event > event )
     {
@@ -33,18 +34,18 @@ TEST ( HubTest, simpleTest )
     };
     std::shared_ptr < Lambda_receiver < std::shared_ptr < Event > > > lambda_receiver =
         std::make_shared < Lambda_receiver < std::shared_ptr < Event > > > ( save_received_event );
-    Hub::get_filter ( "generalTest" ).subscribe ( lambda_receiver );
+    Hub::get_filter ( "some_event_type" ).subscribe ( lambda_receiver );
 
     std::shared_ptr < Event > send_event = std::make_shared < Simple_event > ( "some_event_type" );
     Hub::send ( send_event );
 
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
+
     EXPECT_EQ ( send_event, received_event );
 }
 
-TEST ( HubTest, regexTest )
+TEST ( HubTest, RegexTest )
 {
-    Hub::create_filter ( "regexTest", "wild_.*_appeared" );
-
     std::vector < std::string > received_types;
     auto save_received_event_type = [ & ] ( std::shared_ptr < Event > event )
     {
@@ -52,33 +53,11 @@ TEST ( HubTest, regexTest )
     };
     std::shared_ptr < Lambda_receiver < std::shared_ptr < Event > > > lambda_receiver =
         std::make_shared < Lambda_receiver < std::shared_ptr < Event > > > ( save_received_event_type );
-    Hub::get_filter ( "regexTest" ).subscribe ( lambda_receiver );
+    Hub::get_filter ( "wild_.*_appeared" ).subscribe ( lambda_receiver );
 
     Hub::send ( std::make_shared < Simple_event > ( "wild_dog_appeared" ) );
     Hub::send ( std::make_shared < Simple_event > ( "tame_dog_appeared" ) );
     Hub::send ( std::make_shared < Simple_event > ( "wild_cat_appeared" ) );
 
     EXPECT_EQ ( std::vector < std::string > ( { "wild_dog_appeared", "wild_cat_appeared" } ), received_types );
-}
-
-TEST ( HubTest, duplicateCreate )
-{
-    Hub::create_filter ( "doubleCreate", "first create" );
-    Hub::create_filter ( "doubleCreate", "second create" );
-
-    bool received = false;
-    auto save_received_event_type = [ & ] ( std::shared_ptr < Event > event )
-    {
-        received = true;
-    };
-    std::shared_ptr < Lambda_receiver < std::shared_ptr < Event > > > lambda_receiver =
-        std::make_shared < Lambda_receiver < std::shared_ptr < Event > > > ( save_received_event_type );
-    Hub::get_filter ( "doubleCreate" ).subscribe ( lambda_receiver );
-
-    Hub::send ( std::make_shared < Simple_event > ( "first create" ) );
-    EXPECT_TRUE ( received );
-    received = false;
-
-    Hub::send ( std::make_shared < Simple_event > ( "second create" ) );
-    EXPECT_FALSE ( received );
 }

@@ -28,7 +28,7 @@
 
 using namespace events;
 
-TEST ( engineEventsBroadcaster, generalTest )
+TEST ( BroadcasterTest, GeneralTest )
 {
     Broadcaster < int > test_broadcaster;
     std::shared_ptr < Test_receiver < int > > test_receiver = std::make_shared < Test_receiver < int > > ();
@@ -43,7 +43,7 @@ TEST ( engineEventsBroadcaster, generalTest )
     EXPECT_EQ ( test_receiver->result, 5 );
 }
 
-TEST ( engineEventsBroadcaster, unsubscribeOnReceive )
+TEST ( BroadcasterTest, UnsubscribeOnReceiveTest )
 {
     Broadcaster < int > test_broadcaster;
 
@@ -55,7 +55,7 @@ TEST ( engineEventsBroadcaster, unsubscribeOnReceive )
     test_broadcaster.receive ( 1 );
 }
 
-TEST ( engineEventsBroadcaster, subscribeOnReceive )
+TEST ( BroadcasterTest, SubscribeOnReceiveTest )
 {
     Broadcaster < int > test_broadcaster;
     std::shared_ptr < Test_receiver < int > > test_receiver = std::make_shared < Test_receiver < int > > ();
@@ -71,7 +71,7 @@ TEST ( engineEventsBroadcaster, subscribeOnReceive )
     EXPECT_EQ ( test_receiver->result, 2 );
 }
 
-TEST ( engineEventsBroadcaster, sendOnReceive )
+TEST ( BroadcasterTest, SendOnReceiveTest )
 {
     Broadcaster < int > test_broadcaster;
 
@@ -99,7 +99,7 @@ TEST ( engineEventsBroadcaster, sendOnReceive )
     test_broadcaster.receive ( 1 );
 }
 
-TEST ( engineEventsBroadcaster, unsubscribeOverReceive )
+TEST ( BroadcasterTest, UnsubscribeOverReceiveTest )
 {
     Broadcaster < int > test_broadcaster;
 
@@ -117,7 +117,7 @@ TEST ( engineEventsBroadcaster, unsubscribeOverReceive )
     EXPECT_EQ ( result, 1 );
 }
 
-TEST ( engineEventsBroadcaster, subscribeOverReceive )
+TEST ( BroadcasterTest, SubscribeOverReceiveTest )
 {
     Broadcaster < int > test_broadcaster;
     std::shared_ptr < Test_receiver < int > > test_receiver = std::make_shared < Test_receiver < int > > ();
@@ -139,7 +139,7 @@ TEST ( engineEventsBroadcaster, subscribeOverReceive )
     EXPECT_EQ ( test_receiver->result, 2 );
 }
 
-TEST ( engineEventsBroadcaster, duplicateSubscription )
+TEST ( BroadcasterTest, DuplicateSubscriptionTest )
 {
     Broadcaster < int > test_broadcaster;
 
@@ -156,7 +156,7 @@ TEST ( engineEventsBroadcaster, duplicateSubscription )
     EXPECT_EQ ( access_count, 1 );
 }
 
-TEST ( engineEventsBroadcaster, correctReceivingOrder )
+TEST ( BroadcasterTest, CorrectReceivingOrderTest )
 {
     Broadcaster < int > test_broadcaster;
 

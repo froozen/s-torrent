@@ -47,7 +47,7 @@ namespace ncurses
             if ( windows.size () != 0 )
             {
                 // Indexes in elements correspond to indexes in windows
-                for ( int i = 0; i < elements.size (); i++ )
+                for ( size_t i = 0; i < elements.size (); i++ )
                 {
                     elements.at ( i )->update ( key, windows.at ( i ) );
                 }
@@ -132,7 +132,7 @@ namespace ncurses
         std::vector < std::shared_ptr < Window_dummy > > basic_dummies;
         int no_preference_length = generate_no_preference_length ( resize_data );
 
-        for ( int i = 0; i < resize_data.elements->size (); i++ )
+        for ( size_t i = 0; i < resize_data.elements->size (); i++ )
         {
             std::shared_ptr < Window_dummy > next_window_dummy = std::make_shared < Window_dummy > ();
 
@@ -168,7 +168,7 @@ namespace ncurses
         if ( resize_data.already_used_length > orientation->get_primary_length ( resize_data.window ) )
         {
             // If there isn't evene enough space to show every single element, delete the window_dummies
-            if ( orientation->get_primary_length( resize_data.window ) < resize_data.elements->size () )
+            if ( static_cast < size_t > ( orientation->get_primary_length( resize_data.window ) ) < resize_data.elements->size () )
                 window_dummies.clear ();
 
             for ( auto it = window_dummies.begin (); it != window_dummies.end (); it++ )
@@ -206,7 +206,7 @@ namespace ncurses
     {
         if ( !window_dummies.empty () )
         {
-            int index = 0;
+            size_t index = 0;
             // While there still is length to distribute
             while ( resize_data.already_used_length < orientation->get_primary_length ( resize_data.window ) )
             {
@@ -227,7 +227,7 @@ namespace ncurses
                     resize_data.already_used_length++;
 
                     // Shift all windows after this one by one
-                    for ( int i = index + 1; i < window_dummies.size (); i++ )
+                    for ( size_t i = index + 1; i < window_dummies.size (); i++ )
                     {
                         orientation->set_primary_coordinate ( window_dummies.at ( i ),
                             orientation->get_primary_coordinate ( window_dummies.at ( i ) ) + 1 );

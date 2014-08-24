@@ -4,8 +4,8 @@
 #include <jsoncpp/json/json.h>
 #include <memory>
 #include <string>
-#include "configuration_element.h"
-#include "configuration_list_element.h"
+#include "json_element.h"
+#include "json_list_element.h"
 
 namespace utils
 {
@@ -14,8 +14,10 @@ namespace utils
     class Configuration
     {
         public:
-            static std::shared_ptr < Configuration_element > get_root ();
+            // Get root Configuration_element
+            static std::shared_ptr < Json_element > get_root ();
 
+            // Save and load from and to file
             static void save ();
             static void load ( std::string path );
 

@@ -58,7 +58,7 @@ namespace ncurses
             wattron ( window, COLOR_PAIR ( get_color_id () ) );
         }
         else
-            throw std::runtime_error ( "ncurses::Window::set_fg_color: Bad Argument! fg_color out of range [ -1 | 7 ]" );
+            throw std::runtime_error ( "Error in ncurses::Window::set_fg_color : Bad Argument! fg_color out of range [ -1 | 7 ]" );
     }
 
     void Window::set_bg_color ( int bg_color )
@@ -69,7 +69,7 @@ namespace ncurses
             wattron ( window, COLOR_PAIR ( get_color_id () ) );
         }
         else
-            throw std::runtime_error ( "ncurses::Window::set_bg_color: Bad Argument! bg_color out of range [ -1 | 7 ]" );
+            throw std::runtime_error ( "Error in ncurses::Window::set_bg_color : Bad Argument! bg_color out of range [ -1 | 7 ]" );
     }
 
     int Window::get_color_id () const
@@ -81,7 +81,7 @@ namespace ncurses
     void Window::set_color ( int color_id )
     {
        if ( color_id > 74 || color_id < 1 )
-           throw std::runtime_error ( "ncurses::Window::set_color: Bad argument! color_id > 73" );
+           throw std::runtime_error ( "Error in ncurses::Window::set_color : Bad argument! color_id > 73" );
 
        fg_color = ( color_id - 2 ) % 8;
        bg_color = ( ( ( color_id - 2 ) - fg_color ) ) / 8 - 1;
