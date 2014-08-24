@@ -25,7 +25,7 @@ namespace events
 
             // Make the Connection_receiver received Send_message_events
             // We want to make sure that sure filter actually exists
-            Hub::create_filter ( "send_message", "Send_message_event" ).subscribe ( receiver );
+            Hub::get_filter ( "Send_message_event" ).subscribe ( receiver );
             receiver->start ();
 
             // Send event to notify others

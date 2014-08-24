@@ -13,9 +13,7 @@ namespace events
     class Hub
     {
         public:
-            // Create a filter that filters via regex on Event::get_type
-            static Filter_node < std::shared_ptr < Event > >& create_filter ( std::string identifier, std::string regex );
-            static Filter_node < std::shared_ptr < Event > >& get_filter ( std::string identifier );
+            static Filter_node < std::shared_ptr < Event > >& get_filter ( std::string regex );
             // Send event
             static void send ( std::shared_ptr < Event > event );
 
