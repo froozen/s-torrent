@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <string.h>
+#include <errno.h>
 
 #include <sstream>
 #include <stdexcept>
@@ -20,13 +21,13 @@ namespace sockets
         // Create a socket on the internet using the tcp
         socket_address = socket(AF_INET, SOCK_STREAM, 0);
         if ( socket_address < 0 )
-            throw std::runtime_error ( "Error in sockets::Client_socket::Client_socket : Couldn't open socket" );
+            error ( "Client_socket : Couldn't open socket" );
 
 
         // Resolve server
         resolved_server = gethostbyname ( address.c_str () );
         if ( resolved_server == NULL )
-            throw std::runtime_error ( "Error in sockets::Client_socket::Client_socket : Host not found: \"" + address + "\"" );
+            error ( "Client_socket : Host not found: \"" + address + "\"" );
 
         // Empty server_address
         bzero ( ( char* ) &server_address, sizeof ( server_address ) );
@@ -41,12 +42,12 @@ namespace sockets
         int yes = 1;
         int success = setsockopt ( socket_address, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof ( int ) );
         if ( success < 0 )
-            throw std::runtime_error ( "Error in sockets::Client_socket::Client_socket : setsockopt failed" );
+            error ( "Client_socket : setsockopt failed" );
 
         // server_address has to be converted to sockaddr* from sockadd_in
         success = connect ( socket_address, ( struct sockaddr* ) &server_address, sizeof ( server_address ) );
         if ( success < 0 )
-            throw std::runtime_error ( "Error in sockets::Client_socket::Client_socket : Connecting failed");
+            error ( "Client_socket : Connecting failed");
     }
 
     Client_socket::Client_socket ( int socket_address ) :
@@ -61,9 +62,9 @@ namespace sockets
             char buffer [ 1024 ];
             int success = read ( socket_address, buffer, sizeof ( buffer ) - 1 );
             if ( success < 0 )
-                throw std::runtime_error ( "Error in sockets::Client_socket::read_line : Reading from socket failed");
+                error ( "read_line : Reading from socket failed");
             else if ( success == 0 )
-                throw std::runtime_error ( "Error in sockets::Client_socket::read_line : Connection closed");
+                error ( "read_line : Connection closed");
 
             // Create actual string from vector
             std::string data_string ( buffer, strlen ( buffer ) );
@@ -105,13 +106,18 @@ namespace sockets
         message += "\n";
         int success = write ( socket_address, message.c_str (), message.size () );
         if ( success < 0 )
-            throw std::runtime_error ( "Error in sockets::Client_socket::send : Sending over socket failed");
+            error ( "send : Sending over socket failed");
     }
 
     void Client_socket::shutdown ()
     {
         int success = close ( socket_address );
         if ( success < 0 )
-            throw std::runtime_error ( "Error in sockets::Client_socket::shutdown : Shutting socket down failed");
+            error ( "shutdown : Shutting socket down failed" );
+    }
+
+    void Client_socket::error ( std::string message )
+    {
+        throw std::runtime_error ( "Error in sockets::Client_socket::" + message + " ( " + strerror ( errno ) + " )" );
     }
 }

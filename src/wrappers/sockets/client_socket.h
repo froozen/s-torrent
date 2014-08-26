@@ -26,6 +26,7 @@ namespace sockets
 
         private:
             int socket_address;
+            void error ( std::string message );
 
             // Attributes for Client_socket::read_line
             std::deque < std::string > next_lines;

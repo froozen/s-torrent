@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <string.h>
+#include <errno.h>
 
 #include <stdexcept>
 
@@ -18,7 +19,7 @@ namespace sockets
         // Create a socket on the internet using the tcp
         socket_address = socket ( AF_INET, SOCK_STREAM, 0 );
         if ( socket_address < 0 )
-            throw std::runtime_error ( "Error in sockets::Server_socket::Server_socket : Couldn't open socket" );
+            error ( "Server_socket : Couldn't open socket" );
 
         // Empty server_address
         bzero ( ( char* ) &server_address, sizeof ( server_address ) );
@@ -33,12 +34,12 @@ namespace sockets
         int yes = 1;
         int success = setsockopt ( socket_address, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof ( int ) );
         if ( success < 0 )
-            throw std::runtime_error ( "Error in sockets::Server_socket::Server_socket : setsockopt failed" );
+            error ( "Server_socket : setsockopt failed" );
 
         // server_address has to be converted to sockaddr* from sockadd_in
         success = bind ( socket_address, ( struct sockaddr* ) &server_address, sizeof ( server_address ) );
         if ( success < 0 )
-            throw std::runtime_error ( "Error in sockets::Server_socket::Server_socket : Binding failed" );
+            error ( "Server_socket : Binding failed" );
 
         // Listen with a maximum backlog queue size of 5 ( seems to be standard )
         listen ( socket_address, 5 );
@@ -50,7 +51,7 @@ namespace sockets
         unsigned int client_address_size = sizeof ( client_address );
         int client_socket = accept ( socket_address, ( struct sockaddr* ) &client_address, &client_address_size );
         if ( client_socket < 0 )
-            throw std::runtime_error ( "Error in sockets::Server_socket::next_socket : Accepting failed" );
+            error ( "next_socket : Accepting failed" );
 
         return Client_socket ( client_socket );
     }
@@ -60,7 +61,12 @@ namespace sockets
         int success = close ( socket_address );
         if ( success < 0 )
         {
-            throw std::runtime_error ( "Error in sockets::Server_socket::shutdown : Shutting socket down failed");
+            error ( "shutdown : Shutting socket down failed");
         }
+    }
+
+    void Server_socket::error ( std::string message )
+    {
+        throw std::runtime_error ( "Error in sockets::Server_socket::" + message + " ( " + strerror ( errno ) + " )" );
     }
 }

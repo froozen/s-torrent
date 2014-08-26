@@ -20,6 +20,7 @@ namespace sockets
 
         private:
             int socket_address;
+            void error ( std::string message );
     };
 }
 
