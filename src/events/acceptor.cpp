@@ -7,6 +7,7 @@
 namespace events
 {
     Acceptor::Acceptor ( int port, std::string service ) :
+        listening ( true ),
         port ( port ),
         service ( service ),
         socket ( std::make_shared < sockets::Server_socket > ( port ) ),
@@ -17,7 +18,7 @@ namespace events
 
     void Acceptor::do_accept ()
     {
-        while ( true )
+        while ( listening )
         {
             // Accept and create Connection_receiver
             sockets::Client_socket client = socket->next_socket ();
@@ -33,10 +34,21 @@ namespace events
                 std::make_shared < Connection_accepted_event > ( receiver.get (), port, service );
             Hub::send ( event );
         }
+        socket->shutdown ();
     }
 
     int Acceptor::get_port () const
     {
         return port;
+    }
+
+    void Acceptor::stop ()
+    {
+        if ( listening )
+        {
+            listening = false;
+            sockets::Client_socket s ( "localhost", port );
+            s.shutdown ();
+        }
     }
 }

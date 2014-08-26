@@ -16,12 +16,14 @@ namespace events
             Acceptor ( int port, std::string service );
 
             int get_port () const;
+            void stop ();
 
             virtual ~Acceptor () = default;
 
         private:
             void do_accept ();
 
+            bool listening;
             int port;
             std::string service;
             std::shared_ptr < sockets::Server_socket > socket;

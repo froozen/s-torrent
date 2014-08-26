@@ -13,6 +13,7 @@ namespace events
     {
         public:
             static void accept ( int port, std::string service );
+            static void stop ( std::string service );
 
         private:
             Acceptor_hub () = default;
