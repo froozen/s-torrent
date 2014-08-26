@@ -1,7 +1,7 @@
 #ifndef ACCEPTORS_GUARD
 #define ACCEPTORS_GUARD
 
-#include "wrappers/asio/server_socket.h"
+#include "wrappers/sockets/server_socket.h"
 
 #include <string>
 #include <thread>

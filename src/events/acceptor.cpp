@@ -1,5 +1,5 @@
 #include "acceptor.h"
-#include "wrappers/asio/client_socket.h"
+#include "wrappers/sockets/client_socket.h"
 #include "connection_receiver.h"
 #include "hub.h"
 #include "events.h"
@@ -20,7 +20,7 @@ namespace events
         while ( true )
         {
             // Accept and create Connection_receiver
-            sockets::Client_socket client = socket->accept ();
+            sockets::Client_socket client = socket->next_socket ();
             std::shared_ptr < Connection_receiver > receiver = std::make_shared < Connection_receiver > ( std::move ( client ) );
 
             // Make the Connection_receiver received Send_message_events

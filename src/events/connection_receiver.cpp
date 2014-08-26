@@ -6,14 +6,9 @@
 
 namespace events
 {
-    Connection_receiver::Connection_receiver ( std::string address, std::string service ) :
-        connection ( std::unique_ptr < sockets::Client_socket > ( new sockets::Client_socket ( address, service ) ) ),
-        connected ( true )
-    {}
-
-    // This is just for convenience
     Connection_receiver::Connection_receiver ( std::string address, int port ) :
-        Connection_receiver ( address, std::to_string ( port ) )
+        connection ( std::unique_ptr < sockets::Client_socket > ( new sockets::Client_socket ( address, port ) ) ),
+        connected ( true )
     {}
 
     Connection_receiver::Connection_receiver ( sockets::Client_socket&& socket ) :
@@ -49,10 +44,10 @@ namespace events
     {
         if ( connected )
         {
+            connected = false;
             std::shared_ptr < Event > event = std::make_shared < Connection_closed_event > ( this );
             Hub::send ( event );
-            connection->close ();
-            connected = false;
+            connection->shutdown ();
         }
     }
 
@@ -65,5 +60,10 @@ namespace events
             if ( actual_event->get_target () == this )
                 connection->send ( actual_event->get_message () );
         }
+    }
+
+    Connection_receiver::~Connection_receiver ()
+    {
+        disconnect ();
     }
 }

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "wrappers/asio/client_socket.h"
+#include "wrappers/sockets/client_socket.h"
 #include "events/acceptor_hub.h"
 #include "events/lambda_receiver.hpp"
 #include "events/events.h"
@@ -26,9 +26,11 @@ TEST ( AcceptorHubTest, GeneralTest )
     events::Hub::get_filter ( "Connection_accepted_event" ).subscribe ( acceptor_receiver );
     events::Acceptor_hub::accept ( 12344, "AcceptorHubTest" );
 
-    sockets::Client_socket c ( "127.0.0.1", "12344" );
+    sockets::Client_socket c ( "127.0.0.1", 12344 );
     std::this_thread::sleep_for ( std::chrono::microseconds ( 50 ) );
     EXPECT_TRUE ( accepted );
+
+    c.shutdown ();
 }
 
 TEST ( AcceptorHubTest, DoubleCreateTest )

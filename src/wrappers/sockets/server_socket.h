@@ -1,7 +1,6 @@
 #ifndef SERVERSOCKET_GUARD
 #define SERVERSOCKET_GUARD
 
-#include <boost/asio.hpp>
 #include <string>
 #include <memory>
 
@@ -14,13 +13,13 @@ namespace sockets
         public:
             Server_socket ( int port );
 
-            Client_socket accept ();
+            Client_socket next_socket ();
+            void shutdown ();
 
             virtual ~Server_socket () = default;
 
         private:
-            std::shared_ptr < boost::asio::io_service > io_service;
-            boost::asio::ip::tcp::acceptor acceptor;
+            int socket_address;
     };
 }
 
