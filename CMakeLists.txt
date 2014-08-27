@@ -30,4 +30,4 @@ target_link_libraries ( s-torrent ncurses_wrapper core )
 
 set ( S-TORRENT_SERVER_SRC ${CMAKE_SOURCE_DIR}/src/server_main.cpp )
 add_executable ( s-torrent-server ${S-TORRENT_SERVER_SRC} )
-target_link_libraries ( s-torrent-server core events )
+target_link_libraries ( s-torrent-server core events torrent )

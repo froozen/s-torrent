@@ -7,21 +7,11 @@ int main()
 {
     sockets::Client_socket connection ( "127.0.0.1", 31005 );
     utils::Json_element introduction;
-    introduction.set_string ( "name", "client" );
+    std::string url = "https://www.archlinux.org/releng/releases/2014.08.01/torrent/";
+    introduction.set_string ( "url", url );
     connection.send ( introduction.to_small_string () );
 
-    while ( true )
-    {
-        std::string line = connection.read_line ();
-        try
-        {
-            utils::Json_element message ( line );
-            std::cout << "The answer is: " + message.get_string ( "answer" ) << std::endl;
-        }
-        catch ( std::runtime_error& e )
-        {
-            std::cout << "Failed to parse json: " + line << std::endl;
-        }
-    }
+    std::cout << "Added torrent: " + url << std::endl;
+
     return 0;
 }
