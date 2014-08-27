@@ -35,11 +35,15 @@ TEST ( SocketsTest, GeneralTest )
         EXPECT_EQ ( lines [ i ], client.read_line () );
     }
 
+    // Send an empty line
+    client.send ( "" );
+
     // There should be a throw upon reading on a disconnected socket
     server.shutdown ();
     client.shutdown ();
     accepted.shutdown ();
 
+    // The empty line shouldn't be read here
     EXPECT_THROW ( accepted.read_line (), std::runtime_error );
 
     // Connect to a ( hopefully ) noexistant host

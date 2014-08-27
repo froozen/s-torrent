@@ -1,0 +1,19 @@
+#include "event_system.h"
+
+#include "events/hub.h"
+#include "receivers/event_converter.h"
+#include "receivers/add_torrent_receiver.h"
+
+#include <memory>
+
+namespace torrent
+{
+    void Event_system::initialize ()
+    {
+        auto event_converter = std::make_shared < torrent::Event_converter > ();
+        events::Hub::get_filter ( "Read_line_event" ).subscribe ( event_converter );
+
+        auto add_torrent_receiver = std::make_shared < torrent::Add_torrent_receiver > ();
+        events::Hub::get_filter ( "Add_torrent_event" ).subscribe ( add_torrent_receiver );
+    }
+}
