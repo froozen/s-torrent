@@ -50,6 +50,26 @@ TEST_F ( JsonListElementTest, ReadingTest )
     EXPECT_EQ ( 1, sub_element->get_int ( "value" ) );
 }
 
+TEST_F ( JsonListElementTest, AppendingTest )
+{
+    config->append_int ( 124 );
+    config->append_double ( 3.14 );
+    config->append_bool ( true );
+    config->append_string ( "appended string" );
+
+    utils::Json_element element;
+    element.set_string ( "result", "success" );
+    config->append_element ( element );
+
+    EXPECT_EQ ( 124, config->get_int ( 5 ) );
+    EXPECT_EQ ( 3.14, config->get_double ( 6 ) );
+    EXPECT_EQ ( true, config->get_bool ( 7 ) );
+    EXPECT_EQ ( "appended string", config->get_string ( 8 ) );
+
+    std::shared_ptr < utils::Json_element > sub_element = config->get_element ( 9 );
+    EXPECT_EQ ( "success", sub_element->get_string ( "result" ) );
+}
+
 TEST_F ( JsonListElementTest, FailedValuesTest )
 {
     EXPECT_EQ ( -1, config->get_int ( 3 ) );
@@ -108,4 +128,9 @@ TEST_F ( JsonListElementTest, DeathTest )
     not_an_array = 1;
     Json::Value* ptr = &not_an_array;
     EXPECT_THROW ( utils::Json_element c = utils::Json_element ( ptr ), std::runtime_error );
+}
+
+TEST_F ( JsonListElementTest, SizeTest )
+{
+    EXPECT_EQ ( 5, config->size () );
 }

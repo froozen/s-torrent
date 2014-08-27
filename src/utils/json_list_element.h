@@ -21,6 +21,8 @@ namespace utils
             std::string to_formatted_string ();
             std::string to_small_string ();
 
+            int size ();
+
             bool get_bool ( int identifier ) const;
             int get_int ( int identifier ) const;
             std::string get_string ( int identifier ) const;
@@ -36,6 +38,14 @@ namespace utils
             void set_size_t ( int identifier, size_t new_value );
             void set_element ( int identifier, const Json_element& new_value );
             void set_list_element ( int identifier, const Json_list_element& new_value );
+
+            void append_bool ( bool new_value );
+            void append_int  ( int new_value );
+            void append_string ( std::string new_value );
+            void append_double ( double new_value );
+            void append_size_t ( size_t new_value );
+            void append_element ( const Json_element& new_value );
+            void append_list_element ( const Json_list_element& new_value );
 
             virtual ~Json_list_element ();
 
