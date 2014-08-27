@@ -95,10 +95,18 @@ namespace sockets
             }
         }
 
-         // Return next line
-         std::string line = next_lines.front ();
-         next_lines.pop_front ();
-         return line;
+        // Return next line
+        while ( !next_lines.empty () && next_lines.front () == "" )
+            next_lines.pop_front ();
+
+        if ( !next_lines.empty () )
+        {
+            std::string line = next_lines.front ();
+            next_lines.pop_front ();
+            return line;
+        }
+        else
+            return read_line ();
      }
 
     void Client_socket::send ( std::string message )
