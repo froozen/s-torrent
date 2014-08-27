@@ -9,6 +9,7 @@ int main()
     utils::Json_element introduction;
     std::string url = "https://www.archlinux.org/releng/releases/2014.08.01/torrent/";
     introduction.set_string ( "url", url );
+    introduction.set_string ( "type", "Add_torrent_event" );
     connection.send ( introduction.to_small_string () );
 
     std::cout << "Added torrent: " + url << std::endl;
