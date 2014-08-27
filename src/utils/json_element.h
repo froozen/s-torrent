@@ -25,6 +25,7 @@ namespace utils
             int get_int ( std::string identifier ) const;
             std::string get_string ( std::string identifier ) const;
             double get_double ( std::string identifier ) const;
+            size_t get_size_t ( std::string identifier ) const;
             std::shared_ptr < Json_element > get_element ( std::string identifier ) const;
             std::shared_ptr < Json_list_element > get_list_element ( std::string identifier ) const;
 
@@ -32,6 +33,7 @@ namespace utils
             void set_int  ( std::string identifier, int new_value );
             void set_string ( std::string identifier, std::string new_value );
             void set_double ( std::string identifier, double new_value );
+            void set_size_t ( std::string identifier, size_t new_value );
             void set_element ( std::string identifier, const Json_element& new_value );
             void set_list_element ( std::string identifier, const Json_list_element& new_value );
 
@@ -45,6 +47,7 @@ namespace utils
             const int           DEFAULT_INT     = -1;
             const std::string   DEFAULT_STRING  = "None";
             const double        DEFAULT_DOUBLE  = -1;
+            const size_t        DEFAULT_SIZE_T  = 0;
 
             Json::Value* value;
             bool own;

@@ -97,6 +97,14 @@ namespace utils
             return DEFAULT_DOUBLE;
     }
 
+    size_t Json_element::get_size_t ( std::string identifier ) const
+    {
+        if ( ( *value ) [ identifier ].isUInt () )
+            return ( *value ) [ identifier ].asUInt ();
+        else
+            return DEFAULT_SIZE_T;
+    }
+
     std::shared_ptr < Json_element > Json_element::get_element ( std::string identifier ) const
     {
         if ( ( *value ) [ identifier ].isObject () )
@@ -134,6 +142,11 @@ namespace utils
     void Json_element::set_double ( std::string identifier, double new_value )
     {
         ( *value ) [ identifier ] = new_value;
+    }
+
+    void Json_element::set_size_t ( std::string identifier, size_t new_value )
+    {
+        ( *value ) [ identifier ] = ( unsigned int ) new_value;
     }
 
     void Json_element::set_element ( std::string identifier, const Json_element& new_value )
