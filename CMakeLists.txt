@@ -22,7 +22,7 @@ add_subdirectory ( ${CMAKE_SOURCE_DIR}/src )
 add_subdirectory ( ${CMAKE_SOURCE_DIR}/tests )
 
 add_library ( core )
-target_link_libraries ( core asio_wrapper utils )
+target_link_libraries ( core sockets utils )
 
 set ( S-TORRENT_EXECUTABLE_SRC ${CMAKE_SOURCE_DIR}/src/main.cpp )
 add_executable ( s-torrent ${S-TORRENT_EXECUTABLE_SRC} )

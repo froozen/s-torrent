@@ -1,7 +1,7 @@
 #ifndef CONNECTION_RECEIVER_GUARD
 #define CONNECTION_RECEIVER_GUARD
 
-#include "wrappers/asio/client_socket.h"
+#include "wrappers/sockets/client_socket.h"
 #include "event_types/event.h"
 #include "receiver.h"
 
@@ -14,7 +14,6 @@ namespace events
     class Connection_receiver : public Receiver < std::shared_ptr < Event > >
     {
         public:
-            Connection_receiver ( std::string address, std::string service );
             Connection_receiver ( std::string address, int port );
             Connection_receiver ( sockets::Client_socket&& socket );
 
@@ -23,7 +22,7 @@ namespace events
             void listen_on_socket ();
             void disconnect ();
 
-            virtual ~Connection_receiver () = default;
+            virtual ~Connection_receiver ();
 
         private:
             std::unique_ptr < sockets::Client_socket > connection;

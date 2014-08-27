@@ -1,5 +1,5 @@
 #include "acceptor_hub.h"
-#include "wrappers/asio/client_socket.h"
+#include "wrappers/sockets/client_socket.h"
 
 #include <stdexcept>
 
@@ -18,5 +18,15 @@ namespace events
         {
             throw std::runtime_error ( "Error in events::Acceptor_hub::accept : service \"" + service + "\" already exists" );
         }
+    }
+
+    void Acceptor_hub::stop ( std::string service )
+    {
+        if ( acceptors.find ( service ) != acceptors.end () )
+        {
+            acceptors.at ( service )->stop ();
+        }
+        else
+            throw std::runtime_error ( "Error in events::Acceptor_hub::stop : service \"" + service + "\" doesn't exist" );
     }
 }

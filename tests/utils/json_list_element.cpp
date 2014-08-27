@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <fstream>
 #include "utils/configuration.h"
-#include <iostream>
 
 class JsonListElementTest : public testing::Test
 {

@@ -3,8 +3,8 @@
 #include "events/connection_receiver.h"
 #include "events/lambda_receiver.hpp"
 #include "events/events.h"
-#include "wrappers/asio/server_socket.h"
-#include "wrappers/asio/client_socket.h"
+#include "wrappers/sockets/server_socket.h"
+#include "wrappers/sockets/client_socket.h"
 
 #include <memory>
 #include <vector>
@@ -25,12 +25,11 @@ TEST ( ConnectionReceiverTest, GeneralTest )
     sockets::Server_socket server ( 12345 );
     events::Connection_receiver receiver ( "127.0.0.1", 12345 );
     receiver.start ();
-    sockets::Client_socket connection = server.accept ();
+    sockets::Client_socket connection = server.next_socket ();
     for ( int i = 0; i < 10; i++ )
     {
         connection.send ( std::to_string ( i ) );
     }
-    connection.close ();
 
     // We need to wait a little bit, so we don't get an ugly segfault
     std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
@@ -40,6 +39,9 @@ TEST ( ConnectionReceiverTest, GeneralTest )
         EXPECT_EQ ( std::to_string ( i ), received );
         received_strings.pop_back ();
     }
+
+    connection.shutdown ();
+    server.shutdown ();
 }
 
 TEST ( ConnectionReceiverTest, SendTest )
@@ -48,7 +50,7 @@ TEST ( ConnectionReceiverTest, SendTest )
     std::shared_ptr < events::Connection_receiver > receiver = std::make_shared < events::Connection_receiver > ( "127.0.0.1", 12345 );
     events::Hub::get_filter ( "Send_message_event" ).subscribe ( receiver );
     receiver->start ();
-    sockets::Client_socket connection = server.accept ();
+    sockets::Client_socket connection = server.next_socket ();
 
     std::shared_ptr < events::Event > event = std::make_shared < events::Send_message_event >
         ( "ConnectionReceiverTest -- sendTest", receiver.get () );
@@ -59,4 +61,7 @@ TEST ( ConnectionReceiverTest, SendTest )
     std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
     std::string received = connection.read_line ();
     EXPECT_EQ ( "ConnectionReceiverTest -- sendTest", received );
+
+    connection.shutdown ();
+    server.shutdown ();
 }
