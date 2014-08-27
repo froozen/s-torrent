@@ -13,6 +13,7 @@
 
 #include "torrent/session.h"
 #include "torrent/event_system.h"
+#include "torrent/torrent_data_to_json.h"
 
 void setup ()
 {
@@ -36,6 +37,7 @@ int main ()
                 std::cout << torrent.name () << std::endl;
                 std::cout << "Down: " << ( status.download_payload_rate / 1000 ) << " KiB " <<
                    "Up: " << ( status.upload_payload_rate / 1000 ) << " KiB" <<  std::endl << std::endl;
+                std::cout << "\n" << torrent::to_json ( torrent ).to_formatted_string () << std::endl;
             }
         }
 
