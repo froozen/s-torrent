@@ -29,19 +29,15 @@ int main ()
     while ( true )
     {
         std::vector < libtorrent::torrent_handle > torrents = torrent::Session::get_torrents ();
-        if ( !torrents.empty () )
+        for ( auto torrent : torrents )
         {
-            for ( auto torrent : torrents )
-            {
-                libtorrent::torrent_status status = torrent.status ();
-                std::cout << torrent.name () << std::endl;
-                std::cout << "Down: " << ( status.download_payload_rate / 1000 ) << " KiB " <<
-                   "Up: " << ( status.upload_payload_rate / 1000 ) << " KiB" <<  std::endl << std::endl;
-                std::cout << "\n" << torrent::to_json ( torrent ).to_formatted_string () << std::endl;
-            }
+            libtorrent::torrent_status status = torrent.status ();
+            std::cout << torrent.name () << std::endl;
+            std::cout << "Down: " << ( status.download_payload_rate / 1000 ) << " KiB " <<
+               "Up: " << ( status.upload_payload_rate / 1000 ) << " KiB" << std::endl << std::endl;
         }
 
-        else
+        if ( torrents.empty () )
             std::cout << "No torrents..." << std::endl;
 
         std::this_thread::sleep_for ( std::chrono::seconds ( 5 ) );

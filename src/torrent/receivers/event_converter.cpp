@@ -4,8 +4,6 @@
 #include "utils/json_element.h"
 #include "torrent/events/events.h"
 
-#include <iostream>
-
 namespace torrent
 {
     void Event_converter::receive ( std::shared_ptr < events::Event > event )
@@ -23,6 +21,8 @@ namespace torrent
                 {
                     if ( type == "Add_torrent_event" )
                         converted = std::make_shared < Add_torrent_event > ( json, read_line_event->get_origin () );
+                    else if ( type == "Torrent_data_requested_event" )
+                        converted = std::make_shared < Torrent_data_requested_event > ( json, read_line_event->get_origin () );
                 }
 
                 if ( converted.get () != nullptr )
