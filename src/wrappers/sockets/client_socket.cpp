@@ -65,6 +65,7 @@ namespace sockets
                 error ( "read_line : Reading from socket failed");
             else if ( success == 0 )
                 error ( "read_line : Connection closed");
+            buffer [ success ] = '\0';
 
             // Create actual string from vector
             std::string data_string ( buffer, strlen ( buffer ) );
