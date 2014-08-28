@@ -30,7 +30,7 @@ int main()
         for ( int i = 0; i < torrents->size (); i++ )
         {
             std::shared_ptr < utils::Json_element > torrent = torrents->get_element ( i );
-            std::cout << torrent->get_string ( "name" ) << std::endl;
+            std::cout << "[ " << torrent->get_string ( "state" ) << " ] " <<  torrent->get_string ( "name" ) << std::endl;
             std::cout << "Download: " <<  ( torrent->get_int ( "download_payload_rate" ) / 1000 ) << " KiB"
                << " Upload: " << ( torrent->get_int ( "upload_payload_rate" ) / 1000 ) << " KiB [ " <<
                std::fixed << std::setprecision ( 2 ) << torrent->get_double ( "progress" ) * 100 << "% ]"

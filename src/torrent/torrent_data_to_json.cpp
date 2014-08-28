@@ -35,6 +35,23 @@ namespace torrent
         json.set_int ( "num_incomplete", status.num_incomplete );
         json.set_bool ( "paused", status.paused );
 
+        if ( status.state == libtorrent::torrent_status::state_t::queued_for_checking )
+            json.set_string ( "state", "queued_for_checking" );
+        else if ( status.state == libtorrent::torrent_status::state_t::checking_files )
+            json.set_string ( "state", "checking_files" );
+        else if ( status.state == libtorrent::torrent_status::state_t::downloading_metadata )
+            json.set_string ( "state", "downloading_metadata" );
+        else if ( status.state == libtorrent::torrent_status::state_t::downloading )
+            json.set_string ( "state", "downloading" );
+        else if ( status.state == libtorrent::torrent_status::state_t::finished )
+            json.set_string ( "state", "finished" );
+        else if ( status.state == libtorrent::torrent_status::state_t::seeding )
+            json.set_string ( "state", "seeding" );
+        else if ( status.state == libtorrent::torrent_status::state_t::allocating )
+            json.set_string ( "state", "allocating" );
+        else if ( status.state == libtorrent::torrent_status::state_t::checking_resume_data )
+            json.set_string ( "state", "checking_resume_data" );
+
         return json;
     }
 }
