@@ -27,7 +27,7 @@ namespace torrent
 
             auto torrent_data_requested_event = std::dynamic_pointer_cast < Torrent_data_requested_event > ( event );
             utils::Json_element event_json;
-            event_json.set_string ( "type", "Torrent_data_returned_event" );
+            event_json.set_string ( "type", "Torrent_data_received_event" );
             event_json.set_list_element ( "torrent_data", json_torrents );
             auto send_message_event = std::make_shared < events::Send_message_event >
                 ( event_json.to_small_string (), torrent_data_requested_event->get_origin () );
