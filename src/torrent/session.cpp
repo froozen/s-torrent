@@ -3,8 +3,6 @@
 #include "session.h"
 #include <utility>
 
-#include <iostream>
-
 namespace torrent
 {
     std::unique_ptr < Session > Session::instance;

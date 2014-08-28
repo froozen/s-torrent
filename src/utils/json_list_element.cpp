@@ -64,6 +64,11 @@ namespace utils
         return writer.write ( *value );
     }
 
+    int Json_list_element::size ()
+    {
+        return value->size ();
+    }
+
     // Getters
     bool Json_list_element::get_bool ( int identifier ) const
     {
@@ -95,6 +100,14 @@ namespace utils
             return ( *value ) [ identifier ].asDouble ();
         else
             return DEFAULT_DOUBLE;
+    }
+
+    size_t Json_list_element::get_size_t ( int identifier ) const
+    {
+        if ( ( *value ) [ identifier ].isUInt () )
+            return ( *value ) [ identifier ].asUInt ();
+        else
+            return DEFAULT_SIZE_T;
     }
 
     std::shared_ptr < Json_element > Json_list_element::get_element ( int identifier ) const
@@ -136,6 +149,11 @@ namespace utils
         ( *value ) [ identifier ] = new_value;
     }
 
+    void Json_list_element::set_size_t ( int identifier, size_t new_value )
+    {
+        ( *value ) [ identifier ] = ( unsigned int ) new_value;
+    }
+
     void Json_list_element::set_element ( int identifier, const Json_element& new_value )
     {
         ( *value ) [ identifier ] = *new_value.value;
@@ -145,4 +163,40 @@ namespace utils
     {
         ( *value ) [ identifier ] = *new_value.value;
     }
+
+    void Json_list_element::append_bool ( bool new_value )
+    {
+        value->append ( new_value );
+    }
+
+    void Json_list_element::append_int ( int new_value )
+    {
+        value->append ( new_value );
+    }
+
+    void Json_list_element::append_string ( std::string new_value )
+    {
+        value->append ( new_value );
+    }
+
+    void Json_list_element::append_double ( double new_value )
+    {
+        value->append ( new_value );
+    }
+
+    void Json_list_element::append_size_t ( size_t new_value )
+    {
+        value->append ( ( unsigned int ) new_value );
+    }
+
+    void Json_list_element::append_element ( const Json_element& new_value )
+    {
+        value->append ( * ( new_value.value ) );
+    }
+
+    void Json_list_element::append_list_element ( const Json_list_element& new_value )
+    {
+        value->append ( * ( new_value.value ) );
+    }
+
 }
