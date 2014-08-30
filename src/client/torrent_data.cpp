@@ -50,7 +50,7 @@ namespace client
             if ( d != 0 ) preceding = std::log10 ( d ) + 1;
             else preceding = 1;
 
-            std::cout << std::to_string ( d ) + " " + std::to_string ( preceding ) << std::endl;
+            // std::cout << std::to_string ( d ) + " " + std::to_string ( preceding ) << std::endl;
             std::string truncated = std::to_string ( d );
             truncated = std::string ( truncated.begin (), truncated.begin () + preceding + 1 + decimals );
 
@@ -71,7 +71,7 @@ namespace client
 
         std::string Torrent_data::get_transfer_speed ( std::string identifier, int decimals ) const
         {
-            double speed = get_double ( identifier );
+            double speed = get_int ( identifier );
             if ( speed > 1000000000 )
                 return truncate_double ( speed / 1000000000, decimals ) + " GiB/s";
             else if ( speed > 1000000 )
@@ -95,10 +95,63 @@ namespace client
                 return truncate_double ( size, decimals ) + "  B";
         }
 
+        std::string Torrent_data::get_eta ( int numbers ) const
+        {
+            double wanted_not_done = get_double ( "total_wanted" ) - get_double ( "total_wanted_done" );
+            int eta = wanted_not_done / get_int ( "download_payload_rate" );
+            std::string eta_string;
+
+            // days
+            if ( numbers > 0 )
+            {
+                int days = eta / ( 60 * 60 * 24 );
+                if ( days > 0 )
+                {
+                    eta_string += std::to_string ( days ) + "d ";
+                    numbers --;
+                    eta -= days * 60 * 60 * 24;
+                }
+            }
+
+            // hours
+            if ( numbers > 0 )
+            {
+                int hours = eta / ( 60 * 60 );
+                if ( hours > 0 )
+                {
+                    eta_string += std::to_string ( hours ) + "h ";
+                    numbers --;
+                    eta -= hours * 60 * 60;
+                }
+            }
+
+            // minutes
+            if ( numbers > 0 )
+            {
+                int minutes = eta / 60;
+                if ( minutes > 0 )
+                {
+                    eta_string += std::to_string ( minutes ) + "m ";
+                    numbers --;
+                    eta -= minutes * 60;
+                }
+            }
+
+            // seconds
+            if ( numbers > 0 )
+            {
+                if ( eta > 0 || eta_string == "" )
+                    eta_string += std::to_string ( eta ) + "s ";
+            }
+
+            return std::string ( eta_string.begin (), eta_string.end () - 1 );
+        }
+
         bool Torrent_data::is_active () const
         {
         return get_int ( "download_payload_rate" ) > 0
             || get_int ( "updload_payload_rate" ) > 0
-            || get_double ( "progress" ) < 1;
+            || get_double ( "progress" ) < 1
+            ;
         }
 }
