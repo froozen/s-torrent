@@ -28,6 +28,7 @@ namespace client
             std::string get_transfer_speed ( std::string identifier, int decimals = 1 ) const;
             std::string get_file_size ( std::string identifier, int decimals = 1 ) const;
             std::string get_eta ( int numbers = 2 ) const;
+            std::string get_ratio ( int decimals = 3 ) const;
             bool is_active () const;
 
             virtual ~Torrent_data () = default;

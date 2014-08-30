@@ -147,6 +147,11 @@ namespace client
             return std::string ( eta_string.begin (), eta_string.end () - 1 );
         }
 
+        std::string Torrent_data::get_ratio ( int decimals ) const
+        {
+            return truncate_double ( get_double ( "total_upload" ) / get_double ( "total_download" ), decimals );
+        }
+
         bool Torrent_data::is_active () const
         {
         return get_int ( "download_payload_rate" ) > 0
