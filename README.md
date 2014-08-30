@@ -1,6 +1,8 @@
 s-torrent
 =========
 
+![ Normaly, this would be a screenshot ] ( https://i.imgur.com/Ay50Xb7.png )
+
 A simple torrent-client in C++ using libtorrent-rasterbar
 
 This project is just getting started, so please don't expect a fully feature-complete
