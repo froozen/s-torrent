@@ -38,6 +38,12 @@ namespace client
                     std::shared_ptr < ncurses::Window > window,
                     int y
                     );
+
+            void draw_totals (
+                    std::shared_ptr < std::vector < std::shared_ptr < Torrent_data > > >& torrent_data,
+                    std::shared_ptr < ncurses::Window > window,
+                    int y
+                    );
     };
 }
 

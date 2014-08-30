@@ -12,9 +12,12 @@ namespace client
         auto torrent_data = client::Shared_data::get_torrent_data ();
         if ( torrent_data.get () != nullptr )
         {
+            int y = 0;
+            draw_totals ( torrent_data, window, y );
+            y += 2;
+
             for ( auto torrent : *torrent_data )
             {
-                int y = 0;
                 if ( torrent->is_active () )
                 {
                     window->move ( 0, y );
@@ -101,5 +104,30 @@ namespace client
         window->draw_string ( right_bound ( upload_speed, 14 ) );
         window->set_fg_color ( ncurses::Window::DEFAULT );
         window->draw_string ( right_bound ( ratio, 16 ) );
+    }
+
+    void Torrent_display_element::draw_totals (
+            std::shared_ptr < std::vector < std::shared_ptr < Torrent_data > > >& torrent_data,
+            std::shared_ptr < ncurses::Window > window,
+            int y
+            )
+    {
+        int total_download = 0;
+        int total_upload = 0;
+        for ( auto torrent : *torrent_data )
+        {
+            total_download += torrent->get_int ( "download_payload_rate" );
+            total_upload += torrent->get_int ( "upload_payload_rate" );
+        }
+
+        window->move ( 0, y );
+        window->draw_string ( "Download: " );
+        window->set_fg_color ( ncurses::Window::RED );
+        window->draw_string ( right_bound ( to_transfer_speed ( total_download ), 14 ) );
+        window->set_fg_color ( ncurses::Window::DEFAULT );
+        window->draw_string ( "   Upload: " );
+        window->set_fg_color ( ncurses::Window::GREEN );
+        window->draw_string ( right_bound ( to_transfer_speed ( total_upload ), 14 ) );
+        window->set_fg_color ( ncurses::Window::DEFAULT );
     }
 }
