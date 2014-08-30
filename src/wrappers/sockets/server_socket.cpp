@@ -67,6 +67,9 @@ namespace sockets
 
     void Server_socket::error ( std::string message )
     {
-        throw std::runtime_error ( "Error in sockets::Server_socket::" + message + " ( " + strerror ( errno ) + " )" );
+        if ( errno != 0 )
+            throw std::runtime_error ( "Error in sockets::Server_socket::" + message + " ( " + strerror ( errno ) + " )" );
+        else
+            throw std::runtime_error ( "Error in sockets::Server_socket::" + message );
     }
 }
