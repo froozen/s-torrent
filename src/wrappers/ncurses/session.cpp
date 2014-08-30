@@ -2,36 +2,52 @@
 
 #include <ncurses.h>
 
+#include <stdexcept>
+
 namespace ncurses
 {
-    std::shared_ptr < Panel > Session::panel;
+    bool Session::created;
 
-    void Session::init ()
+    Session::Session ()
     {
-        // Standard ncurses init methods
-        initscr ();
-        // Update every 2.5 seconds
-        halfdelay ( 25 );
-        noecho ();
-        start_color ();
-        use_default_colors ();
-        refresh ();
-
-        // Initialize all possible color combinations, using a simple calculation
-        // This enables us to change the colors in Window way comfortably than any
-        // other solution
-        for ( int fg = -1; fg < 8; fg++ )
+        if ( !created )
         {
-            for ( int bg = -1; bg < 8; bg++ )
+            created = true;
+
+            // Standard ncurses init methods
+            initscr ();
+            // Update every 2.5 seconds
+            halfdelay ( 25 );
+            noecho ();
+            start_color ();
+            use_default_colors ();
+            refresh ();
+
+            // Initialize all possible color combinations, using a simple calculation
+            // This enables us to change the colors in Window way comfortably than any
+            // other solution
+            for ( int fg = -1; fg < 8; fg++ )
             {
-                init_pair ( 2 + fg + 8 * ( 1 + bg ), fg, bg );
+                for ( int bg = -1; bg < 8; bg++ )
+                {
+                    init_pair ( 2 + fg + 8 * ( 1 + bg ), fg, bg );
+                }
             }
         }
+        else
+            throw std::runtime_error ( "Error in ncurses::Session::Session : Session already created" );
     }
 
-    void Session::end ()
+    Session::Session ( const std::shared_ptr < Element >& root ) :
+        Session ()
+    {
+        this->root = root;
+    }
+
+    Session::~Session ()
     {
         endwin ();
+        created = false;
     }
 
     void Session::update ()
@@ -42,19 +58,19 @@ namespace ncurses
         getmaxyx ( stdscr, max_y, max_x );
         std::shared_ptr < Window > window = std::make_shared < Window > ( 0, 0, max_x, max_y );
 
-        if ( panel.get () != nullptr )
+        if ( root.get () != nullptr )
         {
-            panel->update ( input, window );
+            root->update ( input, window );
         }
     }
 
-    void Session::set_panel ( const std::shared_ptr < Panel >& panel_ )
+    void Session::set_root ( const std::shared_ptr < Element >& root )
     {
-        panel = panel_;
+        this->root = root;
     }
 
-    std::shared_ptr < Panel > Session::get_panel ()
+    std::shared_ptr < Element > Session::get_root ()
     {
-        return panel;
+        return root;
     }
 }

@@ -31,17 +31,12 @@ int main()
     torrent_data_request.set_string ( "type", "Torrent_data_requested_event" );
     events::Hub::send ( std::make_shared < events::Send_message_event > ( torrent_data_request.to_small_string (), connection.get () ) );
 
-    ncurses::Session::init ();
-    auto orientation = std::make_shared < ncurses::Horizontal > ();
-    auto layout = std::make_shared < ncurses::Stretch_layout > ();
-    layout->set_orientation ( orientation );
-    auto panel = std::make_shared < ncurses::Panel > ( layout );
+    ncurses::Session session;
     auto torrent_display = std::make_shared < client::Torrent_display_element > ();
-    panel->add_element ( "torrent_display", torrent_display );
-    ncurses::Session::set_panel ( panel );
+    session.set_root ( torrent_display );
 
     while ( true )
-        ncurses::Session::update ();
+        session.update ();
 
     return 0;
 }
