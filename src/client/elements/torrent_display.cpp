@@ -1,6 +1,7 @@
 #include "torrent_display.h"
 
 #include "client/shared_data.h"
+#include "client/data_formatting.h"
 
 #include <iostream>
 
@@ -62,8 +63,8 @@ namespace client
             int y
             )
     {
-        std::string progress_number = torrent_data->get_percentage ( "progress" );
-        std::string file_size = torrent_data->get_file_size ( "total_wanted" );
+        std::string progress_number = to_percentage ( torrent_data->get_double ( "progress" ) );
+        std::string file_size = to_file_size ( torrent_data->get_double ( "total_wanted" ) );
 
         window->move ( 0, y );
         window->draw_string ( right_bound ( progress_number, 10 ) + " of " + file_size );
@@ -76,7 +77,7 @@ namespace client
             int y
             )
     {
-        std::string download_speed = torrent_data->get_transfer_speed ( "download_payload_rate" );
+        std::string download_speed = to_transfer_speed ( torrent_data->get_int ( "download_payload_rate" ) );
         std::string eta = torrent_data->get_eta ();
 
         window->move ( 0, y );
@@ -92,7 +93,7 @@ namespace client
             int y
             )
     {
-        std::string upload_speed = torrent_data->get_transfer_speed ( "upload_payload_rate" );
+        std::string upload_speed = to_transfer_speed ( torrent_data->get_int ( "upload_payload_rate" ) );
         std::string ratio = torrent_data->get_ratio ();
 
         window->move ( 0, y );

@@ -23,10 +23,6 @@ namespace client
             std::shared_ptr < utils::Json_element > get_element ( std::string identifier ) const;
             std::shared_ptr < utils::Json_list_element > get_list_element ( std::string identifier ) const;
 
-            std::string get_truncated_double ( std::string identifier, int decimals ) const;
-            std::string get_percentage ( std::string identifier, int decimals = 2 ) const;
-            std::string get_transfer_speed ( std::string identifier, int decimals = 1 ) const;
-            std::string get_file_size ( std::string identifier, int decimals = 1 ) const;
             std::string get_eta ( int numbers = 2 ) const;
             std::string get_ratio ( int decimals = 3 ) const;
             bool is_active () const;
@@ -34,8 +30,6 @@ namespace client
             virtual ~Torrent_data () = default;
 
         private:
-            std::string truncate_double ( double d, int decimals ) const;
-
             utils::Json_element json_data;
     };
 }

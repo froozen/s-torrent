@@ -3,6 +3,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "data_formatting.h"
+
 namespace client
 {
         Torrent_data::Torrent_data ( std::string json ) :
@@ -42,57 +44,6 @@ namespace client
         std::shared_ptr < utils::Json_list_element > Torrent_data::get_list_element ( std::string identifier ) const
         {
             return json_data.get_list_element ( identifier );
-        }
-
-        std::string Torrent_data::truncate_double ( double d, int decimals ) const
-        {
-            int preceding;
-            if ( d != 0 ) preceding = std::log10 ( d ) + 1;
-            else preceding = 1;
-
-            // std::cout << std::to_string ( d ) + " " + std::to_string ( preceding ) << std::endl;
-            std::string truncated = std::to_string ( d );
-            truncated = std::string ( truncated.begin (), truncated.begin () + preceding + 1 + decimals );
-
-            return truncated;
-        }
-
-        std::string Torrent_data::get_truncated_double ( std::string identifier, int decimals ) const
-        {
-            double d = json_data.get_double ( identifier );
-            return truncate_double ( d, decimals );
-        }
-
-        std::string Torrent_data::get_percentage ( std::string identifier, int decimals ) const
-        {
-            double d = json_data.get_double ( identifier ) * 100;
-            return truncate_double ( d, decimals ) + "%";
-        }
-
-        std::string Torrent_data::get_transfer_speed ( std::string identifier, int decimals ) const
-        {
-            double speed = get_int ( identifier );
-            if ( speed > 1000000000 )
-                return truncate_double ( speed / 1000000000, decimals ) + " GiB/s";
-            else if ( speed > 1000000 )
-                return truncate_double ( speed / 1000000, decimals ) + " MiB/s";
-            else if ( speed > 1000 )
-                return truncate_double ( speed / 1000, decimals ) + " KiB/s";
-            else
-                return truncate_double ( speed, decimals ) + "   B/s";
-        }
-
-        std::string Torrent_data::get_file_size ( std::string identifier, int decimals ) const
-        {
-            double size = get_double ( identifier );
-            if ( size > 1000000000 )
-                return truncate_double ( size / 1000000000, decimals ) + " GB";
-            else if ( size > 1000000 )
-                return truncate_double ( size / 1000000, decimals ) + " MB";
-            else if ( size > 1000 )
-                return truncate_double ( size / 1000, decimals ) + " KB";
-            else
-                return truncate_double ( size, decimals ) + "  B";
         }
 
         std::string Torrent_data::get_eta ( int numbers ) const
@@ -149,7 +100,7 @@ namespace client
 
         std::string Torrent_data::get_ratio ( int decimals ) const
         {
-            return truncate_double ( get_double ( "total_upload" ) / get_double ( "total_download" ), decimals );
+            return client::truncate_double ( get_double ( "total_upload" ) / get_double ( "total_download" ), decimals );
         }
 
         bool Torrent_data::is_active () const
