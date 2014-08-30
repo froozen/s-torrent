@@ -68,9 +68,20 @@ namespace client
     {
         std::string progress_number = to_percentage ( torrent_data->get_double ( "progress" ) );
         std::string file_size = to_file_size ( torrent_data->get_double ( "total_wanted" ) );
+        std::string progress_text =  right_bound ( progress_number, 10 ) + " of " + file_size + " [";
 
         window->move ( 0, y );
-        window->draw_string ( right_bound ( progress_number, 10 ) + " of " + file_size );
+        window->draw_string ( progress_text );
+
+        int bar_width = window->get_width () - 2 - progress_text.size ();
+        window->set_fg_color ( ncurses::Window::CYAN );
+        for ( int i = 0; i < bar_width * torrent_data->get_double ( "progress" ); i++ )
+        {
+            window->draw_string ( "|" );
+        }
+        window->set_fg_color ( ncurses::Window::DEFAULT );
+        window->move ( window->get_width () - 1, y );
+        window->draw_string ( "]" );
     }
 
 
