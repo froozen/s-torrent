@@ -3,8 +3,6 @@
 #include "client/shared_data.h"
 #include "client/data_formatting.h"
 
-#include <iostream>
-
 namespace client
 {
     void Torrent_display_element::update ( char key, std::shared_ptr < ncurses::Window > window )

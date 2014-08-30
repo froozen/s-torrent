@@ -1,8 +1,5 @@
 #include "torrent_data.h"
 
-#include <cmath>
-#include <iostream>
-
 #include "data_formatting.h"
 
 namespace client
