@@ -10,7 +10,8 @@ namespace ncurses
     {
         // Standard ncurses init methods
         initscr ();
-        cbreak ();
+        // Update every 2.5 seconds
+        halfdelay ( 25 );
         noecho ();
         start_color ();
         use_default_colors ();

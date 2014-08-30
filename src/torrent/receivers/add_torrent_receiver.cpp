@@ -15,7 +15,7 @@ namespace torrent
             p.url = add_torrent_event->get_url ();
             p.save_path = "./";
             libtorrent::torrent_handle added = Session::add_torrent ( p );
-            added.set_download_limit ( 50000 );
+            added.set_download_limit ( 300000 );
         }
     }
 }

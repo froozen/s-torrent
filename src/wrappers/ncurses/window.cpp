@@ -36,7 +36,10 @@ namespace ncurses
 
     void Window::draw_string ( std::string s )
     {
-        waddstr ( window, s.c_str () );
+        int x, y;
+        getyx ( window, y, x );
+        if ( get_width () - x + 1 > static_cast < int > ( s.size () ) && y < get_height () )
+            waddstr ( window, s.c_str () );
     }
 
     void Window::draw_character ( char c )

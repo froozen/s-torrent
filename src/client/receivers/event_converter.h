@@ -1,12 +1,12 @@
-#ifndef TORRENT_EVENT_CONVERTER_GUARD
-#define TORRENT_EVENT_CONVERTER_GUARD
+#ifndef CLIENT_EVENT_CONVERTER_GUARD
+#define CLIENT_EVENT_CONVERTER_GUARD
 
 #include <memory>
 
 #include "events/receiver.h"
 #include "events/events.h"
 
-namespace torrent
+namespace client
 {
     class Event_converter : public events::Receiver < std::shared_ptr < events::Event > >
     {
@@ -19,4 +19,4 @@ namespace torrent
     };
 }
 
-#endif //TORRENT_EVENT_CONVERTER_GUARD
+#endif //CLIENT_EVENT_CONVERTER_GUARD

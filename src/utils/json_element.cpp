@@ -99,7 +99,7 @@ namespace utils
 
     size_t Json_element::get_size_t ( std::string identifier ) const
     {
-        if ( ( *value ) [ identifier ].isUInt () )
+        if ( ( *value ) [ identifier ].isNumeric () )
             return ( *value ) [ identifier ].asUInt ();
         else
             return DEFAULT_SIZE_T;

@@ -22,12 +22,12 @@ add_subdirectory ( ${CMAKE_SOURCE_DIR}/src )
 add_subdirectory ( ${CMAKE_SOURCE_DIR}/tests )
 
 add_library ( core )
-target_link_libraries ( core sockets utils )
+target_link_libraries ( core sockets utils events )
 
 set ( S-TORRENT_CLIENT_SRC ${CMAKE_SOURCE_DIR}/src/client_main.cpp )
 add_executable ( s-torrent ${S-TORRENT_CLIENT_SRC} )
-target_link_libraries ( s-torrent ncurses_wrapper core )
+target_link_libraries ( s-torrent ncurses_wrapper core client )
 
 set ( S-TORRENT_SERVER_SRC ${CMAKE_SOURCE_DIR}/src/server_main.cpp )
 add_executable ( s-torrent-server ${S-TORRENT_SERVER_SRC} )
-target_link_libraries ( s-torrent-server core events torrent )
+target_link_libraries ( s-torrent-server core torrent )
