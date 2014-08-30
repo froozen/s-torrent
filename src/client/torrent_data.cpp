@@ -50,52 +50,7 @@ namespace client
         {
             double wanted_not_done = get_double ( "total_wanted" ) - get_double ( "total_wanted_done" );
             int eta = wanted_not_done / get_int ( "download_payload_rate" );
-            std::string eta_string;
-
-            // days
-            if ( numbers > 0 )
-            {
-                int days = eta / ( 60 * 60 * 24 );
-                if ( days > 0 )
-                {
-                    eta_string += std::to_string ( days ) + "d ";
-                    numbers --;
-                    eta -= days * 60 * 60 * 24;
-                }
-            }
-
-            // hours
-            if ( numbers > 0 )
-            {
-                int hours = eta / ( 60 * 60 );
-                if ( hours > 0 )
-                {
-                    eta_string += std::to_string ( hours ) + "h ";
-                    numbers --;
-                    eta -= hours * 60 * 60;
-                }
-            }
-
-            // minutes
-            if ( numbers > 0 )
-            {
-                int minutes = eta / 60;
-                if ( minutes > 0 )
-                {
-                    eta_string += std::to_string ( minutes ) + "m ";
-                    numbers --;
-                    eta -= minutes * 60;
-                }
-            }
-
-            // seconds
-            if ( numbers > 0 )
-            {
-                if ( eta > 0 || eta_string == "" )
-                    eta_string += std::to_string ( eta ) + "s ";
-            }
-
-            return std::string ( eta_string.begin (), eta_string.end () - 1 );
+            return client::to_duration ( eta );
         }
 
         std::string Torrent_data::get_ratio ( int decimals ) const

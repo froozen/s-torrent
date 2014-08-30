@@ -49,3 +49,19 @@ TEST_F ( DataFormattingTest, TruncateDoubleTest )
     EXPECT_EQ ( "483.994", client::truncate_double ( 483.9943, 3 ) );
     EXPECT_EQ ( "0", client::truncate_double ( 0.001, 2 ) );
 }
+
+TEST_F ( DataFormattingTest, DurationTest )
+{
+    EXPECT_EQ ( "0s", client::to_duration ( 0 ) );
+    EXPECT_EQ ( "1s", client::to_duration ( 1 ) );
+    EXPECT_EQ ( "1h 33m", client::to_duration ( 60 * 60 + 33 * 60 ) );
+    EXPECT_EQ ( "1h 33m", client::to_duration ( 60 * 60 + 33 * 60 + 12 ) );
+    EXPECT_EQ ( "1y 1w 1d 1h 1m 1s", client::to_duration (
+                52 * 7 * 24 * 60 * 60 +
+                7 * 24 * 60 * 60 +
+                24 * 60 * 60 +
+                60 * 60 +
+                60 +
+                1,
+                6 ) );
+}
