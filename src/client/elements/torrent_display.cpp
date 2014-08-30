@@ -93,12 +93,14 @@ namespace client
     {
         std::string download_speed = to_transfer_speed ( torrent_data->get_int ( "download_payload_rate" ) );
         std::string eta = torrent_data->get_eta ();
+        std::string num_seeds = "( " + std::to_string ( torrent_data->get_int ( "num_seeds" ) ) + " )";
 
         window->move ( 0, y );
         window->set_fg_color ( ncurses::Window::RED );
         window->draw_string ( right_bound ( download_speed, 14 ) );
         window->set_fg_color ( ncurses::Window::DEFAULT );
         window->draw_string ( right_bound ( eta, 16 ) );
+        window->draw_string ( right_bound ( num_seeds, 10 ) );
     }
 
     void Torrent_display_element::draw_upload (
