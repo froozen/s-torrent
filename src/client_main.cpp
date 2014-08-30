@@ -1,6 +1,4 @@
 #include <memory>
-#include <iostream>
-#include <iomanip>
 #include <chrono>
 #include <thread>
 
@@ -11,14 +9,18 @@
 #include "events/events.h"
 #include "utils/json_element.h"
 
+#include "wrappers/ncurses/session.h"
+#include "wrappers/ncurses/panel.h"
+#include "wrappers/ncurses/stretch.h"
+#include "wrappers/ncurses/orientation.h"
+#include "client/elements/torrent_display.h"
+
 int main()
 {
     client::Event_system::initialize ();
     auto connection = std::make_shared < events::Connection_receiver > ( "localhost", 31005 );
     connection->start ();
     events::Hub::get_filter ( "Send_message_event" ).subscribe ( connection );
-
-    std::cout << "Connected." << std::endl;
 
     utils::Json_element add_torrent;
     add_torrent.set_string ( "type", "Add_torrent_event" );
@@ -29,22 +31,17 @@ int main()
     torrent_data_request.set_string ( "type", "Torrent_data_requested_event" );
     events::Hub::send ( std::make_shared < events::Send_message_event > ( torrent_data_request.to_small_string (), connection.get () ) );
 
-    std::cout << "Sent events" << std::endl;
+    ncurses::Session::init ();
+    auto orientation = std::make_shared < ncurses::Horizontal > ();
+    auto layout = std::make_shared < ncurses::Stretch_layout > ();
+    layout->set_orientation ( orientation );
+    auto panel = std::make_shared < ncurses::Panel > ( layout );
+    auto torrent_display = std::make_shared < client::Torrent_display_element > ();
+    panel->add_element ( "torrent_display", torrent_display );
+    ncurses::Session::set_panel ( panel );
 
     while ( true )
-    {
-        std::this_thread::sleep_for ( std::chrono::seconds ( 3 ) );
-        auto torrent_data = client::Shared_data::get_torrent_data ();
-        if ( torrent_data.get () != nullptr )
-        {
-            for ( auto torrent : *torrent_data )
-            {
-                std::cout << torrent->get_string ( "name" ) << std::endl;
-                std::cout << std::fixed << std::setprecision ( 2 ) <<
-                    torrent->get_double ( "progress" ) * 100 << "%" << std::endl << std::endl;
-            }
-        }
-    }
+        ncurses::Session::update ();
 
     return 0;
 }

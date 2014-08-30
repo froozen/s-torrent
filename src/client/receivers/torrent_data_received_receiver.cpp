@@ -3,6 +3,7 @@
 #include "utils/json_element.h"
 #include "utils/json_list_element.h"
 #include "client/shared_data.h"
+#include "client/torrent_data.h"
 #include "client/events/events.h"
 #include "events/hub.h"
 #include "events/events.h"
@@ -20,11 +21,10 @@ namespace client
             auto torrent_data_received_event = std::dynamic_pointer_cast < Torrent_data_received_event > ( event );
             utils::Json_list_element torrent_data  ( torrent_data_received_event->get_torrent_data_string () );
 
-            std::shared_ptr < std::vector < std::shared_ptr < utils::Json_element > > > new_torrent_data =
-                std::make_shared < std::vector < std::shared_ptr < utils::Json_element > > > ();
+            auto new_torrent_data = std::make_shared < std::vector < std::shared_ptr < Torrent_data > > > ();
 
             for ( int i = 0; i < torrent_data.size (); i++ )
-                new_torrent_data->push_back ( torrent_data.get_element ( i ) );
+                new_torrent_data->push_back ( std::make_shared < Torrent_data > ( torrent_data.get_element ( i )->to_small_string () ) );
 
             client::Shared_data::set_torrent_data ( new_torrent_data );
 

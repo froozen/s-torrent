@@ -14,15 +14,15 @@ namespace torrent
 
         json.set_string ( "error", status.error );
         json.set_string ( "current_tracker", status.current_tracker );
-        json.set_size_t ( "total_download", status.total_download );
-        json.set_size_t ( "total_upload", status.total_upload );
-        json.set_size_t ( "total_payload_download", status.total_payload_download );
-        json.set_size_t ( "total_payload_upload", status.total_payload_upload );
-        json.set_size_t ( "total_done", status.total_done );
-        json.set_size_t ( "total_wanted_done", status.total_wanted_done );
-        json.set_size_t ( "total_wanted", status.total_wanted );
-        json.set_size_t ( "all_time_download", status.all_time_download );
-        json.set_size_t ( "all_time_upload", status.all_time_upload );
+        json.set_double ( "total_download", status.total_download );
+        json.set_double ( "total_upload", status.total_upload );
+        json.set_double ( "total_payload_download", status.total_payload_download );
+        json.set_double ( "total_payload_upload", status.total_payload_upload );
+        json.set_double ( "total_done", status.total_done );
+        json.set_double ( "total_wanted_done", status.total_wanted_done );
+        json.set_double ( "total_wanted", status.total_wanted );
+        json.set_double ( "all_time_download", status.all_time_download );
+        json.set_double ( "all_time_upload", status.all_time_upload );
         json.set_double ( "progress", status.progress );
         json.set_int ( "queue_position", status.queue_position );
         json.set_int ( "download_rate", status.download_rate );
