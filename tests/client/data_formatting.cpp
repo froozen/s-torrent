@@ -40,14 +40,14 @@ TEST_F ( DataFormattingTest, SpeedTest )
 
 TEST_F ( DataFormattingTest, PercentageTest )
 {
-    EXPECT_EQ ( "42.84%", client::to_percentage ( 0.42846 ) );
-    EXPECT_EQ ( "4.55%", client::to_percentage ( 0.04556 ) );
+    EXPECT_EQ ( "42.85%", client::to_percentage ( 0.42846 ) );
+    EXPECT_EQ ( "4.56%", client::to_percentage ( 0.04556 ) );
 }
 
 TEST_F ( DataFormattingTest, TruncateDoubleTest )
 {
-    EXPECT_EQ ( "483.994", client::truncate_double ( 483.9943, 3 ) );
-    EXPECT_EQ ( "0", client::truncate_double ( 0.001, 2 ) );
+    EXPECT_EQ ( "483.995", client::truncate_double ( 483.9946, 3 ) );
+    EXPECT_EQ ( "0.00", client::truncate_double ( 0.001, 2 ) );
 }
 
 TEST_F ( DataFormattingTest, DurationTest )

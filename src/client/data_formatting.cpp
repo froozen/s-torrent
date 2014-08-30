@@ -3,19 +3,19 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
+#include <sstream>
+#include <iomanip>
 
 namespace client
 {
     std::string truncate_double ( double d, int decimals )
     {
-        int preceding;
-        if ( d != 0 ) preceding = std::log10 ( d ) + 1;
-        else preceding = 1;
+        std::stringstream precision_stream;
+        std::string out_string;
+        precision_stream << std::fixed << std::setprecision ( decimals ) << d;
+        precision_stream >> out_string;
 
-        std::string truncated = std::to_string ( d );
-        truncated = std::string ( truncated.begin (), truncated.begin () + preceding + 1 + decimals );
-
-        return truncated;
+        return out_string;
     }
 
     std::string to_percentage ( double d, int decimals )
