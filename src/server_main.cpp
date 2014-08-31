@@ -15,16 +15,11 @@
 #include "torrent/event_system.h"
 #include "torrent/torrent_data_to_json.h"
 
-void setup ()
+int main ()
 {
     torrent::Session::initialize ();
     torrent::Event_system::initialize ();
     events::Acceptor_hub::accept ( 31005, "listening port" );
-}
-
-int main ()
-{
-    setup ();
 
     while ( true )
     {
