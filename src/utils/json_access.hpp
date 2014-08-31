@@ -31,7 +31,7 @@ namespace utils
         template < typename Key >
             int get_int ( Json::Value* value,  Key identifier )
             {
-                if ( ( *value ) [ identifier ].isInt () )
+                if ( ( *value ) [ identifier ].isNumeric () )
                     return ( *value ) [ identifier ].asInt ();
                 else
                     return DEFAULT_INT;
@@ -49,7 +49,7 @@ namespace utils
         template < typename Key >
             double get_double ( Json::Value* value,  Key identifier )
             {
-                if ( ( *value ) [ identifier ].isDouble () )
+                if ( ( *value ) [ identifier ].isNumeric () )
                     return ( *value ) [ identifier ].asDouble ();
                 else
                     return DEFAULT_DOUBLE;
