@@ -56,7 +56,7 @@ namespace ncurses
         getmaxyx ( stdscr, max_y, max_x );
         std::shared_ptr < Window > window = std::make_shared < Window > ( 0, 0, max_x, max_y );
 
-        if ( root.get () != nullptr )
+        if ( root != nullptr )
         {
             root->update ( input, window );
         }

@@ -36,7 +36,7 @@ namespace ncurses
             )
     {
         // We need an orientation for this to work
-        if ( orientation.get () != nullptr )
+        if ( orientation != nullptr )
         {
             // Only resize if we have to ( speeds it up a lot )
             if ( has_input_changed ( elements, window ) )

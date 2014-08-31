@@ -8,7 +8,7 @@ namespace client
     void Torrent_display_element::update ( char key, std::shared_ptr < ncurses::Window > window )
     {
         auto torrent_data = client::Shared_data::get_torrent_data ();
-        if ( torrent_data.get () != nullptr )
+        if ( torrent_data != nullptr )
         {
             int y = 0;
             draw_totals ( torrent_data, window, y );

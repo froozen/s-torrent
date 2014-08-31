@@ -24,7 +24,7 @@ namespace client
                         converted = std::make_shared < Torrent_data_received_event > ( json, read_line_event->get_origin () );
                 }
 
-                if ( converted.get () != nullptr )
+                if ( converted != nullptr )
                     events::Hub::send ( converted );
             }
             // JSON parsing might fail
