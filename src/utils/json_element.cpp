@@ -37,6 +37,21 @@ namespace utils
             delete value;
     }
 
+    Json_element::Json_element ( const Json_element& rhs )
+    {
+        if ( this != &rhs )
+        {
+            if ( own )
+                delete value;
+
+            own = rhs.own;
+            if ( rhs.own )
+                value = new Json::Value ( *rhs.value );
+            else
+                value = rhs.value;
+        }
+    }
+
     Json_element& Json_element::operator= ( const Json_element& rhs )
     {
         if ( this != &rhs )

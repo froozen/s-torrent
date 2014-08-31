@@ -15,6 +15,7 @@ namespace utils
             Json_list_element ();
             Json_list_element ( Json::Value* root );
             Json_list_element ( std::string json_string );
+            Json_list_element ( const Json_list_element& rhs );
 
             Json_list_element& operator= ( const Json_list_element& rhs );
 
