@@ -24,8 +24,7 @@ namespace ncurses
             refresh ();
 
             // Initialize all possible color combinations, using a simple calculation
-            // This enables us to change the colors in Window way comfortably than any
-            // other solution
+            // This enables us to change the colors in Window in a comfortable way
             for ( int fg = -1; fg < 8; fg++ )
             {
                 for ( int bg = -1; bg < 8; bg++ )
@@ -53,7 +52,6 @@ namespace ncurses
     void Session::update ()
     {
         char input = getch ();
-        // This is only temporary
         int max_x, max_y;
         getmaxyx ( stdscr, max_y, max_x );
         std::shared_ptr < Window > window = std::make_shared < Window > ( 0, 0, max_x, max_y );
