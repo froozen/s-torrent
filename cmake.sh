@@ -13,6 +13,7 @@ case $1 in
         ./cmake.sh
         ;;
     "debug")
+        ./cmake.sh clean
         cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Debug
         ./cmake.sh
         ;;
