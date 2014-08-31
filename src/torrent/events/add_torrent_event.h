@@ -2,7 +2,7 @@
 #define ADD_TORRENT_EVENT_GUARD
 
 #include "events/events.h"
-#include "utils/json_element.h"
+#include "utils/json.h"
 #include "events/connection_receiver.h"
 
 #include <string>

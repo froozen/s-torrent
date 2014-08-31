@@ -6,8 +6,7 @@
 #include "events/events.h"
 #include "torrent/session.h"
 #include "torrent/torrent_data_to_json.h"
-#include "utils/json_element.h"
-#include "utils/json_list_element.h"
+#include "utils/json.h"
 
 #include <vector>
 #include <libtorrent/torrent_handle.hpp>

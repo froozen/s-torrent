@@ -7,7 +7,7 @@
 #include "events/connection_receiver.h"
 #include "events/hub.h"
 #include "events/events.h"
-#include "utils/json_element.h"
+#include "utils/json.h"
 
 #include "wrappers/ncurses/session.h"
 #include "wrappers/ncurses/panel.h"

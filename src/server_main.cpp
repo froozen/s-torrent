@@ -9,7 +9,7 @@
 #include "events/hub.h"
 #include "events/events.h"
 
-#include "utils/json_element.h"
+#include "utils/json.h"
 
 #include "torrent/session.h"
 #include "torrent/event_system.h"

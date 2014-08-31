@@ -1,7 +1,6 @@
 #include "torrent_data_received_receiver.h"
 
-#include "utils/json_element.h"
-#include "utils/json_list_element.h"
+#include "utils/json.h"
 #include "client/shared_data.h"
 #include "client/torrent_data.h"
 #include "client/events/events.h"

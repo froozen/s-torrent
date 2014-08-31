@@ -1,7 +1,7 @@
 #include "event_converter.h"
 
 #include "events/hub.h"
-#include "utils/json_element.h"
+#include "utils/json.h"
 #include "torrent/events/events.h"
 
 namespace torrent

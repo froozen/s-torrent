@@ -4,8 +4,7 @@
 #include <jsoncpp/json/json.h>
 #include <memory>
 #include <string>
-#include "json_element.h"
-#include "json_list_element.h"
+#include "json.h"
 
 namespace utils
 {

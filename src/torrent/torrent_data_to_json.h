@@ -3,7 +3,7 @@
 
 #include <libtorrent/torrent_handle.hpp>
 
-#include "utils/json_element.h"
+#include "utils/json.h"
 
 namespace torrent
 {

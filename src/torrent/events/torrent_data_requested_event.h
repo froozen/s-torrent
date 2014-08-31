@@ -2,7 +2,7 @@
 #define TORRENT_DATA_REQUESTED_EVENT_GUARD
 
 #include "events/event_types/event.h"
-#include "utils/json_element.h"
+#include "utils/json.h"
 #include "events/connection_receiver.h"
 
 #include <memory>
