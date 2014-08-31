@@ -29,7 +29,7 @@ namespace utils
                 throw std::runtime_error ( "Error in utils::Json_list_element::Json_list_element : value is not an array" );
         }
         else
-            throw std::runtime_error ( "Error in utils::Json_list_element::Json_list_element : Failed to parse json_string" );
+            throw std::runtime_error ( "Error in utils::Json_list_element::Json_list_element : Failed to parse json_string:\n" + json_string );
     }
 
     Json_list_element::~Json_list_element ()

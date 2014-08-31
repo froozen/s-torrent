@@ -28,7 +28,7 @@ namespace utils
                 throw std::runtime_error ( "Error in utils::Json_element::Confiuguartion_element : value is not an object" );
         }
         else
-            throw std::runtime_error ( "Error in utils::Json_element::Confiuguartion_element : Failed to parse json_string" );
+            throw std::runtime_error ( "Error in utils::Json_element::Confiuguartion_element : Failed to parse json_string:\n" + json_string );
     }
 
     Json_element::~Json_element ()
