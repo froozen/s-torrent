@@ -9,6 +9,7 @@
 
 namespace torrent
 {
+    // Setup code for the event system, because I don't want to clutter the main to much
     void Event_system::initialize ()
     {
         auto event_converter = std::make_shared < Event_converter > ();

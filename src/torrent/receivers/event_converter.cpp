@@ -17,6 +17,7 @@ namespace torrent
 
                 std::string type = json.get_string ( "type" );
                 std::shared_ptr < events::Event > converted;
+                // Convert the event appropriately
                 if ( type != "None" )
                 {
                     if ( type == "Add_torrent_event" )

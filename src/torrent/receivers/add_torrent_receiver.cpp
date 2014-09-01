@@ -11,6 +11,7 @@ namespace torrent
         if ( event->get_type () == "Add_torrent_event" )
         {
             auto add_torrent_event = std::dynamic_pointer_cast < Add_torrent_event > ( event );
+            // A lot of these thins will later be replaced with Configuration values
             libtorrent::add_torrent_params p;
             p.url = add_torrent_event->get_url ();
             p.save_path = "./";

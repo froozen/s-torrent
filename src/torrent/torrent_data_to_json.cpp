@@ -4,6 +4,7 @@
 
 namespace torrent
 {
+    // Turn a libtorrent::torrent_handle into a Json_element
     utils::Json_element to_json ( const libtorrent::torrent_handle& handle )
     {
         utils::Json_element json;

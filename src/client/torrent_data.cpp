@@ -43,6 +43,7 @@ namespace client
             return json_data.get_list_element ( identifier );
         }
 
+        // Compute eta
         std::string Torrent_data::get_eta ( int numbers ) const
         {
             double wanted_not_done = get_double ( "total_wanted" ) - get_double ( "total_wanted_done" );
@@ -50,11 +51,13 @@ namespace client
             return client::to_duration ( eta );
         }
 
+        // Compute ratio
         std::string Torrent_data::get_ratio ( int decimals ) const
         {
             return client::truncate_double ( get_double ( "total_upload" ) / get_double ( "total_download" ), decimals );
         }
 
+        // Determine wether the torrent is active
         bool Torrent_data::is_active () const
         {
         return get_int ( "download_payload_rate" ) > 0

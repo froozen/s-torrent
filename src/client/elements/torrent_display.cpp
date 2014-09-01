@@ -16,6 +16,8 @@ namespace client
 
             for ( auto torrent : *torrent_data )
             {
+                // I try to limit the displayed lines as much as possible, to display as much relevant
+                // information in a small terminal window as possible
                 if ( torrent->is_active () )
                 {
                     window->move ( 0, y );
@@ -51,6 +53,8 @@ namespace client
     int Torrent_display_element::get_prefered_width () const { return 0; }
     int Torrent_display_element::get_prefered_height () const { return 0; }
 
+    // Pad the string with spaces in the front until they reach a certain size
+    // right_boud ( "hello", 8 ) --> "   hello"
     std::string Torrent_display_element::right_bound ( std::string text, size_t amount )
     {
         while ( text.size () < amount )
@@ -58,6 +62,7 @@ namespace client
         return text;
     }
 
+    // Display progress percentage, total torrent size and progress bar
     void Torrent_display_element::draw_progress (
             std::shared_ptr < Torrent_data >& torrent_data,
             std::shared_ptr < ncurses::Window > window,
@@ -83,6 +88,7 @@ namespace client
     }
 
 
+    // Display download speed, eta and seed count
     void Torrent_display_element::draw_download (
             std::shared_ptr < Torrent_data >& torrent_data,
             std::shared_ptr < ncurses::Window > window,
@@ -101,6 +107,7 @@ namespace client
         window->draw_string ( right_bound ( num_seeds, 10 ) );
     }
 
+    // Display upload speed and ratio
     void Torrent_display_element::draw_upload (
             std::shared_ptr < Torrent_data >& torrent_data,
             std::shared_ptr < ncurses::Window > window,
@@ -117,6 +124,7 @@ namespace client
         window->draw_string ( right_bound ( ratio, 16 ) );
     }
 
+    // Display total upload- and download speed
     void Torrent_display_element::draw_totals (
             std::shared_ptr < std::vector < std::shared_ptr < Torrent_data > > >& torrent_data,
             std::shared_ptr < ncurses::Window > window,
