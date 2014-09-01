@@ -1,6 +1,6 @@
 #include "json_list_element.h"
 #include "json_element.h"
-#include <exception>
+#include <stdexcept>
 
 #include "json_access.hpp"
 

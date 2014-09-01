@@ -1,6 +1,6 @@
 #include "configuration.h"
 #include <fstream>
-#include <exception>
+#include <stdexcept>
 
 namespace utils
 {
