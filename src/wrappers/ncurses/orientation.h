@@ -38,7 +38,7 @@ namespace ncurses
 
             virtual int get_prefered_length ( std::shared_ptr < Element > target ) const = 0;
 
-            virtual ~Orientation () = default;
+            virtual ~Orientation () noexcept = default;
     };
 
     class Vertical : public Orientation
@@ -75,7 +75,7 @@ namespace ncurses
             virtual int get_prefered_length ( std::shared_ptr < Element > target ) const
                 { return target->get_prefered_height (); }
 
-            virtual ~Vertical () = default;
+            virtual ~Vertical () noexcept = default;
     };
 
     class Horizontal : public Orientation
@@ -112,7 +112,7 @@ namespace ncurses
             virtual int get_prefered_length ( std::shared_ptr < Element > target ) const
                 { return target->get_prefered_width (); }
 
-            virtual ~Horizontal () = default;
+            virtual ~Horizontal () noexcept = default;
     };
 }
 

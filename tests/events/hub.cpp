@@ -22,7 +22,7 @@ class Simple_event : public Event
         std::string get_type () { return type; };
         std::string type;
 
-        virtual ~Simple_event () = default;
+        virtual ~Simple_event () noexcept = default;
 };
 
 TEST ( HubTest, SimpleTest )

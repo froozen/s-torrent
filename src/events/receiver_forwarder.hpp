@@ -38,7 +38,7 @@ namespace events
                 virtual void receive ( Event_type event );
                 void redirect ( std::shared_ptr < Receiver < Event_type > > target );
 
-                virtual ~Receiver_forwarder () = default;
+                virtual ~Receiver_forwarder () noexcept = default;
             private:
                 std::shared_ptr < Receiver < Event_type > > target;
         };

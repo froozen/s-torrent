@@ -19,7 +19,7 @@ namespace torrent
             std::string get_type () { return "Add_torrent_event"; }
             std::string get_url () const { return this->url; }
 
-            virtual ~Add_torrent_event () = default;
+            virtual ~Add_torrent_event () noexcept = default;
 
         private:
             std::string url;
