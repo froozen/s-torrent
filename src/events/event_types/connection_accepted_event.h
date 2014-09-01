@@ -22,7 +22,7 @@ namespace events
             int get_port () const { return this->port; }
             std::string get_service () const { return this->service; }
 
-            virtual ~Connection_accepted_event () = default;
+            virtual ~Connection_accepted_event () noexcept = default;
 
         private:
             Connection_receiver* accepted;

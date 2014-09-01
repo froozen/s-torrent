@@ -64,7 +64,7 @@ namespace events
         }
     }
 
-    Connection_receiver::~Connection_receiver ()
+    Connection_receiver::~Connection_receiver () noexcept
     {
         disconnect ();
     }

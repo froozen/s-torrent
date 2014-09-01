@@ -19,7 +19,7 @@ namespace events
             std::string get_message () const { return this->message; }
             Connection_receiver* get_target () const { return this->target; }
 
-            virtual ~Send_message_event () = default;
+            virtual ~Send_message_event () noexcept = default;
 
         private:
             std::string message;

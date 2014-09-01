@@ -21,7 +21,7 @@ namespace client
             std::string get_torrent_data_string () const { return torrent_data_string; }
             events::Connection_receiver* get_origin () const { return origin; }
 
-            virtual ~Torrent_data_received_event () = default;
+            virtual ~Torrent_data_received_event () noexcept = default;
 
         private:
             std::string torrent_data_string;

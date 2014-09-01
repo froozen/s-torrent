@@ -15,7 +15,7 @@ namespace client
 
             void receive ( std::shared_ptr < events::Event > event );
 
-            virtual ~Torrent_data_received_receiver () = default;
+            virtual ~Torrent_data_received_receiver () noexcept = default;
     };
 }
 

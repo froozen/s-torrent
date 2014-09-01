@@ -19,7 +19,7 @@ namespace events
             std::string get_line () const { return this->line; }
             events::Connection_receiver* get_origin () const { return this->origin; }
 
-            virtual ~Read_line_event () = default;
+            virtual ~Read_line_event () noexcept = default;
 
         private:
             std::string line;

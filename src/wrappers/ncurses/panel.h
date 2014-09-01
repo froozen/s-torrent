@@ -31,7 +31,7 @@ namespace ncurses
             void add_element ( std::string name, const std::shared_ptr < Element >& element );
             std::shared_ptr < Element > get_element ( std::string name ) const;
 
-            virtual ~Panel () = default;
+            virtual ~Panel () noexcept = default;
 
         private:
             std::shared_ptr < Layout > layout;
