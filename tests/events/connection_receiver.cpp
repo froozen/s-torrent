@@ -15,12 +15,19 @@
 TEST ( ConnectionReceiverTest, GeneralTest )
 {
     std::vector < std::string > received_strings;
-    auto test_lambda_receiver = std::make_shared < events::Lambda_receiver < std::shared_ptr < events::Event > > > (
+    auto read_line_receiver = std::make_shared < events::Lambda_receiver < std::shared_ptr < events::Event > > > (
             [ & ] ( std::shared_ptr < events::Event > e ) {
                 std::shared_ptr < events::Read_line_event > read_line_event = std::dynamic_pointer_cast < events::Read_line_event > ( e );
                 received_strings.push_back ( read_line_event->get_line () );
             } );
-    events::Hub::get_filter ( "Read_line_event" ).subscribe ( test_lambda_receiver );
+    events::Hub::get_filter ( "Read_line_event" ).subscribe ( read_line_receiver );
+
+    bool disconnected = false;
+    auto connection_closed_receiver = std::make_shared < events::Lambda_receiver < std::shared_ptr < events::Event > > > (
+            [ & ] ( std::shared_ptr < events::Event > e ) {
+                disconnected = true;
+            } );
+    events::Hub::get_filter ( "Connection_closed_event" ).subscribe ( connection_closed_receiver );
 
     sockets::Server_socket server ( 12345 );
     events::Connection_receiver receiver ( "127.0.0.1", 12345 );
@@ -41,6 +48,9 @@ TEST ( ConnectionReceiverTest, GeneralTest )
     }
 
     connection.shutdown ();
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
+    EXPECT_EQ ( disconnected, true );
+
     server.shutdown ();
 }
 

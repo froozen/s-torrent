@@ -35,6 +35,8 @@ namespace events
             catch ( std::runtime_error& e )
             {
                 // Disconnect when connection is closed
+                std::shared_ptr < Event > event = std::make_shared < Connection_closed_event > ( this );
+                Hub::send ( event );
                 disconnect ();
             }
         }
