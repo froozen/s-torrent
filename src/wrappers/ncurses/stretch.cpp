@@ -85,22 +85,17 @@ namespace ncurses
             const std::shared_ptr < Window >& window
             )
     {
-        // Remove all old windows
-        windows.clear ();
         Resize_data resize_data ( &elements, window, orientation );
 
         // Generate window_dummies
         std::vector < std::shared_ptr < Window_dummy > > window_dummies = generate_window_dummies ( resize_data );
-        // Turn window_dummies into actual windows and put them into windows
-        for ( auto it = window_dummies.begin (); it != window_dummies.end (); it++ )
+        // Apply changes to windows
+        for ( size_t i = 0; i < window_dummies.size () ; i++ )
         {
-            std::shared_ptr < Window > element_window = std::make_shared < Window > (
-                    ( *it )->x,
-                    ( *it )->y,
-                    ( *it )->width,
-                    ( *it )->height
-                    );
-            windows.push_back ( element_window );
+            windows.at ( i )->resize
+                ( window_dummies.at ( i )->width, window_dummies.at ( i )->height );
+            windows.at ( i )->change_position
+                ( window_dummies.at ( i )->x, window_dummies.at ( i )->y );
         }
     }
 
