@@ -25,6 +25,8 @@ namespace ncurses
             static const int WHITE      =  7;
 
             void move ( int x, int y );
+            void resize ( int width, int height );
+            void change_position ( int x, int y );
             void draw_string ( std::string s );
             void draw_character ( char c );
             void draw_border ();

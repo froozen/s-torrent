@@ -59,7 +59,7 @@ namespace ncurses
         int max_x, max_y;
         getmaxyx ( stdscr, max_y, max_x );
         if ( max_x != window->get_width () || max_y != window->get_height () )
-            window = std::make_shared < Window > ( 0, 0, max_x, max_y );
+            window->resize ( max_x, max_y );
 
         if ( root != nullptr )
         {

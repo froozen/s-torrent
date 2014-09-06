@@ -33,6 +33,23 @@ namespace ncurses
     void Window::move ( int x, int y )
     {
         wmove ( window, y, x );
+        this->x = x;
+        this->y = y;
+    }
+
+    void Window::resize ( int width, int height )
+    {
+        werase ( window );
+        wresize ( window, height, width );
+        this->width = width;
+        this->height = height;
+    }
+
+    // I would've prefered Window::move for this, but I feel that it is more
+    // important to have move do the same as the ncurses move
+    void Window::change_position ( int x, int y )
+    {
+        mvwin ( window, y, x );
     }
 
     void Window::draw_string ( std::string s )
