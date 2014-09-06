@@ -23,6 +23,10 @@ namespace ncurses
             use_default_colors ();
             refresh ();
 
+            int max_x, max_y;
+            getmaxyx ( stdscr, max_y, max_x );
+            window = std::make_shared < Window > ( 0, 0, max_x, max_y );
+
             // Initialize all possible color combinations, using a simple calculation
             // This enables us to change the colors in Window in a comfortable way
             for ( int fg = -1; fg < 8; fg++ )
@@ -54,7 +58,8 @@ namespace ncurses
         char input = getch ();
         int max_x, max_y;
         getmaxyx ( stdscr, max_y, max_x );
-        std::shared_ptr < Window > window = std::make_shared < Window > ( 0, 0, max_x, max_y );
+        if ( max_x != window->get_width () || max_y != window->get_height () )
+            window = std::make_shared < Window > ( 0, 0, max_x, max_y );
 
         if ( root != nullptr )
         {

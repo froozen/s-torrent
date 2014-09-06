@@ -25,6 +25,7 @@ namespace ncurses
 
         private:
             static bool created;
+            std::shared_ptr < Window > window;
             std::shared_ptr < Element > root;
     };
 }
