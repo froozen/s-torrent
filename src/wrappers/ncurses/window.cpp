@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include <stdexcept>
+#include <cstring>
 
 namespace ncurses
 {
@@ -32,14 +33,44 @@ namespace ncurses
     void Window::move ( int x, int y )
     {
         wmove ( window, y, x );
+        this->x = x;
+        this->y = y;
+    }
+
+    void Window::resize ( int width, int height )
+    {
+        werase ( window );
+        wresize ( window, height, width );
+        this->width = width;
+        this->height = height;
+    }
+
+    // I would've prefered Window::move for this, but I feel that it is more
+    // important to have move do the same as the ncurses move
+    void Window::change_position ( int x, int y )
+    {
+        mvwin ( window, y, x );
     }
 
     void Window::draw_string ( std::string s )
     {
         int x, y;
         getyx ( window, y, x );
-        if ( get_width () - x + 1 > static_cast < int > ( s.size () ) && y < get_height () )
+        int free_space = get_width () - x + 1;
+        if ( free_space > static_cast < int > ( s.size () ) && y < get_height () )
             waddstr ( window, s.c_str () );
+        else if ( free_space > 1 && y < get_height () )
+        {
+            // This is neccessary so we don't have the last character on the
+            // next line
+            free_space -= 1;
+            // Display at least as much as possible
+            s.resize ( free_space );
+            s.shrink_to_fit ();
+            waddstr ( window, s.c_str () );
+            // Put the cursor back up on the line
+            move ( get_width () - 1, y );
+        }
     }
 
     void Window::draw_character ( char c )
