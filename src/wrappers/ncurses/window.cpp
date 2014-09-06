@@ -42,12 +42,17 @@ namespace ncurses
         int free_space = get_width () - x + 1;
         if ( free_space > static_cast < int > ( s.size () ) && y < get_height () )
             waddstr ( window, s.c_str () );
-        else if ( free_space > 0 && y < get_height () )
+        else if ( free_space > 1 && y < get_height () )
         {
+            // This is neccessary so we don't have the last character on the
+            // next line
+            free_space -= 1;
             // Display at least as much as possible
             s.resize ( free_space );
             s.shrink_to_fit ();
             waddstr ( window, s.c_str () );
+            // Put the cursor back up on the line
+            move ( get_width () - 1, y );
         }
     }
 
