@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include <stdexcept>
+#include <cstring>
 
 namespace ncurses
 {
@@ -38,8 +39,16 @@ namespace ncurses
     {
         int x, y;
         getyx ( window, y, x );
-        if ( get_width () - x + 1 > static_cast < int > ( s.size () ) && y < get_height () )
+        int free_space = get_width () - x + 1;
+        if ( free_space > static_cast < int > ( s.size () ) && y < get_height () )
             waddstr ( window, s.c_str () );
+        else if ( free_space > 0 && y < get_height () )
+        {
+            // Display at least as much as possible
+            s.resize ( free_space );
+            s.shrink_to_fit ();
+            waddstr ( window, s.c_str () );
+        }
     }
 
     void Window::draw_character ( char c )
