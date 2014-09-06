@@ -18,7 +18,7 @@ namespace events
             int get_port () const;
             void stop ();
 
-            virtual ~Acceptor () = default;
+            virtual ~Acceptor () noexcept {};
 
         private:
             void do_accept ();

@@ -21,7 +21,7 @@ namespace ncurses
             void push ( const std::shared_ptr < Element >& element );
             void pop ();
 
-            virtual ~Element_stack () = default;
+            virtual ~Element_stack () noexcept = default;
 
         private:
             std::stack < std::shared_ptr < Element > > elements;

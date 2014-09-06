@@ -22,7 +22,7 @@ namespace events
             void listen_on_socket ();
             void disconnect ();
 
-            virtual ~Connection_receiver ();
+            virtual ~Connection_receiver () noexcept;
 
         private:
             std::unique_ptr < sockets::Client_socket > connection;

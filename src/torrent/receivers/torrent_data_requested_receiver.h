@@ -16,7 +16,7 @@ namespace torrent
 
             void receive ( std::shared_ptr < events::Event > event );
 
-            virtual ~Torrent_data_requested_receiver () = default;
+            virtual ~Torrent_data_requested_receiver () noexcept = default;
     };
 }
 

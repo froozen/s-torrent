@@ -27,11 +27,11 @@ namespace ncurses
             int get_prefered_width () const { return prefered_width; }
             int get_prefered_height () const { return prefered_height; }
 
-            // Elements are asigned a string identifier for ease-of-use
+            // Elements are asigned a string identifier for ease of use
             void add_element ( std::string name, const std::shared_ptr < Element >& element );
             std::shared_ptr < Element > get_element ( std::string name ) const;
 
-            virtual ~Panel () = default;
+            virtual ~Panel () noexcept = default;
 
         private:
             std::shared_ptr < Layout > layout;

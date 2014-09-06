@@ -15,6 +15,7 @@ namespace utils
             Json_element ();
             Json_element ( Json::Value* root );
             Json_element ( std::string json_string );
+            Json_element ( const Json_element& rhs );
 
             Json_element& operator= ( const Json_element& rhs );
 
@@ -28,6 +29,7 @@ namespace utils
             size_t get_size_t ( std::string identifier ) const;
             std::shared_ptr < Json_element > get_element ( std::string identifier ) const;
             std::shared_ptr < Json_list_element > get_list_element ( std::string identifier ) const;
+            Json::Value * get_value () const;
 
             void set_bool ( std::string identifier, bool new_value );
             void set_int  ( std::string identifier, int new_value );

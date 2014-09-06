@@ -9,22 +9,17 @@
 #include "events/hub.h"
 #include "events/events.h"
 
-#include "utils/json_element.h"
+#include "utils/json.h"
 
 #include "torrent/session.h"
 #include "torrent/event_system.h"
 #include "torrent/torrent_data_to_json.h"
 
-void setup ()
+int main ()
 {
     torrent::Session::initialize ();
     torrent::Event_system::initialize ();
     events::Acceptor_hub::accept ( 31005, "listening port" );
-}
-
-int main ()
-{
-    setup ();
 
     while ( true )
     {

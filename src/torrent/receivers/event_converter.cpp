@@ -1,7 +1,7 @@
 #include "event_converter.h"
 
 #include "events/hub.h"
-#include "utils/json_element.h"
+#include "utils/json.h"
 #include "torrent/events/events.h"
 
 namespace torrent
@@ -17,6 +17,7 @@ namespace torrent
 
                 std::string type = json.get_string ( "type" );
                 std::shared_ptr < events::Event > converted;
+                // Convert the event appropriately
                 if ( type != "None" )
                 {
                     if ( type == "Add_torrent_event" )
@@ -25,7 +26,7 @@ namespace torrent
                         converted = std::make_shared < Torrent_data_requested_event > ( json, read_line_event->get_origin () );
                 }
 
-                if ( converted.get () != nullptr )
+                if ( converted != nullptr )
                     events::Hub::send ( converted );
             }
             // JSON parsing might fail

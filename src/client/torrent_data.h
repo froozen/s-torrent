@@ -1,8 +1,7 @@
 #ifndef TORRENT_DATA_GUARD
 #define TORRENT_DATA_GUARD
 
-#include "utils/json_element.h"
-#include "utils/json_list_element.h"
+#include "utils/json.h"
 
 #include <memory>
 #include <string>

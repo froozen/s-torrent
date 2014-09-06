@@ -35,8 +35,11 @@ TEST ( SocketsTest, GeneralTest )
         EXPECT_EQ ( lines [ i ], client.read_line () );
     }
 
-    // Send an empty line
+    // Send an empty line, which should be skipped
     client.send ( "" );
+    // 520 characters, which exeed the buffer, but should still be read at once
+    client.send ( "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        " );
+    EXPECT_EQ ( "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ", accepted.read_line () );
 
     // There should be a throw upon reading on a disconnected socket
     server.shutdown ();

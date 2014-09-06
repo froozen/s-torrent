@@ -16,7 +16,7 @@ namespace events
             std::string get_type () { return "Connection_closed_event"; }
             events::Connection_receiver* get_identity () const { return this->identity; }
 
-            virtual ~Connection_closed_event () = default;
+            virtual ~Connection_closed_event () noexcept = default;
 
         private:
             events::Connection_receiver* identity;

@@ -1,6 +1,8 @@
 #include "json_list_element.h"
 #include "json_element.h"
-#include <exception>
+#include <stdexcept>
+
+#include "json_access.hpp"
 
 namespace utils
 {
@@ -27,13 +29,28 @@ namespace utils
                 throw std::runtime_error ( "Error in utils::Json_list_element::Json_list_element : value is not an array" );
         }
         else
-            throw std::runtime_error ( "Error in utils::Json_list_element::Json_list_element : Failed to parse json_string" );
+            throw std::runtime_error ( "Error in utils::Json_list_element::Json_list_element : Failed to parse json_string:\n" + json_string );
     }
 
     Json_list_element::~Json_list_element ()
     {
         if ( own )
             delete value;
+    }
+
+    Json_list_element::Json_list_element ( const Json_list_element& rhs )
+    {
+        if ( this != &rhs )
+        {
+            if ( own )
+                delete value;
+
+            own = rhs.own;
+            if ( rhs.own )
+                value = new Json::Value ( *rhs.value );
+            else
+                value = rhs.value;
+        }
     }
 
     Json_list_element& Json_list_element::operator= ( const Json_list_element& rhs )
@@ -68,102 +85,84 @@ namespace utils
     {
         return value->size ();
     }
-
     // Getters
     bool Json_list_element::get_bool ( int identifier ) const
     {
-        if ( ( *value ) [ identifier ].isBool () )
-            return ( *value ) [ identifier ].asBool ();
-        else
-            return DEFAULT_BOOL;
+        return json_access::get_bool ( value, identifier );
     }
 
     int Json_list_element::get_int ( int identifier ) const
     {
-        if ( ( *value ) [ identifier ].isInt () )
-            return ( *value ) [ identifier ].asInt ();
-        else
-            return DEFAULT_INT;
+        return json_access::get_int ( value, identifier );
     }
 
     std::string Json_list_element::get_string ( int identifier ) const
     {
-        if ( ( *value ) [ identifier ].isString () )
-            return ( *value ) [ identifier ].asString ();
-        else
-            return DEFAULT_STRING;
+        return json_access::get_string ( value, identifier );
     }
 
     double Json_list_element::get_double ( int identifier ) const
     {
-        if ( ( *value ) [ identifier ].isDouble () )
-            return ( *value ) [ identifier ].asDouble ();
-        else
-            return DEFAULT_DOUBLE;
+        return json_access::get_double ( value, identifier );
     }
 
     size_t Json_list_element::get_size_t ( int identifier ) const
     {
-        if ( ( *value ) [ identifier ].isUInt () )
-            return ( *value ) [ identifier ].asUInt ();
-        else
-            return DEFAULT_SIZE_T;
+        return json_access::get_size_t ( value, identifier );
+    }
+
+    Json::Value* Json_list_element::get_value () const
+    {
+        return value;
     }
 
     std::shared_ptr < Json_element > Json_list_element::get_element ( int identifier ) const
     {
-        if ( ( *value ) [ identifier ].isObject () )
-        {
-            return std::make_shared < Json_element > ( & ( ( *value ) [ identifier ] ) );
-        }
-        throw std::runtime_error ( "Error in utils::Json_list_element::get_element : Requested element \"" + std::to_string ( identifier ) + "\" is not an object" );
+        return json_access::get_element ( value, identifier, std::to_string ( identifier ) );
     }
 
     std::shared_ptr < Json_list_element > Json_list_element::get_list_element ( int identifier ) const
     {
-        if ( ( *value ) [ identifier ].isArray () )
-        {
-            return std::make_shared < Json_list_element > ( & ( ( *value ) [ identifier ] ) );
-        }
-        throw std::runtime_error ( "Error in utils::Json_list_element::get_list_element : Requested element \"" + std::to_string ( identifier ) + "\" is not an array" );
+        return json_access::get_list_element ( value, identifier, std::to_string ( identifier ) );
     }
 
     // Setters
     void Json_list_element::set_bool ( int identifier, bool new_value )
     {
-        ( *value ) [ identifier ] = new_value;
+        json_access::set_bool ( value, identifier, new_value );
     }
 
     void Json_list_element::set_int ( int identifier, int new_value )
     {
-        ( *value ) [ identifier ] = new_value;
+        json_access::set_int ( value, identifier, new_value );
     }
 
     void Json_list_element::set_string ( int identifier, std::string new_value )
     {
-        ( *value ) [ identifier ] = new_value;
+        json_access::set_string ( value, identifier, new_value );
     }
 
     void Json_list_element::set_double ( int identifier, double new_value )
     {
-        ( *value ) [ identifier ] = new_value;
+        json_access::set_double ( value, identifier, new_value );
     }
 
     void Json_list_element::set_size_t ( int identifier, size_t new_value )
     {
-        ( *value ) [ identifier ] = ( unsigned int ) new_value;
+        json_access::set_size_t ( value, identifier, new_value );
     }
 
     void Json_list_element::set_element ( int identifier, const Json_element& new_value )
     {
-        ( *value ) [ identifier ] = *new_value.value;
+        json_access::set_element ( value, identifier, new_value );
     }
 
     void Json_list_element::set_list_element ( int identifier, const Json_list_element& new_value )
     {
-        ( *value ) [ identifier ] = *new_value.value;
+        json_access::set_list_element ( value, identifier, new_value );
     }
 
+    // Appending
     void Json_list_element::append_bool ( bool new_value )
     {
         value->append ( new_value );

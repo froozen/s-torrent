@@ -13,18 +13,19 @@ namespace ncurses
     class Session
     {
         public:
-            static void init ();
-            static void end ();
+            Session ();
+            Session ( const std::shared_ptr < Element >& root );
 
             // Session needs a root panel to work
-            static void set_panel ( const std::shared_ptr < Panel >& panel );
-            static std::shared_ptr < Panel > get_panel ();
-            static void update ();
+            void set_root ( const std::shared_ptr < Element >& root );
+            std::shared_ptr < Element > get_root ();
+            void update ();
+
+            virtual ~Session ();
 
         private:
-            static std::shared_ptr < Panel > panel;
-
-            Session ();
+            static bool created;
+            std::shared_ptr < Element > root;
     };
 }
 

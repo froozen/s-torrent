@@ -15,7 +15,7 @@ namespace client
 
             void receive ( std::shared_ptr < events::Event > event );
 
-            virtual ~Event_converter () = default;
+            virtual ~Event_converter () noexcept = default;
     };
 }
 

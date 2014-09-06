@@ -18,7 +18,7 @@ namespace client
             int get_prefered_width () const;
             int get_prefered_height () const;
 
-            virtual ~Torrent_display_element () = default;
+            virtual ~Torrent_display_element () noexcept = default;
         private:
             std::string right_bound ( std::string text, size_t amount );
             void draw_progress (

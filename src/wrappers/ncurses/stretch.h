@@ -41,7 +41,7 @@ namespace ncurses
 
             void set_orientation ( const std::shared_ptr < Orientation >& orientation );
 
-            virtual ~Stretch_layout () = default;
+            virtual ~Stretch_layout () noexcept = default;
 
         private:
             bool has_input_changed (

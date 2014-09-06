@@ -127,6 +127,9 @@ namespace sockets
 
     void Client_socket::error ( std::string message )
     {
-        throw std::runtime_error ( "Error in sockets::Client_socket::" + message + " ( " + strerror ( errno ) + " )" );
+        if ( errno != 0 )
+            throw std::runtime_error ( "Error in sockets::Client_socket::" + message + " ( " + strerror ( errno ) + " )" );
+        else
+            throw std::runtime_error ( "Error in sockets::Client_socket::" + message );
     }
 }
