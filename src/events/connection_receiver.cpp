@@ -60,7 +60,19 @@ namespace events
         {
             std::shared_ptr < Send_message_event > actual_event = std::dynamic_pointer_cast < Send_message_event > ( e );
             if ( actual_event->get_target () == this )
-                connection->send ( actual_event->get_message () );
+            {
+                try
+                {
+                    connection->send ( actual_event->get_message () );
+                }
+                catch ( std::runtime_error& e )
+                {
+                    // Disconnect when connection is closed
+                    std::shared_ptr < Event > event = std::make_shared < Connection_closed_event > ( this );
+                    Hub::send ( event );
+                    disconnect ();
+                }
+            }
         }
     }
 
