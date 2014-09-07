@@ -9,7 +9,10 @@ namespace events
     Connection_receiver::Connection_receiver ( std::string address, int port ) :
         connection ( std::unique_ptr < sockets::Client_socket > ( new sockets::Client_socket ( address, port ) ) ),
         connected ( true )
-    {}
+    {
+        std::shared_ptr < Event > event = std::make_shared < Connection_established_event > ( this );
+        Hub::send ( event );
+    }
 
     Connection_receiver::Connection_receiver ( sockets::Client_socket&& socket ) :
         connection ( std::unique_ptr < sockets::Client_socket > ( new sockets::Client_socket ( std::move ( socket ) ) ) ),

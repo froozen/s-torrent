@@ -22,6 +22,13 @@ TEST ( ConnectionReceiverTest, GeneralTest )
             } );
     events::Hub::get_filter ( "Read_line_event" ).subscribe ( read_line_receiver );
 
+    bool connected = false;
+    auto connection_established_receiver = std::make_shared < events::Lambda_receiver < std::shared_ptr < events::Event > > > (
+            [ & ] ( std::shared_ptr < events::Event > e ) {
+                connected = true;
+            } );
+    events::Hub::get_filter ( "Connection_established_event" ).subscribe ( connection_established_receiver );
+
     bool disconnected = false;
     auto connection_closed_receiver = std::make_shared < events::Lambda_receiver < std::shared_ptr < events::Event > > > (
             [ & ] ( std::shared_ptr < events::Event > e ) {
@@ -31,6 +38,8 @@ TEST ( ConnectionReceiverTest, GeneralTest )
 
     sockets::Server_socket server ( 12345 );
     events::Connection_receiver receiver ( "127.0.0.1", 12345 );
+    std::this_thread::sleep_for ( std::chrono::milliseconds ( 50 ) );
+    EXPECT_TRUE ( connected );
     receiver.start ();
     sockets::Client_socket connection = server.next_socket ();
     for ( int i = 0; i < 10; i++ )
