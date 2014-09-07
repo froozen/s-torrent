@@ -34,6 +34,7 @@ namespace ncurses
             void set_fg_color ( int fg );
             void set_bg_color ( int bg );
             void set_color ( int color_id );
+            void erase ();
             void refresh ();
 
             int get_x () const { return this->x; }

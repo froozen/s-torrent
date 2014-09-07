@@ -127,6 +127,11 @@ namespace ncurses
         box ( window, 0, 0 );
     }
 
+    void Window::erase ()
+    {
+        werase ( window );
+    }
+
     void Window::refresh ()
     {
         wrefresh ( window );

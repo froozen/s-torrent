@@ -9,6 +9,7 @@ namespace client
 {
     void Torrent_display_element::update ( char key, std::shared_ptr < ncurses::Window > window )
     {
+        window->erase ();
         auto torrent_data = client::Shared_data::get_torrent_data ();
         if ( torrent_data != nullptr )
         {
