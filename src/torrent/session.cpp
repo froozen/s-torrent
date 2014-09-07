@@ -2,6 +2,8 @@
 
 #include "session.h"
 #include <utility>
+#include <boost/cstdint.hpp>
+#include <libtorrent/ptime.hpp>
 
 namespace torrent
 {
@@ -27,5 +29,12 @@ namespace torrent
     libtorrent::torrent_handle Session::add_torrent ( libtorrent::add_torrent_params const& params )
     {
         return instance->session.add_torrent ( params );
+    }
+
+    std::shared_ptr < libtorrent::alert > Session::pop_alert ()
+    {
+        // Wait for a new alert ( 30 is realy just an arbitrary value )
+        while ( !instance->session.wait_for_alert ( libtorrent::time_duration ( boost::int64_t ( 30 ) ) ) );
+        return std::shared_ptr < libtorrent::alert > ( instance->session.pop_alert ().release () );
     }
 }
