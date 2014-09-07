@@ -3,6 +3,8 @@
 #include "client/shared_data.h"
 #include "client/data_formatting.h"
 
+#include <algorithm>
+
 namespace client
 {
     void Torrent_display_element::update ( char key, std::shared_ptr < ncurses::Window > window )
@@ -124,7 +126,7 @@ namespace client
         window->draw_string ( right_bound ( ratio, 16 ) );
     }
 
-    // Display total upload- and download speed
+    // Display total upload- and download speed and a message if the client has disconnected
     void Torrent_display_element::draw_totals (
             std::shared_ptr < std::vector < std::shared_ptr < Torrent_data > > >& torrent_data,
             std::shared_ptr < ncurses::Window > window,
@@ -148,5 +150,14 @@ namespace client
         window->set_fg_color ( ncurses::Window::GREEN );
         window->draw_string ( right_bound ( to_transfer_speed ( total_upload ), 14 ) );
         window->set_fg_color ( ncurses::Window::DEFAULT );
+
+        if ( !client::Shared_data::get_connected () )
+        {
+            std::string message = "[ DISCONNECTED ]";
+            window->move ( std::max ( 0, window->get_width () - static_cast < int > ( message.size () ) ), y );
+            window->set_fg_color ( ncurses::Window::RED );
+            window->draw_string ( message );
+            window->set_fg_color ( ncurses::Window::DEFAULT );
+        }
     }
 }
