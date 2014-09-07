@@ -49,7 +49,6 @@ namespace ncurses
 
     Session::~Session ()
     {
-        endwin ();
         created = false;
     }
 
@@ -65,6 +64,11 @@ namespace ncurses
         {
             root->update ( input, window );
         }
+    }
+
+    void Session::end ()
+    {
+        endwin ();
     }
 
     void Session::set_root ( const std::shared_ptr < Element >& root )

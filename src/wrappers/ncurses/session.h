@@ -20,6 +20,7 @@ namespace ncurses
             void set_root ( const std::shared_ptr < Element >& root );
             std::shared_ptr < Element > get_root ();
             void update ();
+            void end ();
 
             virtual ~Session ();
 

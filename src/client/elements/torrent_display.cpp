@@ -11,45 +11,51 @@ namespace client
     {
         window->erase ();
         auto torrent_data = client::Shared_data::get_torrent_data ();
-        if ( torrent_data != nullptr )
+        if ( key != 'q' )
         {
-            int y = 0;
-            draw_totals ( torrent_data, window, y );
-            y += 2;
-
-            for ( auto torrent : *torrent_data )
+            if ( torrent_data != nullptr )
             {
-                // I try to limit the displayed lines as much as possible, to display as much relevant
-                // information in a small terminal window as possible
-                if ( torrent->is_active () )
+                int y = 0;
+                draw_totals ( torrent_data, window, y );
+                y += 2;
+
+                for ( auto torrent : *torrent_data )
                 {
-                    draw_name ( torrent, window, y );
-                    y ++;
-
-                    if ( torrent->get_double ( "progress" ) < 1 )
+                    // I try to limit the displayed lines as much as possible, to display as much relevant
+                    // information in a small terminal window as possible
+                    if ( torrent->is_active () )
                     {
-                        draw_progress ( torrent, window, y );
+                        draw_name ( torrent, window, y );
                         y ++;
-                    }
 
-                    if ( torrent->get_int ( "download_payload_rate" ) > 0 )
-                    {
-                        draw_download ( torrent, window, y );
+                        if ( torrent->get_double ( "progress" ) < 1 )
+                        {
+                            draw_progress ( torrent, window, y );
+                            y ++;
+                        }
+
+                        if ( torrent->get_int ( "download_payload_rate" ) > 0 )
+                        {
+                            draw_download ( torrent, window, y );
+                            y++;
+                        }
+
+                        if ( torrent->get_int ( "upload_payload_rate" ) > 0 )
+                        {
+                            draw_upload ( torrent, window, y );
+                            y++;
+                        }
+
                         y++;
                     }
-
-                    if ( torrent->get_int ( "upload_payload_rate" ) > 0 )
-                    {
-                        draw_upload ( torrent, window, y );
-                        y++;
-                    }
-
-                    y++;
                 }
+                window->move ( window->get_width () - 1, window->get_height () - 1 );
+                window->refresh ();
             }
-            window->move ( window->get_width () - 1, window->get_height () - 1 );
-            window->refresh ();
         }
+        else
+            // Exit the mainloop
+            client::Shared_data::set_run ( false );
     }
 
     int Torrent_display_element::get_prefered_width () const { return 0; }
