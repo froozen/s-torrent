@@ -60,9 +60,10 @@ namespace client
         // Determine wether the torrent is active
         bool Torrent_data::is_active () const
         {
-        return get_int ( "download_payload_rate" ) > 0
+        return ( get_int ( "download_payload_rate" ) > 0
             || get_int ( "updload_payload_rate" ) > 0
-            || get_double ( "progress" ) < 1
+            || get_double ( "progress" ) < 1 )
+            && get_string ( "state" ) != "downloading_metadata"
             ;
         }
 }

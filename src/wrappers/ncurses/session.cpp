@@ -49,22 +49,26 @@ namespace ncurses
 
     Session::~Session ()
     {
-        endwin ();
         created = false;
     }
 
     void Session::update ()
     {
-        char input = getch ();
-        int max_x, max_y;
-        getmaxyx ( stdscr, max_y, max_x );
-        if ( max_x != window->get_width () || max_y != window->get_height () )
-            window->resize ( max_x, max_y );
-
         if ( root != nullptr )
         {
+            char input = getch ();
+            int max_x, max_y;
+            getmaxyx ( stdscr, max_y, max_x );
+            if ( max_x != window->get_width () || max_y != window->get_height () )
+                window->resize ( max_x, max_y );
+
             root->update ( input, window );
         }
+    }
+
+    void Session::end ()
+    {
+        endwin ();
     }
 
     void Session::set_root ( const std::shared_ptr < Element >& root )

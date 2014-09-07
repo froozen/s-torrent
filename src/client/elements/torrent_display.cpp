@@ -3,51 +3,59 @@
 #include "client/shared_data.h"
 #include "client/data_formatting.h"
 
+#include <algorithm>
+
 namespace client
 {
     void Torrent_display_element::update ( char key, std::shared_ptr < ncurses::Window > window )
     {
+        window->erase ();
         auto torrent_data = client::Shared_data::get_torrent_data ();
-        if ( torrent_data != nullptr )
+        if ( key != 'q' )
         {
-            int y = 0;
-            draw_totals ( torrent_data, window, y );
-            y += 2;
-
-            for ( auto torrent : *torrent_data )
+            if ( torrent_data != nullptr )
             {
-                // I try to limit the displayed lines as much as possible, to display as much relevant
-                // information in a small terminal window as possible
-                if ( torrent->is_active () )
+                int y = 0;
+                draw_totals ( torrent_data, window, y );
+                y += 2;
+
+                for ( auto torrent : *torrent_data )
                 {
-                    window->move ( 0, y );
-                    window->draw_string ( torrent->get_string ( "name" ) );
-                    y ++;
-
-                    if ( torrent->get_double ( "progress" ) < 1 )
+                    // I try to limit the displayed lines as much as possible, to display as much relevant
+                    // information in a small terminal window as possible
+                    if ( torrent->is_active () )
                     {
-                        draw_progress ( torrent, window, y );
+                        draw_name ( torrent, window, y );
                         y ++;
-                    }
 
-                    if ( torrent->get_int ( "download_payload_rate" ) > 0 )
-                    {
-                        draw_download ( torrent, window, y );
+                        if ( torrent->get_double ( "progress" ) < 1 )
+                        {
+                            draw_progress ( torrent, window, y );
+                            y ++;
+                        }
+
+                        if ( torrent->get_int ( "download_payload_rate" ) > 0 )
+                        {
+                            draw_download ( torrent, window, y );
+                            y++;
+                        }
+
+                        if ( torrent->get_int ( "upload_payload_rate" ) > 0 )
+                        {
+                            draw_upload ( torrent, window, y );
+                            y++;
+                        }
+
                         y++;
                     }
-
-                    if ( torrent->get_int ( "upload_payload_rate" ) > 0 )
-                    {
-                        draw_upload ( torrent, window, y );
-                        y++;
-                    }
-
-                    y++;
                 }
+                window->move ( window->get_width () - 1, window->get_height () - 1 );
+                window->refresh ();
             }
-            window->move ( window->get_width () - 1, window->get_height () - 1 );
-            window->refresh ();
         }
+        else
+            // Exit the mainloop
+            client::Shared_data::set_run ( false );
     }
 
     int Torrent_display_element::get_prefered_width () const { return 0; }
@@ -60,6 +68,39 @@ namespace client
         while ( text.size () < amount )
             text = " " + text;
         return text;
+    }
+
+    // Display name and special torrent status
+    void Torrent_display_element::draw_name (
+            std::shared_ptr < Torrent_data >& torrent_data,
+            std::shared_ptr < ncurses::Window > window,
+            int y
+            )
+    {
+        window->move ( 0, y );
+        if (
+                torrent_data->get_string ( "state" ) == "queued_for_checking" ||
+                torrent_data->get_string ( "state" ) == "checking_files" ||
+                torrent_data->get_string ( "state" ) == "checking_resume_data"
+           )
+        {
+            window->draw_string ( "[" );
+            window->set_fg_color ( ncurses::Window::CYAN );
+            window->draw_string ( "CHECKING" );
+            window->set_fg_color ( ncurses::Window::DEFAULT );
+            window->draw_string ( "] " );
+        }
+
+        else if ( torrent_data->get_bool ( "paused" ) )
+        {
+            window->draw_string ( "[" );
+            window->set_fg_color ( ncurses::Window::CYAN );
+            window->draw_string ( "PAUSED" );
+            window->set_fg_color ( ncurses::Window::DEFAULT );
+            window->draw_string ( "] " );
+        }
+
+        window->draw_string ( torrent_data->get_string ( "name" ) );
     }
 
     // Display progress percentage, total torrent size and progress bar
@@ -124,7 +165,7 @@ namespace client
         window->draw_string ( right_bound ( ratio, 16 ) );
     }
 
-    // Display total upload- and download speed
+    // Display total upload- and download speed and a message if the client has disconnected
     void Torrent_display_element::draw_totals (
             std::shared_ptr < std::vector < std::shared_ptr < Torrent_data > > >& torrent_data,
             std::shared_ptr < ncurses::Window > window,
@@ -148,5 +189,14 @@ namespace client
         window->set_fg_color ( ncurses::Window::GREEN );
         window->draw_string ( right_bound ( to_transfer_speed ( total_upload ), 14 ) );
         window->set_fg_color ( ncurses::Window::DEFAULT );
+
+        if ( !client::Shared_data::get_connected () )
+        {
+            std::string message = "[ DISCONNECTED ]";
+            window->move ( std::max ( 0, window->get_width () - static_cast < int > ( message.size () ) ), y );
+            window->set_fg_color ( ncurses::Window::RED );
+            window->draw_string ( message );
+            window->set_fg_color ( ncurses::Window::DEFAULT );
+        }
     }
 }

@@ -35,8 +35,10 @@ int main()
     auto torrent_display = std::make_shared < client::Torrent_display_element > ();
     session.set_root ( torrent_display );
 
-    while ( true )
+    client::Shared_data::set_run ( true );
+    while ( client::Shared_data::get_run () )
         session.update ();
 
-    return 0;
+    session.end ();
+    std::exit ( 0 );
 }
