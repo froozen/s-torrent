@@ -23,8 +23,7 @@ namespace client
                 // information in a small terminal window as possible
                 if ( torrent->is_active () )
                 {
-                    window->move ( 0, y );
-                    window->draw_string ( torrent->get_string ( "name" ) );
+                    draw_name ( torrent, window, y );
                     y ++;
 
                     if ( torrent->get_double ( "progress" ) < 1 )
@@ -63,6 +62,39 @@ namespace client
         while ( text.size () < amount )
             text = " " + text;
         return text;
+    }
+
+    // Display name and special torrent status
+    void Torrent_display_element::draw_name (
+            std::shared_ptr < Torrent_data >& torrent_data,
+            std::shared_ptr < ncurses::Window > window,
+            int y
+            )
+    {
+        window->move ( 0, y );
+        if (
+                torrent_data->get_string ( "state" ) == "queued_for_checking" ||
+                torrent_data->get_string ( "state" ) == "checking_files" ||
+                torrent_data->get_string ( "state" ) == "checking_resume_data"
+           )
+        {
+            window->draw_string ( "[" );
+            window->set_fg_color ( ncurses::Window::CYAN );
+            window->draw_string ( "CHECKING" );
+            window->set_fg_color ( ncurses::Window::DEFAULT );
+            window->draw_string ( "] " );
+        }
+
+        else if ( torrent_data->get_bool ( "paused" ) )
+        {
+            window->draw_string ( "[" );
+            window->set_fg_color ( ncurses::Window::CYAN );
+            window->draw_string ( "PAUSED" );
+            window->set_fg_color ( ncurses::Window::DEFAULT );
+            window->draw_string ( "] " );
+        }
+
+        window->draw_string ( torrent_data->get_string ( "name" ) );
     }
 
     // Display progress percentage, total torrent size and progress bar

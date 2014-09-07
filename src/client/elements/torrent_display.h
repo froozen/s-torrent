@@ -21,6 +21,12 @@ namespace client
             virtual ~Torrent_display_element () noexcept = default;
         private:
             std::string right_bound ( std::string text, size_t amount );
+            void draw_name (
+                    std::shared_ptr < Torrent_data >& torrent_data,
+                    std::shared_ptr < ncurses::Window > window,
+                    int y
+                    );
+
             void draw_progress (
                     std::shared_ptr < Torrent_data >& torrent_data,
                     std::shared_ptr < ncurses::Window > window,
