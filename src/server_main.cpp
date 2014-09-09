@@ -21,6 +21,7 @@ int main ()
 {
     torrent::Session::initialize ();
     torrent::State::load ();
+    torrent::Session::load_torrent_states ();
     torrent::Event_system::initialize ();
     events::Acceptor_hub::accept ( 31005, "listening port" );
 

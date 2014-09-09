@@ -3,6 +3,8 @@
 #include "add_torrent_receiver.h"
 
 #include "torrent/session.h"
+#include "torrent/state.h"
+#include "utils/json.h"
 
 namespace torrent
 {
@@ -17,6 +19,11 @@ namespace torrent
             p.save_path = "./";
             libtorrent::torrent_handle added = Session::add_torrent ( p );
             added.set_download_limit ( 300000 );
+
+            utils::Json_element torrent_state;
+            torrent_state.set_string ( "url", add_torrent_event->get_url () );
+            torrent_state.set_string ( "save_path", "./" );
+            State::add_torrent_state ( torrent_state );
         }
     }
 }

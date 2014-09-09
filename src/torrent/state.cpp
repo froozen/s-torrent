@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <string>
-#include <memory>
 #include <stdexcept>
 
 namespace torrent
@@ -27,4 +26,25 @@ namespace torrent
         state_file << state.to_small_string ();
     }
 
+    std::vector < std::shared_ptr < utils::Json_element > > State::get_torrent_states ()
+    {
+        std::vector < std::shared_ptr < utils::Json_element > > torrent_states;
+        try
+        {
+            std::shared_ptr < utils::Json_list_element > torrent_states_json = state.get_list_element ( "torrent_states" );
+            for ( int i = 0; i < torrent_states_json->size (); i++ )
+                torrent_states.push_back ( torrent_states_json->get_element ( i ) );
+        }
+        catch ( std::runtime_error& e )
+        {}
+
+        return torrent_states;
+    }
+
+    void State::add_torrent_state ( const utils::Json_element& torrent_state )
+    {
+        std::shared_ptr < utils::Json_list_element > torrent_stats_json = state.get_list_element ( "torrent_states" );
+        torrent_stats_json->append_element ( torrent_state );
+        save ();
+    }
 }
