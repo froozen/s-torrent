@@ -12,6 +12,7 @@
 #include "utils/json.h"
 
 #include "torrent/session.h"
+#include "torrent/state.h"
 #include "torrent/event_system.h"
 #include "torrent/torrent_data_to_json.h"
 #include "torrent/alert_event_creator.h"
@@ -19,6 +20,7 @@
 int main ()
 {
     torrent::Session::initialize ();
+    torrent::State::load ();
     torrent::Event_system::initialize ();
     events::Acceptor_hub::accept ( 31005, "listening port" );
 
