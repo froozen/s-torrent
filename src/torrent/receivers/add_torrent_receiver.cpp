@@ -15,14 +15,21 @@ namespace torrent
             auto add_torrent_event = std::dynamic_pointer_cast < Add_torrent_event > ( event );
             // A lot of these thins will later be replaced with Configuration values
             libtorrent::add_torrent_params p;
-            p.url = add_torrent_event->get_url ();
+            if ( add_torrent_event->get_method () == "url" )
+                p.url = add_torrent_event->get_url ();
             p.save_path = "./";
             libtorrent::torrent_handle added = Session::add_torrent ( p );
             added.set_download_limit ( 300000 );
 
             utils::Json_element torrent_state;
-            torrent_state.set_string ( "url", add_torrent_event->get_url () );
             torrent_state.set_string ( "save_path", "./" );
+
+            if ( add_torrent_event->get_method () == "url" )
+            {
+                torrent_state.set_string ( "method", "url" );
+                torrent_state.set_string ( "url", add_torrent_event->get_url () );
+            }
+
             State::add_torrent_state ( torrent_state );
         }
     }

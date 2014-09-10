@@ -46,7 +46,8 @@ namespace torrent
         for ( auto torrent_state : torrent_states )
         {
             libtorrent::add_torrent_params p;
-            p.url = torrent_state->get_string ( "url" );
+            if ( torrent_state->get_string ( "method" ) == "url" )
+                p.url = torrent_state->get_string ( "url" );
             p.save_path = torrent_state->get_string ( "save_path" );
             libtorrent::torrent_handle torrent = instance->session.add_torrent ( p );
             torrent.set_download_limit ( 300000 );
