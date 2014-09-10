@@ -18,8 +18,8 @@ namespace sockets
             Client_socket& operator= ( Client_socket&& ) = default;
             Client_socket& operator= ( const Client_socket& ) = delete;
 
-            std::string read_line (); // Read until '\n'
-            void send ( std::string message );
+            std::string read_line ( std::string linebreak = {'\n'} ); // Read until '\n'
+            void send ( std::string message, std::string linebreak = {'\n'} );
             void shutdown ();
 
             virtual ~Client_socket () = default;
@@ -27,6 +27,8 @@ namespace sockets
         private:
             int socket_address;
             void error ( std::string message );
+            std::string get_line ( std::string& from, const std::string& delimiter );
+            bool ends_with ( const std::string& target, const std::string& ending );
 
             // Attributes for Client_socket::read_line
             std::deque < std::string > next_lines;

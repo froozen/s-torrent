@@ -3,6 +3,8 @@
 #include "wrappers/sockets/client_socket.h"
 #include "wrappers/sockets/server_socket.h"
 
+#include <iostream>
+
 // I decided to put all tests in one file, because I can only
 // test them together, anyways.
 
@@ -40,6 +42,10 @@ TEST ( SocketsTest, GeneralTest )
     // 520 characters, which exeed the buffer, but should still be read at once
     client.send ( "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        " );
     EXPECT_EQ ( "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ", accepted.read_line () );
+
+    client.send ( "split here-great!" );
+    EXPECT_EQ ( "split here", accepted.read_line ( "-" ) );
+    EXPECT_EQ ( "great!", accepted.read_line () );
 
     // There should be a throw upon reading on a disconnected socket
     server.shutdown ();
