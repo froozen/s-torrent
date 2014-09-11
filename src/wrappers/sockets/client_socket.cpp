@@ -54,11 +54,20 @@ namespace sockets
         socket_address ( socket_address )
     {}
 
-    std::string Client_socket::read_line ()
+    std::string Client_socket::read_line ( std::string linebreak )
     {
         // Read until we have at least one line
         while ( next_lines.empty () )
         {
+            // This might actually happen ( look at the test for an example )
+            if ( ends_with ( line_rest, linebreak ) )
+            {
+                // Remove the linebreak from the end
+                next_lines.push_back ( line_rest.substr ( 0, line_rest.find_last_of ( linebreak ) ) );
+                line_rest = "";
+                break;
+            }
+
             char buffer [ 1024 ];
             int success = read ( socket_address, buffer, sizeof ( buffer ) - 1 );
             if ( success < 0 )
@@ -71,29 +80,20 @@ namespace sockets
             std::string data_string ( buffer, strlen ( buffer ) );
 
             std::string line;
-            std::string buffer_string = data_string;
-            std::stringstream ss ( buffer_string );
-            // Split lines at '\n'
-            while ( ( std::getline ( ss, line, '\n' ) ) )
+            // Split lines at delimiter
+            while ( ( line = get_line ( data_string, linebreak ) ).size () > 0 )
             {
                 // Apply line_rest ( if any )
                 line = line_rest + line;
                 line_rest.clear ();
                 // Save yourself the hassle of dealing with DOS linebreaks
-                while ( line.back () == '\r' )
-                {
-                    line.pop_back ();
-                }
                 next_lines.push_back ( line );
             }
 
             // If buffer_string doesn't end with an '\n'
-            if ( buffer_string.back () != '\n' )
-            {
+            if ( data_string.size () > 0 )
                 // Create a line_rest
-                line_rest = next_lines.back ();
-                next_lines.pop_back ();
-            }
+                line_rest = data_string;
         }
 
         // Return next line
@@ -110,7 +110,7 @@ namespace sockets
             return read_line ();
      }
 
-    void Client_socket::send ( std::string message )
+    void Client_socket::send ( std::string message, std::string linebreak )
     {
         message += "\n";
         int success = write ( socket_address, message.c_str (), message.size () );
@@ -131,5 +131,24 @@ namespace sockets
             throw std::runtime_error ( "Error in sockets::Client_socket::" + message + " ( " + strerror ( errno ) + " )" );
         else
             throw std::runtime_error ( "Error in sockets::Client_socket::" + message );
+    }
+
+    std::string Client_socket::get_line ( std::string& from, const std::string& delimiter )
+    {
+        size_t pos = from.find ( delimiter );
+        if ( pos != std::string::npos )
+        {
+            std::string return_string = from.substr ( 0, pos );
+            from = from.substr ( pos + delimiter.size () );
+            return return_string;
+        }
+        return "";
+    }
+
+    bool Client_socket::ends_with ( const std::string& target, const std::string& ending )
+    {
+        if ( target.length () >= ending.length () )
+            return ( 0 == target.compare ( target.length () - ending.length (), ending.length (), ending ) );
+        return false;
     }
 }

@@ -13,16 +13,21 @@ namespace torrent
     {
         public:
             Add_torrent_event ( const utils::Json_element& json, events::Connection_receiver* origin ) :
-                url ( json.get_string ( "url" ) )
-            {}
+                method ( json.get_string ( "method" ) )
+            {
+                if ( method == "url" )
+                    url = json.get_string ( "url" );
+            }
 
             std::string get_type () { return "Add_torrent_event"; }
             std::string get_url () const { return this->url; }
+            std::string get_method () const { return method; }
 
             virtual ~Add_torrent_event () noexcept = default;
 
         private:
             std::string url;
+            std::string method;
     };
 }
 

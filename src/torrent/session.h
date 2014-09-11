@@ -14,9 +14,11 @@ namespace torrent
     {
         public:
             static void initialize ();
+            static void load_torrent_states ();
 
             static std::vector < libtorrent::torrent_handle > get_torrents ();
             static libtorrent::torrent_handle add_torrent ( libtorrent::add_torrent_params const& params );
+            static std::shared_ptr < libtorrent::alert > pop_alert ();
 
         private:
             Session ();
