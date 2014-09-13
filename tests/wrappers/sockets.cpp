@@ -3,8 +3,6 @@
 #include "wrappers/sockets/client_socket.h"
 #include "wrappers/sockets/server_socket.h"
 
-#include <iostream>
-
 // I decided to put all tests in one file, because I can only
 // test them together, anyways.
 

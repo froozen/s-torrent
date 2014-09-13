@@ -18,7 +18,7 @@ namespace events
             std::string get_type () { return "Connection_established_event"; }
             events::Connection_receiver* get_origin () const { return origin; }
 
-            virtual ~Connection_established_event () = default;
+            virtual ~Connection_established_event () noexcept = default;
 
         private:
             events::Connection_receiver* origin;

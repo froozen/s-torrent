@@ -90,10 +90,12 @@ namespace sockets
                 next_lines.push_back ( line );
             }
 
-            // If buffer_string doesn't end with an '\n'
+            // If buffer_string doesn't end with a linebreak
             if ( data_string.size () > 0 )
+            {
                 // Create a line_rest
-                line_rest = data_string;
+                line_rest += data_string;
+            }
         }
 
         // Return next line
@@ -112,7 +114,7 @@ namespace sockets
 
     void Client_socket::send ( std::string message, std::string linebreak )
     {
-        message += "\n";
+        message += linebreak;
         int success = write ( socket_address, message.c_str (), message.size () );
         if ( success < 0 )
             error ( "send : Sending over socket failed");

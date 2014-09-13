@@ -48,7 +48,7 @@ namespace torrent
             libtorrent::add_torrent_params p;
             if ( torrent_state->get_string ( "method" ) == "url" )
                 p.url = torrent_state->get_string ( "url" );
-            else if ( torrent_state->get_string ( "method" ) == "torrent_file" )
+            else if ( torrent_state->get_string ( "method" ) == "file" )
                 p.ti = new libtorrent::torrent_info ( torrent_state->get_string ( "file_name" ).c_str () );
             else
                 continue;

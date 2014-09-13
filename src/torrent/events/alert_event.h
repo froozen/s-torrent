@@ -20,7 +20,7 @@ namespace torrent
             std::string get_type () { return "Alert_event"; }
             std::shared_ptr < libtorrent::alert > get_alert () const { return alert; }
 
-            virtual ~Alert_event () = default;
+            virtual ~Alert_event () noexcept = default;
 
         private:
             std::shared_ptr < libtorrent::alert > alert;
