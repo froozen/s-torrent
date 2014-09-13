@@ -26,7 +26,7 @@ target_link_libraries ( core sockets utils events )
 
 set ( S-TORRENT_CLIENT_SRC ${CMAKE_SOURCE_DIR}/src/client_main.cpp )
 add_executable ( s-torrent ${S-TORRENT_CLIENT_SRC} )
-target_link_libraries ( s-torrent ncurses_wrapper core client )
+target_link_libraries ( s-torrent client ncurses_wrapper core )
 
 set ( S-TORRENT_SERVER_SRC ${CMAKE_SOURCE_DIR}/src/server_main.cpp )
 add_executable ( s-torrent-server ${S-TORRENT_SERVER_SRC} )

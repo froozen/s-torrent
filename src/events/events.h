@@ -1,5 +1,5 @@
-#ifndef EVENTS_GUARD
-#define EVENTS_GUARD
+#ifndef EVENTS_EVENTS_GUARD
+#define EVENTS_EVENTS_GUARD
 
 #include "event_types/event.h"
 #include "event_types/connection_closed_event.h"
@@ -8,4 +8,4 @@
 #include "event_types/connection_accepted_event.h"
 #include "event_types/connection_established_event.h"
 
-#endif //EVENTS_GUARD
+#endif //EVENTS_EVENTS_GUARD
