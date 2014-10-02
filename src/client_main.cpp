@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstring>
 
+#include "utils/configuration.h"
 #include "client/event_system.h"
 #include "client/client_interface.h"
 #include "client/events/events.h"
@@ -38,6 +39,16 @@ bool parse_args ( int argc, char** argv )
 
 int main ( int argc, char** argv )
 {
+    utils::Configuration::load ( "config.json" );
+    if (
+            utils::Configuration::get_root ()->get_int ( "server_port" ) < 0 ||
+            utils::Configuration::get_root ()->get_string ( "server_address" ) == "None"
+        )
+    {
+        std::cout << "Invalid server_port or sever_address" << std::endl;
+        std::cout << "Exiting..." << std::endl;
+        std::exit ( 0 );
+    }
     auto connection = std::make_shared < events::Connection_receiver > ( "localhost", 31005 );
     events::Hub::get_filter ( "Send_message_event" ).subscribe ( connection );
     client::Event_system::initialize ( connection.get () );

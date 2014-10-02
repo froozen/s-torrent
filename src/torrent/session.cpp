@@ -3,6 +3,7 @@
 #include "session.h"
 #include "state.h"
 #include "utils/json.h"
+#include "utils/configuration.h"
 #include <utility>
 #include <boost/cstdint.hpp>
 #include <libtorrent/ptime.hpp>
@@ -54,7 +55,7 @@ namespace torrent
                 continue;
             p.save_path = torrent_state->get_string ( "save_path" );
             libtorrent::torrent_handle torrent = instance->session.add_torrent ( p );
-            torrent.set_download_limit ( 300000 );
+            torrent.set_download_limit ( utils::Configuration::get_root ()->get_int ( "download_limit" ) );
         }
     }
 }

@@ -5,6 +5,7 @@
 #include "torrent/session.h"
 #include "torrent/state.h"
 #include "utils/json.h"
+#include "utils/configuration.h"
 #include "utils/base64.h"
 
 #include <fstream>
@@ -16,7 +17,6 @@ namespace torrent
         if ( event->get_type () == "Add_torrent_event" )
         {
             auto add_torrent_event = std::dynamic_pointer_cast < Add_torrent_event > ( event );
-            // A lot of these thins will later be replaced with Configuration values
             libtorrent::add_torrent_params p;
             if ( add_torrent_event->get_method () == "url" )
                 p.url = add_torrent_event->get_url ();
@@ -33,9 +33,11 @@ namespace torrent
                 p.ti = new libtorrent::torrent_info ( add_torrent_event->get_file_name ().c_str () );
             }
 
-            p.save_path = "./";
+            if ( ( p.save_path = utils::Configuration::get_root ()->get_string ( "save_path" ) ) == "None" )
+                p.save_path = "./";
+
             libtorrent::torrent_handle added = Session::add_torrent ( p );
-            added.set_download_limit ( 300000 );
+            added.set_download_limit ( utils::Configuration::get_root ()->get_int ( "download_limit" ) );
 
             utils::Json_element torrent_state;
             torrent_state.set_string ( "save_path", "./" );
