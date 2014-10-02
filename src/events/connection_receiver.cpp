@@ -31,7 +31,7 @@ namespace events
         {
             try
             {
-                std::string next_line = connection->read_line ();
+                std::string next_line = connection->read_line ( "-- End of s-torrent signal --" );
                 std::shared_ptr < Event > event = std::make_shared < Read_line_event > ( next_line, this );
                 Hub::send ( event );
             }
@@ -66,7 +66,7 @@ namespace events
             {
                 try
                 {
-                    connection->send ( actual_event->get_message () );
+                    connection->send ( actual_event->get_message (), "-- End of s-torrent signal --" );
                 }
                 catch ( std::runtime_error& e )
                 {

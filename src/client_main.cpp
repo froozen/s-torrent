@@ -1,39 +1,61 @@
 #include <memory>
-#include <chrono>
-#include <thread>
+#include <iostream>
+#include <cstring>
 
+#include "utils/configuration.h"
 #include "client/event_system.h"
-#include "client/shared_data.h"
+#include "client/client_interface.h"
+#include "client/events/events.h"
 #include "events/connection_receiver.h"
 #include "events/hub.h"
-#include "events/events.h"
-#include "utils/json.h"
 
-#include "wrappers/ncurses/session.h"
-#include "wrappers/ncurses/panel.h"
-#include "wrappers/ncurses/stretch.h"
-#include "wrappers/ncurses/orientation.h"
-#include "client/elements/torrent_display.h"
-
-int main()
+bool parse_args ( int argc, char** argv )
 {
-    client::Event_system::initialize ();
+    if ( argc > 1 )
+    {
+        if ( ( !strcmp ( argv [ 1 ], "--url" ) ) && argc > 2 )
+        {
+            for ( int i = 2; i < argc; i++ )
+            {
+                auto add_torrent_event = std::make_shared < client::Add_torrent_event > ( client::Add_torrent_event::Method::URL, argv [ i ] );
+                events::Hub::send ( add_torrent_event );
+                std::cout << "Added: " << argv [ i ] << std::endl;
+            }
+        }
+        else
+        {
+            for ( int i = 1; i < argc; i++ )
+            {
+                auto add_torrent_event = std::make_shared < client::Add_torrent_event > ( client::Add_torrent_event::Method::FILE, argv [ i ] );
+                events::Hub::send ( add_torrent_event );
+                std::cout << "Added: " << argv [ i ] << std::endl;
+            }
+        }
+        return false;
+    }
+    else
+        return true;
+}
+
+int main ( int argc, char** argv )
+{
+    utils::Configuration::load ( "config.json" );
+    if (
+            utils::Configuration::get_root ()->get_int ( "server_port" ) < 0 ||
+            utils::Configuration::get_root ()->get_string ( "server_address" ) == "None"
+        )
+    {
+        std::cout << "Invalid server_port or sever_address" << std::endl;
+        std::cout << "Exiting..." << std::endl;
+        std::exit ( 0 );
+    }
     auto connection = std::make_shared < events::Connection_receiver > ( "localhost", 31005 );
-    connection->start ();
     events::Hub::get_filter ( "Send_message_event" ).subscribe ( connection );
+    client::Event_system::initialize ( connection.get () );
+    connection->start ();
 
-    utils::Json_element torrent_data_request;
-    torrent_data_request.set_string ( "type", "Torrent_data_requested_event" );
-    events::Hub::send ( std::make_shared < events::Send_message_event > ( torrent_data_request.to_small_string (), connection.get () ) );
+    if ( parse_args ( argc, argv ) )
+        client::Interface::run ( connection.get () );
 
-    ncurses::Session session;
-    auto torrent_display = std::make_shared < client::Torrent_display_element > ();
-    session.set_root ( torrent_display );
-
-    client::Shared_data::set_run ( true );
-    while ( client::Shared_data::get_run () )
-        session.update ();
-
-    session.end ();
     std::exit ( 0 );
 }

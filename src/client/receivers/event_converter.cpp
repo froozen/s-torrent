@@ -17,6 +17,7 @@ namespace client
                 utils::Json_element json ( read_line_event->get_line () );
 
                 std::string type = json.get_string ( "type" );
+
                 std::shared_ptr < events::Event > converted;
                 // Convert the event appropriately
                 if ( type != "None" )

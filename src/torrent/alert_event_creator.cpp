@@ -6,7 +6,6 @@
 #include "events/events.h"
 
 #include <libtorrent/alert.hpp>
-#include <iostream>
 #include <memory>
 
 namespace torrent

@@ -1,0 +1,7 @@
+{
+    "save_path": "./",
+    "download_limit": 300000,
+    "server_address": "localhost",
+    "server_port": 31005
+}
+

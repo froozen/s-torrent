@@ -10,6 +10,7 @@
 #include "events/events.h"
 
 #include "utils/json.h"
+#include "utils/configuration.h"
 
 #include "torrent/session.h"
 #include "torrent/state.h"
@@ -19,11 +20,18 @@
 
 int main ()
 {
+    utils::Configuration::load ( "config.json" );
+    if ( utils::Configuration::get_root ()->get_int ( "server_port" ) < 0 )
+    {
+        std::cout << "Invalid server_port" << std::endl;
+        std::cout << "Exiting..." << std::endl;
+        std::exit ( 0 );
+    }
     torrent::Session::initialize ();
     torrent::State::load ();
     torrent::Session::load_torrent_states ();
     torrent::Event_system::initialize ();
-    events::Acceptor_hub::accept ( 31005, "listening port" );
+    events::Acceptor_hub::accept ( utils::Configuration::get_root ()->get_int ( "server_port" ), "listening port" );
 
     torrent::Alert_event_creator aec;
     aec.start ();

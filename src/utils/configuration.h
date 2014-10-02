@@ -1,7 +1,6 @@
 #ifndef CONFIG_GUARD
 #define CONFIG_GUARD
 
-#include <jsoncpp/json/json.h>
 #include <memory>
 #include <string>
 #include "json.h"
@@ -25,7 +24,7 @@ namespace utils
         private:
             Configuration ();
 
-            static std::shared_ptr < Json::Value > json_value;
+            static std::shared_ptr < utils::Json_element > root;
     };
 
 }
