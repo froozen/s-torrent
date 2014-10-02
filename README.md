@@ -5,8 +5,10 @@ s-torrent
 
 A simple torrent-client in C++ using libtorrent-rasterbar
 
-This project is just getting started, so please don't expect a fully feature-complete
-torrent client just yet.
+This client is in a state that I would consider usable. That being said, I wouldn't realy recommend using it
+( I don't ) because of it still lacking a ton of features like dht, proxies and peer exchange.
+
+There still might be some usefull snippets of code in here, so feel free to look around.
 
 ###This project uses:
 * [libtorrent-rasterbar](http://www.rasterbar.com/products/libtorrent/) for everything torrent related
