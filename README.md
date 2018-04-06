@@ -11,7 +11,8 @@ This client is in a state that I would consider usable. That being said, I would
 There still might be some usefull snippets of code in here, so feel free to look around.
 
 ### Usage
-**NOTE:**This client will only work on linux because of the socket headers I used.
+
+**NOTE:** This client will only work on linux because of the socket headers I used.
 
 After compiling the program, first start the server, then the client.
 ```
